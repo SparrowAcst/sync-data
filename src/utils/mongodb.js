@@ -1,0 +1,96 @@
+const mongo = require('mongodb').MongoClient
+const { loadYaml } = require("./file-system")
+
+const config = loadYaml("./.config/db/mongodb.conf.yml")
+// console.log(config)
+
+let client, db
+
+const init = async () => {
+	client = await mongo.connect(config.db.url, {
+	    useNewUrlParser: true,
+	    useUnifiedTopology: true
+	})
+
+	db = client.db(config.db.name)
+}
+
+
+const normalize = str => {
+	str = str.split(".")
+	return {
+		dbName: str[0],
+		collectionName: str[1]
+	}
+}	
+
+const aggregate = async (collectionName, pipeline) => {
+	let conf = normalize(collectionName)
+	let db = client.db(conf.dbName)
+    let collection = db.collection(conf.collectionName)
+    pipeline = pipeline || []
+    let res = await collection.aggregate(pipeline.concat([{$project:{_id:0}}])).toArray()
+    return res
+}
+
+const removeAll = async (collectionName) => {
+	let conf = normalize(collectionName)
+	let db = client.db(conf.dbName)
+    let collection = db.collection(conf.collectionName)
+    await collection.deleteMany({})
+} 
+
+const insertAll = async (collectionName, data) => {
+	let conf = normalize(collectionName)
+	let db = client.db(conf.dbName)
+    let collection = db.collection(conf.collectionName)
+	await collection.insertMany(data)
+}
+
+const bulkWrite = async (collectionName, commands) => {
+	let conf = normalize(collectionName)
+	let db = client.db(conf.dbName)
+    let collection = db.collection(conf.collectionName)
+	await collection.bulkWrite(commands)
+}
+
+const replaceOne = async (collectionName, filter, data) => {
+	let conf = normalize(collectionName)
+	let db = client.db(conf.dbName)
+    let collection = db.collection(conf.collectionName)
+    await collection.replaceOne(filter, data, {upsert: true})
+}
+
+const updateOne = async (collectionName, filter, data) => {
+	let conf = normalize(collectionName)
+	let db = client.db(conf.dbName)
+    let collection = db.collection(conf.collectionName)
+    await collection.updateOne(filter, { $set:data }, { upsert: true })
+}
+
+
+
+module.exports =  async () => {
+	await init()
+	return {
+		client,
+		db,
+		config,
+
+		close: () => {
+			if(client){
+				client.close()
+			}
+		},
+		
+		execute:{
+			aggregate,
+			removeAll,
+			insertAll,
+			replaceOne,
+			updateOne,
+			bulkWrite	
+		}
+		
+	}
+}
