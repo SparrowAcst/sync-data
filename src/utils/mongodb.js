@@ -1,7 +1,8 @@
 const mongo = require('mongodb').MongoClient
 const { loadYaml } = require("./file-system")
+const path = require("path")
 
-const config = loadYaml("./.config/db/mongodb.conf.yml")
+const config = loadYaml(path.join(__dirname,"../../.config/db/mongodb.conf.yml"))
 // console.log(config)
 
 let client, db

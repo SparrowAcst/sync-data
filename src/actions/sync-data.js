@@ -20,9 +20,9 @@ module.exports = async logFile => {
   
   let orgs = controller.googledriveService.dirList("Ready for Review/*").map( d => d.name)
   orgs = orgs.filter( o => 
-    pathExists(`./.config/data/${o}/validate-rules.yml`) 
+    pathExists(path.join(__dirname,`../../.config/data/${o}/validate-rules.yml`)) 
     && 
-    pathExists(`./.config/data/${o}/assets-rules.yml`)
+    pathExists(path.join(__dirname,`../../.config/data/${o}/assets-rules.yml`))
   )
 
   // logger.info("Ready for Review Organization Data:\n", orgs.join("\n"))
@@ -31,8 +31,8 @@ for( let k=0; k < orgs.length; k++ ){
   let org = orgs[k]
   logger.info(`Organization: ${org}`)
 
-  const validateRules = loadYaml(`./.config/data/${org}/validate-rules.yml`)
-  const assetsRules = loadYaml(`./.config/data/${org}/assets-rules.yml`)
+  const validateRules = loadYaml(path.join(__dirname,`../../.config/data/${org}/validate-rules.yml`))
+  const assetsRules = loadYaml(path.join(__dirname,`../../.config/data/${org}/assets-rules.yml`))
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////

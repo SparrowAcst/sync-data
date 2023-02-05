@@ -8,7 +8,7 @@ module.exports = async organization => {
   
   const logger = require("../utils/logger")(path.resolve(`./.logs/validation-${organization}-${moment(new Date()).format("YYYY-MM-DD-HH-mm-ss")}.log`))
   
-  logger.info(`VALIDATION DATA for "${organization}" STARTS`)
+  logger.info(`DATA VALIDATION for "${organization}" STARTS`)
   
   
   const controller = await require("../controller")({mongodbService:false})
@@ -16,7 +16,7 @@ module.exports = async organization => {
   let org =  organization //orgs[k]
   logger.info(`Organization: ${org}`)
 
-  const validateRules = loadYaml(`./.config/data/${org}/validate-rules.yml`)
+  const validateRules = loadYaml(path.join(__dirname,`../../.config/data/${org}/validate-rules.yml`))
   
   let examsIds = controller.googledriveService.dirList(`Ready for Review/${org}/*`).map( d => d.name)
  

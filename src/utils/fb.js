@@ -4,7 +4,7 @@ const { getFirestore } = require('firebase-admin/firestore');
 
 const path = require("path");
 
-const serviceAccount = require('../../.config/key/fb/fb.key.json');
+const serviceAccount = require(path.join(__dirname,'../../.config/key/fb/fb.key.json'));
 
 
 const app = initializeApp({

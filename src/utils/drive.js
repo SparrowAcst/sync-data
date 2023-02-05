@@ -5,8 +5,7 @@ const fs = require("fs")
 const { find, isUndefined, extend } = require("lodash")
 const nanomatch = require('nanomatch')
 
-
-const key = require("../../.config/key/gd/gd.key.json")
+const key = require(path.join(__dirname,"../../.config/key/gd/gd.key.json"))
 
 const jwtClient = new google.auth.JWT(
   key.client_email,

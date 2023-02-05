@@ -21,12 +21,14 @@ const toHtml = (org, data) => {
 
 router.get("/validate/:org/:type", (req, res) => {
 	
+	console.log("/validate/:org/:type", req.params)
+
 	let organization = req.params.org
 	let type = req.params.type || "html"
 	type = (type != "html") ? "json" : "html"
 	
 	if(organization){
-	  const child = fork("./src/childs/validate-data")
+	  const child = fork("./sync-data/src/childs/validate-data")
 	  
 	  child.on('message', result => {
 	    console.log('Parent process received:', result.data);
@@ -73,6 +75,6 @@ router.get("/sync", (req, res) => {
 	  })
 })
 
-})
+console.log("Activate sync data router")
 
 module.exports = router;

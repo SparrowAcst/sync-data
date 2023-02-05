@@ -1,4 +1,5 @@
 const uuid = require("uuid").v4
+const path = require("path")
 
 const initMongoService = require("./utils/mongodb")
 const initFirebaseService = require("./utils/fb")
@@ -7,7 +8,7 @@ const initGoogledriveService = require("./utils/drive")
 const piper = require("./utils/piper")
 
 const { loadYaml } = require("./utils/file-system")
-const spots = loadYaml("./.config/data/point-order.yml")
+const spots = loadYaml(path.join(__dirname, "../.config/data/point-order.yml"))
 
 
 let mongodbService 
