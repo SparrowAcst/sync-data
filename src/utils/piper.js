@@ -18,7 +18,7 @@ const execute = (context, pipeline) => {
     let res = []
     
     for( let i=0; i < pipeline.length; i++){
-        
+        // console.log("p", i)
         let statement = pipeline[i]
 
         if( statement.eval ){

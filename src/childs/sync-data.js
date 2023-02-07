@@ -5,11 +5,16 @@ const run = async () => {
   process.on('message', async params => {
       params = params || {}
       await action(params.logFile)
-      process.exit()
+      setTimeout(
+      	() => { process.exit() },
+      	1000
+      )	
+
 
   })  
 
 }
 
+console.log(".")
 run()
 

@@ -36,17 +36,20 @@ module.exports = async organization => {
 
 // /////////////////////////////////////////////////////////////////////////////////////////////////////////////
   let result = []
+  // syncExams = await controller.expandExaminations(...syncExams)
+  
   for( let i = 0; i < syncExams.length; i++){
+    // logger.info(`${i}`)
+    // logger.info(`${syncExams.length}`)
     
     let examination = syncExams[i]
-
+    // console.log("!",i)
     examination = await controller.expandExaminations(...[examination])
+    // console.log("!!",i)
+    
     examination = controller.validateExamination(examination[0], validateRules)
 
-    logger.info(`
-      ${examination.patientId} >>> 
-      ${examination._validation}
-      `
+    logger.info(`${examination.patientId} >>> ${examination._validation}`
     )
 
     result.push({
@@ -55,9 +58,8 @@ module.exports = async organization => {
       validation: examination._validation,
       validatedAt: new Date() 
     })
-
+  
   }
-
   controller.close() 
   return result
 }

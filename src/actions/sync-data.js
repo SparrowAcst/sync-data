@@ -1,85 +1,70 @@
 const moment = require("moment")
 const path = require("path")
+const { loadYaml, pathExists } = require("../utils/file-system")
+const { find, sortBy, filter, extend } = require("lodash")
+  
 
 module.exports = async logFile => {
-
   logFile = logFile 
             ||
             path.resolve(`./.logs/sync-data-${moment(new Date()).format("YYYY-MM-DD-HH-mm-ss")}.log`)
   
-  const logger = require("../utils/logger")(logFile)
+  const logger = require("../utils/logger")(logFile, true)
   
   logger.info(`SYNC DATA STARTS`)
-  
   const controller = await require("../controller")()
-  
-  const { loadYaml, pathExists } = require("../utils/file-system")
-  const { find, sortBy, filter, extend } = require("lodash")
-  
-  const labelsMetadata = loadYaml(`./.config/labeling/labels.yml`)
+   
+  const labelsMetadata = loadYaml(path.join(__dirname,`../../.config/labeling/labels.yml`))
   
   let orgs = controller.googledriveService.dirList("Ready for Review/*").map( d => d.name)
+  
   orgs = orgs.filter( o => 
     pathExists(path.join(__dirname,`../../.config/data/${o}/validate-rules.yml`)) 
     && 
     pathExists(path.join(__dirname,`../../.config/data/${o}/assets-rules.yml`))
   )
 
-  // logger.info("Ready for Review Organization Data:\n", orgs.join("\n"))
 
-for( let k=0; k < orgs.length; k++ ){
-  let org = orgs[k]
-  logger.info(`Organization: ${org}`)
+  for( let k=0; k < orgs.length; k++ ){
+    
+    let org = orgs[k]
+    logger.info(`Organization: ${org}`)
 
-  const validateRules = loadYaml(path.join(__dirname,`../../.config/data/${org}/validate-rules.yml`))
-  const assetsRules = loadYaml(path.join(__dirname,`../../.config/data/${org}/assets-rules.yml`))
+    const validateRules = loadYaml(path.join(__dirname,`../../.config/data/${org}/validate-rules.yml`))
+    const assetsRules = loadYaml(path.join(__dirname,`../../.config/data/${org}/assets-rules.yml`))
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   
   let examsIds = controller.googledriveService.dirList(`Ready for Review/${org}/*`).map( d => d.name)
-  // logger.info("READY FOR REVIEW:\n", examsIds.join("\n"))
 
   let inReviewExams = await controller.firebaseService.execute.getCollectionItems(
      "examinations",
      [["state", "==", "inReview"]]
   )
-  // logger.info("IN REVIEW STATE:\n", inReviewExams.map(exam => exam.patientId).join("\n"))
 
   examsIds = examsIds.filter( id => find(inReviewExams, exam => exam.patientId == id))   
-  // logger.info("READY FOR REVIEW:\n", examsIds.join("\n"))
 
   let syncExams = sortBy(
     inReviewExams.filter( exam => find(examsIds, id => exam.patientId == id))
     , d => d.patientId
   )  
 
-  logger.info(`SYNC:\n${syncExams.map(exam => exam.patientId).join("\n")}`)
+  logger.info(`\nStart validation stage for ${syncExams.length} examinations:\n${syncExams.map(exam => "\t"+exam.patientId).join("\n")}`)
 
-// /////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////           Validation Stage          ////////////////////////////////////////////////////
 
   for( let i = 0; i < syncExams.length; i++){
     
     let examination = syncExams[i]
-
     examination = await controller.expandExaminations(...[examination])
     examination = controller.validateExamination(examination[0], validateRules)
-
-    logger.info(
-`
-${examination.patientId} >>>>
-${examination._validation}
-`
-)
+    logger.info(`Validation stage for examination ${examination.patientId} >>>> ${(examination._validation == true) ? "succeful passed" : "failed: "+examination._validation}`)
 
     let inserted = extend({}, examination)
     delete inserted.$extention
     
-    logger.info(
-`
-Update ${examination.patientId} in: ${controller.mongodbService.config.db.examinationCollection}
-`
-)
+    // logger.info(`Update ${examination.patientId} in: ${controller.mongodbService.config.db.examinationCollection}`)
     
     await controller.mongodbService.execute.replaceOne(
       controller.mongodbService.config.db.examinationCollection,
@@ -90,45 +75,57 @@ Update ${examination.patientId} in: ${controller.mongodbService.config.db.examin
   }
 
   let readyForAccept = syncExams.filter(exam => exam._validation === true)
-  logger.info(`
-IMPORT:
-${readyForAccept.map(exam => exam.patientId).join("\n")}
-`)
+  
+  logger.info(`Start Import Stage for ${readyForAccept.length} examinations:\n${readyForAccept.map(exam => "\t"+exam.patientId).join("\n")}`)
 
+  //////////////////////////////           Import Stage          //////////////////////////////////////////////////////////
+
+  const db = controller.firebaseService.db
+  
   for( let i = 0; i < readyForAccept.length; i++){
+    
+    const batch = db.batch()
+
+
     let examination = readyForAccept[i]
     examination.state = "accepted"
     examination.org = org
-    logger.info(`
-Accept ${examination.patientId} in: ${controller.mongodbService.config.db.examinationCollection}
-`)
+    logger.info(`Accept ${examination.patientId} in: ${controller.mongodbService.config.db.examinationCollection}`)
     
     let inserted = extend({}, examination)
     delete inserted.$extention
     
     await controller.mongodbService.execute.replaceOne(
       controller.mongodbService.config.db.examinationCollection,
-      {id: examination.id},
+      {id: inserted.id},
       inserted
     )
     
-    logger.info(`Accept ${examination.patientId} in fb`)
-    await controller.firebaseService.db.collection("examinations").doc(examination.id).update({
-      state: "accepted"
-    })
-      
+    logger.info(`Accept ${examination.patientId} (${examination.id}) in fb`)
+    try {
+      let doc = db.collection("examinations").doc(examination.id)
+      batch.update(doc, { state: "accepted" })
+    } catch (e) {
+      console.log(e.toString())
+    }
 
     logger.info(`Import ${examination.patientId} assets:`)
     
-    //// update examination state into fb and mongo 
-
     let externalAssets = controller.buildExternalAssets(examination, assetsRules)
+    
     for( let j = 0; j < externalAssets.length; j++){
+      
       let asset = externalAssets[j]
+      
+      logger.info(`Move "${asset.file.path}"" into "${asset.links.path}"`)
+  
       asset = await controller.resolveAsset(asset)
-      await controller.firebaseService.db.collection(`examinations/${examination.id}/assets`).add(asset)
+      let doc = db.collection(`examinations/${examination.id}/assets`).doc()
+      batch.set(doc, asset)
       examination.$extention.assets.push(asset)
     }
+
+    await controller.commitBatch(batch, "add resolved assets")
 
     let labelingRecords = controller.buildLabelingRecords(examination, labelsMetadata)
 
@@ -141,7 +138,9 @@ Accept ${examination.patientId} in: ${controller.mongodbService.config.db.examin
         }
     }))
 
-    logger.info(`Insert into: ${controller.mongodbService.config.db.labelingCollection} ${labelOps.length} items`)
+    
+    logger.info(`Insert into labeling: ${controller.mongodbService.config.db.labelingCollection} ${labelOps.length} items`)
+    
     await controller.mongodbService.execute.bulkWrite(
       controller.mongodbService.config.db.labelingCollection,
       labelOps
@@ -166,6 +165,7 @@ Accept ${examination.patientId} in: ${controller.mongodbService.config.db.examin
 
 }
 
+  logger.info("Data synchronization finalized")
 
   controller.close() 
 }

@@ -45,6 +45,28 @@ const getExaminationsInState = async (...state) => {
 } 
 
 
+const expandExaminationsInMemory = async (...examinations) => {
+	examinations = examinations || []
+	for(let i=0; i < examinations.length; i++){
+		
+		let examination = examinations[i]
+		examination.$extention = {}
+
+		examination.$extention.users = mc.collection("users").values.filter(d => d.userId == examination.userId)
+		if(examination.$extention.users[0]){
+			examination.$extention.organizations = mc.collection("organizations").values.filter(d => d.id == examination.$extention.users[0].organization)
+		}
+		examination.$extention.forms = mc.collection("forms").values.filter(d => d.path[1] == examination.id)
+		examination.$extention.recordPoints = mc.collection("recordPoints").values.filter(d => d.path[1] == examination.id)
+		examination.$extention.records = mc.collection("records").values.filter(d => d.path[1] == examination.id)
+		examination.$extention.assets = mc.collection("assets").values.filter(d => d.path[1] == examination.id)
+	}
+
+	return examinations	
+
+}	
+
+
 const expandExaminations = async (...examinations) => {
 	
 	const db = firebaseService.db
@@ -56,27 +78,34 @@ const expandExaminations = async (...examinations) => {
 	examinations = examinations || []
 
 	for(let i=0; i < examinations.length; i++){
-		
-		let examination = examinations[i]
-		examination.$extention = {}
+		try {
+			// console.log("expand", i, examinations.length)
+			let examination = examinations[i]
+			examination.$extention = {}
+			// console.log(0)
+			let users = db.collection('users');
+			examination.$extention.users = (await users.where("userId","==",examination.userId).get() ).docs.map(docMapper)
+			// console.log(1)
+			if(examination.$extention.users[0]){
+				let organizations = db.collection('organizations');
+				examination.$extention.organizations = 
+					[docMapper((await organizations.doc(examination.$extention.users[0].organization).get() ))]
+			}
+			// console.log(2)		
+			let exams = db.collection('examinations');
+	    	const docRef = exams.doc(examination.id)
 
-		let users = db.collection('users');
-		examination.$extention.users = (await users.where("userId","==",examination.userId).get() ).docs.map(docMapper)
-
-		if(examination.$extention.users[0]){
-			let organizations = db.collection('organizations');
-			examination.$extention.organizations = 
-				[docMapper((await organizations.doc(examination.$extention.users[0].organization).get() ))]
+			examination.$extention.forms = ( await docRef.collection('forms').get() ).docs.map(docMapper)
+			// console.log(3)
+			examination.$extention.recordPoints = ( await docRef.collection('recordPoints').get() ).docs.map(docMapper)
+			// console.log(4)
+			examination.$extention.records = ( await docRef.collection('records').get() ).docs.map(docMapper)
+			// console.log(5)
+			examination.$extention.assets = ( await docRef.collection('assets').get() ).docs.map(docMapper)
+			// console.log(6)
+		} catch (e) {
+			console.log("ERROR", e.toString())
 		}
-				
-		let exams = db.collection('examinations');
-    	const docRef = exams.doc(examination.id)
-
-		examination.$extention.forms = ( await docRef.collection('forms').get() ).docs.map(docMapper)
-		examination.$extention.recordPoints = ( await docRef.collection('recordPoints').get() ).docs.map(docMapper)
-		examination.$extention.records = ( await docRef.collection('records').get() ).docs.map(docMapper)
-		examination.$extention.assets = ( await docRef.collection('assets').get() ).docs.map(docMapper)
-		
 	}
 
 	return examinations
@@ -84,57 +113,153 @@ const expandExaminations = async (...examinations) => {
 }
 
 
+const delay = (ms, msg) => new Promise(resolve => {
+	console.log(`Wait ${ms} for ${msg} settings`)
+	setTimeout(() => resolve(), ms)
+})
+
+const commitBatch = async (batch, msg) => {
+	delay(1000, msg)
+	try {
+		await batch.commit()
+	} catch (e) {
+		console.log("retry")
+		commitBatch(batch, msg)
+	}
+} 
+
+
 // DEV MODE  //////////////////////////////////////////////////////////////////////////
 
 const createTestExaminations = async (...examinations) => {
+
 	const db = firebaseService.db
+	
 	examinations = examinations || []
 
 	for(let i=0; i < examinations.length; i++){
+		
+		let batch = db.batch()
+
+
 		let examination = examinations[i]
 		let $extention = extend({}, examination.$extention)
 		let id = examination.id 
-		console.log(id, examination.patientId)
+		// console.log(id, examination.patientId)
 		delete examination.$extention
 		delete examination.id
 		const docRef = db.collection("examinations").doc(id)
-		await docRef.set(examination)
+		
+		batch.set(docRef, examination)
+
 		for( let j=0; j < $extention.forms.length; j++ ){
+
 			const form = $extention.forms[j]
 			let id = form.id 
 			delete form.id
-			await docRef.collection("forms").doc(id).set(form)
+			let doc = docRef.collection("forms").doc(id) 
+			batch.set(doc, form)
+			// await docRef.collection("forms").doc(id).set(form)
 		}
+		
+		// await delay(500,`forms`)
+		// await batch.commit()
+
+		batch = db.batch()
+
 		for( let j=0; j < $extention.records.length; j++ ){
 			const record = $extention.records[j]
 			let id = record.id 
 			delete record.id
-			await docRef.collection("records").doc(id).set(record)
+			let doc = docRef.collection("records").doc(id) 
+			batch.set(doc, record)
+
+			// try {
+			// 	await delay(100,`records ${j}`)
+			// 	await docRef.collection("records").doc(id).set(record)
+			// } catch (e) {
+			// 	await delay(100,`retry records ${j}`)
+			// 	await docRef.collection("records").doc(id).set(record)
+			// }	
 		}
+		// await delay(500,`records`)
+		// await batch.commit()
+
+
 		for( let j=0; j < $extention.recordPoints.length; j++ ){
 			const recordPoint = $extention.recordPoints[j]
 			let id = recordPoint.id
 			delete recordPoint.id
-			await docRef.collection("recordPoints").doc(id).set(recordPoint)
+			let doc = docRef.collection("recordPoints").doc(id) 
+			batch.set(doc, recordPoint)
+
+			// try {	
+			// 	await delay(100,`recordPoints ${j}`)
+			// 	await docRef.collection("recordPoints").doc(id).set(recordPoint)
+			// } catch (e) {
+			// 	await delay(100,`retry recordPoints ${j}`)
+			// 	await docRef.collection("recordPoints").doc(id).set(recordPoint)
+			// }
 		}
+		
+		// await delay(500,`records + recordPoints`)
+		// await batch.commit()
+		// batch = db.batch()
+
+
 		for( let j=0; j < $extention.assets.length; j++ ){
 			const asset = $extention.assets[j]
 			let id = asset.id
 			delete asset.id
-			await docRef.collection("assets").doc(id).set(asset)
+			let doc = docRef.collection("assets").doc(id) 
+			batch.set(doc, asset)
+
+			// try {
+			// 	await delay(100,`assets ${j}`)
+			// 	await docRef.collection("assets").doc(id).set(asset)
+			// } catch (e) {
+			// 	await delay(100,`retry assets ${j}`)
+			// 	await docRef.collection("assets").doc(id).set(asset)
+			// }	
 		}
+
+		// await delay(500,`assets`)
+		// await batch.commit()
+		// batch = db.batch()
+
 		for( let j=0; j < $extention.organizations.length; j++ ){
 			const organization = $extention.organizations[j]
 			let id = organization.id
 			delete organization.id
-			await db.collection("organizations").doc(id).set(organization)
+			let doc = db.collection("organizations").doc(id) 
+			batch.set(doc, organization)
+
+			// try {			
+			// 	await delay(100,`organizations ${j}`)
+			// 	await db.collection("organizations").doc(id).set(organization)
+			// } catch (e) {
+			// 	await delay(100,`organizations ${j}`)
+			// 	await db.collection("organizations").doc(id).set(organization)
+			// }
 		}
+
 		for( let j=0; j < $extention.users.length; j++ ){
 			const user = $extention.users[j]
 			let id = user.id
 			delete user.id
-			await db.collection("users").doc(id).set(user)
+			let doc = db.collection("users").doc(id) 
+			batch.set(doc, user)
+
+			// try {
+			// 	await db.collection("users").doc(id).set(user)
+			// } catch (e) {
+			// 	await db.collection("users").doc(id).set(user)
+			// }	
 		}
+
+		// await delay(500,`organizations + users`)
+		await commitBatch( batch, examination.patientId) 
+
 	}
 }
 
@@ -143,7 +268,6 @@ const createTestExaminations = async (...examinations) => {
 
 const resolveAsset = async asset => {
 	
-	console.log(`resolveAsset: Move "${asset.file.path}"" into "${asset.links.path}"`)
 	let fStream = await googledriveService.geFiletWriteStream(asset.file)
 	let file = await firebaseService.execute.saveFileFromStream(
 			asset.links.path,
@@ -258,6 +382,9 @@ const normalizeOptions = options => {
 }
 
 
+const mc = require("./utils/in-memory-collections")()
+
+
 module.exports = async options => {
 
 	options = normalizeOptions(options)	
@@ -265,6 +392,31 @@ module.exports = async options => {
 	if(options.mongodbService && !mongodbService) mongodbService = await initMongoService()
 	if(options.firebaseService && !firebaseService) firebaseService = await initFirebaseService() 
 	if(options.googledriveService && !googledriveService) googledriveService = await initGoogledriveService()
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+let buf = await firebaseService.execute.getCollectionItems("forms")  
+mc.addCollection("forms", buf)
+buf = await firebaseService.execute.getCollectionItems("assets")  
+mc.addCollection("assets", buf)
+buf = await firebaseService.execute.getCollectionItems("records")  
+mc.addCollection("records", buf)
+buf = await firebaseService.execute.getCollectionItems("recordPoints")  
+mc.addCollection("recordPoints", buf)
+buf = await firebaseService.execute.getCollectionItems("organizations")  
+mc.addCollection("organizations", buf)
+buf = await firebaseService.execute.getCollectionItems("users")  
+mc.addCollection("users", buf)
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+
+
+
 
 	return {
 		
@@ -274,11 +426,12 @@ module.exports = async options => {
 
 		getNewExaminations,
 		getExaminationsInState,
-		expandExaminations,
+		expandExaminations: expandExaminationsInMemory,
 		validateExamination,
 		buildExternalAssets,
 		resolveAsset,
 		buildLabelingRecords,
+		commitBatch,
 
 // DEV MODE  //////////////////////////////////////////////////////////////////////////
 		
@@ -290,3 +443,6 @@ module.exports = async options => {
 	}
 
 }
+
+
+

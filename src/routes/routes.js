@@ -1,13 +1,17 @@
 const router = require('express').Router()
 const { fork } = require("child_process")
 const moment = require("moment")
+const hub = require("./hub")
+const uuid = require("uuid").v4
 
 const toHtml = (org, data) => {
 
 	const rowMapper = d => {
 		return `
-			<div class="title">${d.examination}</div>
-			<div><pre class="subtitle-2">${d.validation}</pre></div>
+			<div>
+				<div class="title mt-2">Examination ${d.examination}</div>
+				<div><pre class="subtitle-2">${d.validation}</pre></div>
+			</div>
 		`
 	}
 
@@ -27,13 +31,17 @@ const toHtml = (org, data) => {
 					<div class="v-application v-application--is-ltr theme--light">
 						<div class="v-application--wrap">
 							
-							<div class="ma-4">
-								<div class="d-flex align-center pb-5">
-									<div class="display-1">DATA VALIDATION REPORT</div>
-									<div class="spacer"></div>
-									<div class="pa-5 ma-3 subtitle-2  font-weight-bold" style="border:1px solid;">Company: "${org}"<br/>Date: ${moment(new Date()).format("YYYY-MM-DD HH:mm:ss")}</div>
+							<div class="mx-4">
+								<div class="" style="
+								    background: #6e91a4;
+								    color: white;
+								">
+									<div class="headline mx-2">Data Validation Report</div>
+									<div class="mx-3 subtitle-2 ">Company: "${org}" Date: ${moment(new Date()).format("YYYY-MM-DD HH:mm:ss")}</div>
 								</div>
-								${data.map( d => rowMapper(d))}
+								<div class="ml-3">
+									${data.map( d => rowMapper(d)).join("\n")}
+								</div>
 							</div>
 						</div>
 					</div>
@@ -97,24 +105,44 @@ router.get("/validate/:org", (req, res) => {
 
 router.get("/sync", (req, res) => {
 	
-	  const child = fork("./src/childs/sync-data")
-	  const logFile = ""
-
+	  const child = fork("./sync-data/src/childs/sync-data")
+	  const stamp = moment(new Date()).format("YYYY-MM-DD-HH-mm-ss")
+	  const logFile = `./.tmp/public/log/sync-data-${stamp}.log`
+	  hub.clear()
 	  child.on('error', error => {
-	    console.log('data sync external error:', error);
+	    // console.log('data sync external error:', error);
 	  })
 	  
 	  child.on('close', code => {
-	    console.log(`data sync exited with code ${code}`);
+	    // console.log(`data sync exited with code ${code}`);
 	  })
 	  
-	  child.send({ logFile });
-	
-	  res.send({
-	  	logUrl: ""
+	  child.on('message', message => {
+	    hub.emit(`[ ${moment(new Date(message.time)).format("YYYY-MM-DD HH:mm:ss")} ]: ${message.data}`)
 	  })
+	   
+	  child.send({ logFile });
+ 
+	  
+	  res.send(`<a href="./log"> See log </a>`)
+	  
 })
 
-console.log("Activate sync data router")
+router.get("/log", (req, res) => {
+	res.redirect("../../log-listener.html")
+})
+
+router.get("/view-log/:id", (req, res) => {
+			let sse = res.sse()
+			let listenerId = req.params.id
+			hub.on( listenerId, data => {
+				if(listenerId == data.id){
+					data.messages.forEach( m => {
+						sse.send(m)	
+					})
+				}		
+			})
+})
+
 
 module.exports = router;
