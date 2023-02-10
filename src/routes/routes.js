@@ -37,7 +37,7 @@ const toHtml = (org, data) => {
 								    color: white;
 								">
 									<div class="headline mx-2">Data Validation Report</div>
-									<div class="mx-3 subtitle-2 ">Company: "${org}" Date: ${moment(new Date()).format("YYYY-MM-DD HH:mm:ss")}</div>
+									<div class="mx-3 subtitle-2 ">Organization: "${org}" Date: ${moment(new Date()).format("YYYY-MM-DD HH:mm:ss")}</div>
 								</div>
 								<div class="ml-3">
 									${data.map( d => rowMapper(d)).join("\n")}

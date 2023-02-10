@@ -24,6 +24,7 @@ module.exports = async logFile => {
     pathExists(path.join(__dirname,`../../.config/data/${o}/assets-rules.yml`))
   )
 
+console.log(controller.mongodbService.config.db)
 
   for( let k=0; k < orgs.length; k++ ){
     
@@ -60,6 +61,26 @@ module.exports = async logFile => {
     examination = await controller.expandExaminations(...[examination])
     examination = controller.validateExamination(examination[0], validateRules)
     logger.info(`Validation stage for examination ${examination.patientId} >>>> ${(examination._validation == true) ? "succeful passed" : "failed: "+examination._validation}`)
+
+    let insUser = extend({}, examination.$extention.users[0])
+    let insOrganization = extend({}, examination.$extention.organizations[0])
+    
+    console.log(JSON.stringify(controller.mongodbService.config.db.userCollection))
+    logger.info(`Insert user into ${controller.mongodbService.config.db.userCollection}`)
+
+    await controller.mongodbService.execute.replaceOne(
+      controller.mongodbService.config.db.userCollection,
+      {id: insUser.id},
+      insUser
+    )
+
+    logger.info(`Insert organization into ${controller.mongodbService.config.db.organizationCollection}`)
+
+    await controller.mongodbService.execute.replaceOne(
+      controller.mongodbService.config.db.organizationCollection,
+      {id: insOrganization.id},
+      insOrganization
+    ) 
 
     let inserted = extend({}, examination)
     delete inserted.$extention
@@ -160,6 +181,7 @@ module.exports = async logFile => {
       controller.mongodbService.config.db.formCollection,
       formOps
     )
+
 
   }
 

@@ -1,6 +1,6 @@
 
 const run = async () => {
-	const controller = (await require("./src/controller")())
+	const controller = (await require("./src/controller")({mongodbService: false}))
 	
 	// let examination = await controller.firebaseService.execute.getCollectionItems(
 	// 		"examinations",[

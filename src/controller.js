@@ -119,7 +119,7 @@ const delay = (ms, msg) => new Promise(resolve => {
 })
 
 const commitBatch = async (batch, msg) => {
-	delay(1000, msg)
+	await delay(5000, msg)
 	try {
 		await batch.commit()
 	} catch (e) {
@@ -149,14 +149,16 @@ const createTestExaminations = async (...examinations) => {
 		delete examination.$extention
 		delete examination.id
 		const docRef = db.collection("examinations").doc(id)
-		
-		batch.set(docRef, examination)
+		console.log(examination)
+		// batch.set(docRef, examination)
+		await docRef.set(examination)
 
 		for( let j=0; j < $extention.forms.length; j++ ){
 
 			const form = $extention.forms[j]
 			let id = form.id 
 			delete form.id
+			console.log(form)
 			let doc = docRef.collection("forms").doc(id) 
 			batch.set(doc, form)
 			// await docRef.collection("forms").doc(id).set(form)
@@ -165,12 +167,13 @@ const createTestExaminations = async (...examinations) => {
 		// await delay(500,`forms`)
 		// await batch.commit()
 
-		batch = db.batch()
+		// batch = db.batch()
 
 		for( let j=0; j < $extention.records.length; j++ ){
 			const record = $extention.records[j]
 			let id = record.id 
 			delete record.id
+			console.log(record)
 			let doc = docRef.collection("records").doc(id) 
 			batch.set(doc, record)
 
@@ -190,6 +193,7 @@ const createTestExaminations = async (...examinations) => {
 			const recordPoint = $extention.recordPoints[j]
 			let id = recordPoint.id
 			delete recordPoint.id
+			console.log(recordPoint)
 			let doc = docRef.collection("recordPoints").doc(id) 
 			batch.set(doc, recordPoint)
 
@@ -206,11 +210,15 @@ const createTestExaminations = async (...examinations) => {
 		// await batch.commit()
 		// batch = db.batch()
 
+			await commitBatch(batch)
 
+			batch = db.batch()
+			
 		for( let j=0; j < $extention.assets.length; j++ ){
 			const asset = $extention.assets[j]
 			let id = asset.id
 			delete asset.id
+			console.log(asset)
 			let doc = docRef.collection("assets").doc(id) 
 			batch.set(doc, asset)
 
@@ -231,6 +239,7 @@ const createTestExaminations = async (...examinations) => {
 			const organization = $extention.organizations[j]
 			let id = organization.id
 			delete organization.id
+			console.log(organization)
 			let doc = db.collection("organizations").doc(id) 
 			batch.set(doc, organization)
 
@@ -247,6 +256,7 @@ const createTestExaminations = async (...examinations) => {
 			const user = $extention.users[j]
 			let id = user.id
 			delete user.id
+			console.log(user)
 			let doc = db.collection("users").doc(id) 
 			batch.set(doc, user)
 
