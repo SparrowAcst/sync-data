@@ -22,7 +22,7 @@ module.exports = async organization => {
  
   let inReviewExams = await controller.firebaseService.execute.getCollectionItems(
      "examinations",
-     [["state", "==", "inReview"]]
+     [["state", "==", "pending"]]
   )
  
   examsIds = examsIds.filter( id => find(inReviewExams, exam => exam.patientId == id))   

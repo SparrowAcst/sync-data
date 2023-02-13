@@ -2,7 +2,7 @@
 const { google } = require("googleapis")
 const path = require("path")
 const fs = require("fs")
-const { find, isUndefined, extend } = require("lodash")
+const { find, isUndefined, extend, last } = require("lodash")
 const nanomatch = require('nanomatch')
 
 const key = require(path.join(__dirname,"../../.config/key/gd/gd.key.json"))
@@ -22,7 +22,8 @@ const getPath = (files, node) => {
 	for( let n = node; ; ){
 		res.push(n.name)
 		if(isUndefined(n.parents)) break
-		n = find(files, f => n.parents.includes(f.id))	
+		n = find(files, f => n.parents.includes(f.id))
+		if(!n) break	
 	}	
 	res.reverse()
 	return res.join("/")	
@@ -69,6 +70,12 @@ const Drive = class {
 		path = path || "**/*.*"
 		const names = nanomatch(this.$filelist.map(f => f.path), path)
 		return this.$filelist.filter(f => names.includes(f.path) && f.mimeType != "application/vnd.google-apps.folder")
+	}
+
+	list(path){
+		path = path || "**/*.*"
+		const names = nanomatch(this.$filelist.map(f => f.path), path)
+		return this.$filelist.filter(f => names.includes(f.path))
 	}
 
 	itemList(){
@@ -150,6 +157,115 @@ const Drive = class {
 		
 		return res.data
 	}
+
+	async getFile(file){
+		let res = await drive.files.get(
+		    { fileId: file.id, alt: 'media' },
+		    { responseType: 'stream' }
+		)
+		
+		return res
+	}
+
+	async createFolderbyPath(rootFolder, path){
+		
+		let rootes = rootFolder.split("/")
+		rootes = rootes.map((part, index) => rootes.slice(0,index+1))
+		let partitions = path.split("/")
+		partitions = partitions.map((part, index) => rootFolder.split("/").concat(partitions.slice(0,index+1)))
+		partitions = rootes.concat(partitions)
+		
+		let current
+		
+		for(let i=0; i < partitions.length; i++){
+
+			let part = partitions[i]
+			
+			current = this.list(part.join("/"))[0]
+
+			if(!current){
+				
+				let parent = this.list(part.slice(0,-1).join("/"))[0]
+		
+				current = await drive.files.create({
+				  resource: {
+				    name: last(part),
+				    mimeType: 'application/vnd.google-apps.folder',
+				    parents: (parent) ? [ parent.id ] : undefined,
+				  },
+				  fields: "id",
+				})
+
+				current = extend({}, current.data, {
+					name: last(part),
+					mimeType: 'application/vnd.google-apps.folder',
+				    parents: (parent) ? [ parent.id ] : undefined,
+				})
+
+				current.path = getPath(this.$filelist, current)
+				this.$filelist.push(current)
+			}
+		}
+		return current
+	}
+
+	async copyFile(source, targetPath){
+		
+		let cloned = await this.getFile(source)
+		let destFolder = await this.createFolderbyPath(targetPath, path.dirname(source.path))
+		
+
+		const resource = {
+		    name: source.name,
+		    // parents: [destFolder.id]
+		}
+
+		const media = {
+		  	mimeType: source.mimeType,
+			body: cloned.data,
+		}
+
+		const existed = this.list(`${destFolder.path}/${path.basename(source.path)}`)[0]
+		if(existed){
+			// console.log("UPDATE", `${destFolder.path}/${path.basename(source.path)}`, destFolder)
+			cloned =  await drive.files.update({
+				fileId: existed.id,
+				resource,
+				media,
+				fields: "id",
+			})
+
+		} else {
+			// console.log("CREATE", `${destFolder.path}/${path.basename(source.path)}`, destFolder)
+			resource.parents = [destFolder.id]
+			cloned =  await drive.files.create({
+				  resource,
+				  media,
+				  fields: "id",
+			})
+
+		}		
+		
+		
+		cloned  = await drive.files.get({ 
+			fileId: cloned.data.id, 
+			fields: 'id, name, mimeType, md5Checksum, createdTime, modifiedTime, parents, size' 
+		})
+
+		cloned = cloned.data
+		cloned.path = getPath(this.$filelist, cloned)
+		this.$filelist.push(cloned)
+	}
+
+	async copy(sourcePath, targetPath, logger){
+		logger = logger || console
+		let cloned = this.fileList(sourcePath)
+		logger.info(`${cloned.length} items:`)
+		for(let i=0; i < cloned.length; i++){
+			logger.info(`Backup ${cloned[i].path}`)
+			await this.copyFile(cloned[i], targetPath)
+		}
+	}	
 
 }
 

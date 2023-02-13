@@ -3,7 +3,7 @@
   "id": "tnpznutZj97uECCGvz7P",
   "dateTime": "2022-12-06T18:22:50.239Z",
   "organization": "aSMftOJxaWKoFfaK1G6k",
-  "state": "inReview",
+  "state": "pending",
   "comment": null,
   "type": null,
   "userId": "9ASbG0DQawa2ajr0APjbqhVz8pG2",
@@ -1062,7 +1062,7 @@
   "type": null,
   "patientId": "POT0002",
   "organization": "aSMftOJxaWKoFfaK1G6k",
-  "state": "inReview",
+  "state": "pending",
   "comment": null,
   "dateTime": "2022-12-07T11:32:31.043387Z",
   "userId": "9ASbG0DQawa2ajr0APjbqhVz8pG2",
@@ -2052,7 +2052,7 @@
   "dateTime": "2022-12-12T06:04:46.630Z",
   "patientId": "POT0003",
   "type": null,
-  "state": "inReview",
+  "state": "pending",
   "organization": "aSMftOJxaWKoFfaK1G6k",
   "$extention": {
    "users": [
@@ -3342,7 +3342,7 @@
   "comment": null,
   "patientId": "POT0004",
   "organization": "aSMftOJxaWKoFfaK1G6k",
-  "state": "inReview",
+  "state": "pending",
   "userId": "9ASbG0DQawa2ajr0APjbqhVz8pG2",
   "type": null,
   "$extention": {
@@ -4328,7 +4328,7 @@
   "dateTime": "2022-12-29T17:52:14.259928Z",
   "type": null,
   "userId": "9ASbG0DQawa2ajr0APjbqhVz8pG2",
-  "state": "inReview",
+  "state": "pending",
   "$extention": {
    "users": [
     {
@@ -5343,7 +5343,7 @@
   "userId": "9ASbG0DQawa2ajr0APjbqhVz8pG2",
   "comment": null,
   "dateTime": "2023-01-02T10:10:28.522312Z",
-  "state": "inReview",
+  "state": "pending",
   "patientId": "POT0006",
   "$extention": {
    "users": [
@@ -6325,7 +6325,7 @@
   "type": null,
   "dateTime": "2023-01-03T11:36:26.664687Z",
   "userId": "9ASbG0DQawa2ajr0APjbqhVz8pG2",
-  "state": "inReview",
+  "state": "pending",
   "patientId": "POT0007",
   "$extention": {
    "users": [
@@ -7479,7 +7479,7 @@
  },
  {
   "id": "q0tJ8ZoXbMkIkqZ9ocpg",
-  "state": "inReview",
+  "state": "pending",
   "organization": "aSMftOJxaWKoFfaK1G6k",
   "comment": null,
   "dateTime": "2023-01-03T13:42:38.756Z",
@@ -8127,7 +8127,7 @@
   "id": "Y07S4epoUpGe4iA6P1cY",
   "type": null,
   "userId": "9ASbG0DQawa2ajr0APjbqhVz8pG2",
-  "state": "inReview",
+  "state": "pending",
   "patientId": "POT0009",
   "dateTime": "2023-01-03T13:43:03.057Z",
   "organization": "aSMftOJxaWKoFfaK1G6k",
@@ -9567,7 +9567,7 @@
  {
   "id": "k11uhxAtVbO7aQdfYqhn",
   "userId": "9ASbG0DQawa2ajr0APjbqhVz8pG2",
-  "state": "inReview",
+  "state": "pending",
   "organization": "aSMftOJxaWKoFfaK1G6k",
   "comment": null,
   "type": null,
@@ -10626,7 +10626,7 @@
   "patientId": "POT0011",
   "dateTime": "2023-01-17T09:50:51.441012Z",
   "comment": null,
-  "state": "inReview",
+  "state": "pending",
   "organization": "aSMftOJxaWKoFfaK1G6k",
   "userId": "9ASbG0DQawa2ajr0APjbqhVz8pG2",
   "$extention": {
@@ -11747,7 +11747,7 @@
   "id": "oZZIA8NpXWSLdQlV8aUf",
   "organization": "aSMftOJxaWKoFfaK1G6k",
   "type": null,
-  "state": "inReview",
+  "state": "pending",
   "dateTime": "2023-01-19T12:15:51.336489Z",
   "comment": null,
   "userId": "9ASbG0DQawa2ajr0APjbqhVz8pG2",
@@ -12793,7 +12793,7 @@
  },
  {
   "id": "bu0IfRWYl8vtXmgYNWve",
-  "state": "inReview",
+  "state": "pending",
   "patientId": "POT0013",
   "type": null,
   "dateTime": "2023-01-25T10:59:19.073510Z",
@@ -13443,7 +13443,7 @@
   "comment": null,
   "type": null,
   "patientId": "POT0014",
-  "state": "inReview",
+  "state": "pending",
   "organization": "aSMftOJxaWKoFfaK1G6k",
   "userId": "9ASbG0DQawa2ajr0APjbqhVz8pG2",
   "$extention": {
@@ -13754,7 +13754,7 @@
   "patientId": "POT0015",
   "type": null,
   "organization": "aSMftOJxaWKoFfaK1G6k",
-  "state": "inReview",
+  "state": "pending",
   "$extention": {
    "users": [
     {
@@ -14397,7 +14397,7 @@
   "type": null,
   "organization": "aSMftOJxaWKoFfaK1G6k",
   "dateTime": "2023-01-28T13:18:21.734544Z",
-  "state": "inReview",
+  "state": "pending",
   "patientId": "POT0016",
   "comment": null,
   "userId": "9ASbG0DQawa2ajr0APjbqhVz8pG2",
@@ -15046,7 +15046,7 @@
   "type": null,
   "organization": "aSMftOJxaWKoFfaK1G6k",
   "dateTime": "2023-02-01T12:10:58.540488Z",
-  "state": "inReview",
+  "state": "pending",
   "$extention": {
    "users": [
     {
@@ -15686,7 +15686,7 @@
  },
  {
   "id": "ARlgR5Vwai74qjFB50aC",
-  "state": "inReview",
+  "state": "pending",
   "patientId": "POT0018",
   "type": null,
   "organization": "aSMftOJxaWKoFfaK1G6k",

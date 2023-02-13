@@ -24,7 +24,7 @@ module.exports = async logFile => {
     pathExists(path.join(__dirname,`../../.config/data/${o}/assets-rules.yml`))
   )
 
-console.log(controller.mongodbService.config.db)
+// console.log(controller.mongodbService.config.db)
 
   for( let k=0; k < orgs.length; k++ ){
     
@@ -41,7 +41,7 @@ console.log(controller.mongodbService.config.db)
 
   let inReviewExams = await controller.firebaseService.execute.getCollectionItems(
      "examinations",
-     [["state", "==", "inReview"]]
+     [["state", "==", "pending"]]
   )
 
   examsIds = examsIds.filter( id => find(inReviewExams, exam => exam.patientId == id))   
@@ -65,7 +65,7 @@ console.log(controller.mongodbService.config.db)
     let insUser = extend({}, examination.$extention.users[0])
     let insOrganization = extend({}, examination.$extention.organizations[0])
     
-    console.log(JSON.stringify(controller.mongodbService.config.db.userCollection))
+    // console.log(JSON.stringify(controller.mongodbService.config.db.userCollection))
     logger.info(`Insert user into ${controller.mongodbService.config.db.userCollection}`)
 
     await controller.mongodbService.execute.replaceOne(
@@ -85,11 +85,23 @@ console.log(controller.mongodbService.config.db)
     let inserted = extend({}, examination)
     delete inserted.$extention
     
+    inserted.updatedAt = new Date()
+    if( inserted._validation != true){
+      console.log(inserted._validation)  
+      if( /Will be rejected for inactivity within the last/.test(inserted._validation)){
+        console.log("REJECT")
+        inserted.state = "rejected",
+        inserted._validation = "Rejected for inactivity within the deadline."+inserted._validation
+      }
+    } 
     // logger.info(`Update ${examination.patientId} in: ${controller.mongodbService.config.db.examinationCollection}`)
     
+    console.log("UPDATE", inserted)
     await controller.mongodbService.execute.replaceOne(
       controller.mongodbService.config.db.examinationCollection,
-      {id: examination.id},
+      {
+        id: inserted.id
+      },
       inserted
     )
 
@@ -109,9 +121,9 @@ console.log(controller.mongodbService.config.db)
 
 
     let examination = readyForAccept[i]
-    examination.state = "accepted"
+    examination.state = "inReview"
     examination.org = org
-    logger.info(`Accept ${examination.patientId} in: ${controller.mongodbService.config.db.examinationCollection}`)
+    logger.info(`Accept for review ${examination.patientId} in: ${controller.mongodbService.config.db.examinationCollection}`)
     
     let inserted = extend({}, examination)
     delete inserted.$extention
@@ -122,10 +134,11 @@ console.log(controller.mongodbService.config.db)
       inserted
     )
     
-    logger.info(`Accept ${examination.patientId} (${examination.id}) in fb`)
+    logger.info(`Accept for review ${examination.patientId} (${examination.id}) in fb`)
+
     try {
       let doc = db.collection("examinations").doc(examination.id)
-      batch.update(doc, { state: "accepted" })
+      batch.update(doc, { state: "inReview" })
     } catch (e) {
       console.log(e.toString())
     }
@@ -147,7 +160,15 @@ console.log(controller.mongodbService.config.db)
     }
 
     await controller.commitBatch(batch, "add resolved assets")
+    
+    logger.info(`Backup "Ready for Review/${org}/${examination.patientId}/**/*".`)
+    // console.log(controller.googledriveService.fileList("Ready for Review/${org}/${examination.patientId}/**/*"))
 
+
+    await controller.googledriveService.copy(`Ready for Review/${org}/${examination.patientId}/**/*`, "BACKUP", logger)
+    
+    logger.info(`${examination.patientId} data will be protected.`)
+    
     let labelingRecords = controller.buildLabelingRecords(examination, labelsMetadata)
 
     let labelOps = labelingRecords.labelRecords.map( l => ({
