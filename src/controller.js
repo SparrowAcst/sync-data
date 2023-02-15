@@ -405,18 +405,20 @@ module.exports = async options => {
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-let buf = await firebaseService.execute.getCollectionItems("forms")  
-mc.addCollection("forms", buf)
-buf = await firebaseService.execute.getCollectionItems("assets")  
-mc.addCollection("assets", buf)
-buf = await firebaseService.execute.getCollectionItems("records")  
-mc.addCollection("records", buf)
-buf = await firebaseService.execute.getCollectionItems("recordPoints")  
-mc.addCollection("recordPoints", buf)
-buf = await firebaseService.execute.getCollectionItems("organizations")  
-mc.addCollection("organizations", buf)
-buf = await firebaseService.execute.getCollectionItems("users")  
-mc.addCollection("users", buf)
+	if(options.firebaseService && !options.firebaseService.noprefetch){
+		let buf = await firebaseService.execute.getCollectionItems("forms")  
+		mc.addCollection("forms", buf)
+		buf = await firebaseService.execute.getCollectionItems("assets")  
+		mc.addCollection("assets", buf)
+		buf = await firebaseService.execute.getCollectionItems("records")  
+		mc.addCollection("records", buf)
+		buf = await firebaseService.execute.getCollectionItems("recordPoints")  
+		mc.addCollection("recordPoints", buf)
+		buf = await firebaseService.execute.getCollectionItems("organizations")  
+		mc.addCollection("organizations", buf)
+		buf = await firebaseService.execute.getCollectionItems("users")  
+		mc.addCollection("users", buf)
+	}	
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 

@@ -4,6 +4,7 @@ const moment = require("moment")
 const hub = require("./hub")
 const uuid = require("uuid").v4
 
+
 const toHtml = (org, data) => {
 
 	const rowMapper = d => {
@@ -142,6 +143,80 @@ router.get("/view-log/:id", (req, res) => {
 					})
 				}		
 			})
+})
+
+
+router.post("/examination/accept", async (req, res) => {
+	
+
+	const mongodb = await require("../utils/mongodb")()
+	const fb = await require("../utils/fb")()
+	
+	let params = req.body
+	
+	let f = await mongodb.execute.aggregate(mongodb.config.db.examinationCollection, [{
+		$match: {
+			patientId: params["Examination ID"]
+		}	 
+	}])
+
+	const examination = f[0]
+	
+	if(examination){
+		examination.state = "accepted"
+		await mongodb.execute.updateOne(
+			mongodb.config.db.examinationCollection,
+			{id: examination.id},
+			examination
+		)
+
+		await fb.db.collection("examinations").doc(examination.id).update({ state: "accepted" })
+
+		res.send(examination)
+	} else {
+		res.status(404).send({message: `Examination ${params["Examination ID"]} not found.`})
+	}
+
+	mongodb.close() 
+	
+	
+})
+
+router.post("/examination/reject", async (req, res) => {
+	
+	const mongodb = await require("../utils/mongodb")()
+	const fb = await require("../utils/fb")()
+	
+	let params = req.body
+	
+	let f = await mongodb.execute.aggregate(mongodb.config.db.examinationCollection, [{
+		$match: {
+			patientId: params["Examination ID"]
+		}	 
+	}])
+
+	const examination = f[0]
+	
+	if(examination){
+		examination.state = "rejected"
+		examination._validation = params.validationSummary
+		
+		await mongodb.execute.updateOne(
+			mongodb.config.db.examinationCollection,
+			{id: examination.id},
+			examination
+		)
+
+		await fb.db.collection("examinations").doc(examination.id).update({ state: "rejected" })
+
+		res.send(examination)
+	} else {
+		res.status(404).send({message: `Examination ${params["Examination ID"]} not found.`})
+	}
+
+	mongodb.close() 
+	
+	
 })
 
 
