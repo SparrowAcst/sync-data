@@ -163,7 +163,10 @@ router.post("/examination/accept", async (req, res) => {
 	const examination = f[0]
 	
 	if(examination){
+		
 		examination.state = "accepted"
+		examination.updatedAt = new Date()
+		
 		await mongodb.execute.updateOne(
 			mongodb.config.db.examinationCollection,
 			{id: examination.id},
@@ -200,7 +203,8 @@ router.post("/examination/reject", async (req, res) => {
 	if(examination){
 		examination.state = "rejected"
 		examination._validation = params.validationSummary
-		
+		examination.updatedAt = new Date()
+
 		await mongodb.execute.updateOne(
 			mongodb.config.db.examinationCollection,
 			{id: examination.id},

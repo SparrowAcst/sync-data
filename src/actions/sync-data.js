@@ -54,7 +54,9 @@ module.exports = async logFile => {
   logger.info(`\nStart validation stage for ${syncExams.length} examinations:\n${syncExams.map(exam => "\t"+exam.patientId).join("\n")}`)
 
 ////////////////////////////           Validation Stage          ////////////////////////////////////////////////////
-
+  const db = controller.firebaseService.db
+  const batch = db.batch()
+  
   for( let i = 0; i < syncExams.length; i++){
     
     let examination = syncExams[i]
@@ -65,6 +67,8 @@ module.exports = async logFile => {
     let insUser = extend({}, examination.$extention.users[0])
     let insOrganization = extend({}, examination.$extention.organizations[0])
     
+    insUser.id = insUser.userId
+
     // console.log(JSON.stringify(controller.mongodbService.config.db.userCollection))
     logger.info(`Insert user into ${controller.mongodbService.config.db.userCollection}`)
 
@@ -96,6 +100,7 @@ module.exports = async logFile => {
     } 
     // logger.info(`Update ${examination.patientId} in: ${controller.mongodbService.config.db.examinationCollection}`)
     
+    inserted.actorId = inserted.userId 
     console.log("UPDATE", inserted)
     await controller.mongodbService.execute.replaceOne(
       controller.mongodbService.config.db.examinationCollection,
@@ -105,15 +110,28 @@ module.exports = async logFile => {
       inserted
     )
 
+    try {
+      let doc = db.collection("examinations").doc(inserted.id)
+      batch.update(doc, { state: inserted.state })
+    } catch (e) {
+      console.log(e.toString())
+    }
+
   }
 
+  try {
+    await controller.commitBatch(batch, "update examination state")
+    console.log("update examination state done")
+  } catch (e) {
+      console.log(e.toString())
+  }
+      
   let readyForAccept = syncExams.filter(exam => exam._validation === true)
   
   logger.info(`Start Import Stage for ${readyForAccept.length} examinations:\n${readyForAccept.map(exam => "\t"+exam.patientId).join("\n")}`)
 
   //////////////////////////////           Import Stage          //////////////////////////////////////////////////////////
 
-  const db = controller.firebaseService.db
   
   for( let i = 0; i < readyForAccept.length; i++){
     
@@ -123,6 +141,7 @@ module.exports = async logFile => {
     let examination = readyForAccept[i]
     examination.state = "inReview"
     examination.org = org
+    examination.updatedAt = new Date()
     logger.info(`Accept for review ${examination.patientId} in: ${controller.mongodbService.config.db.examinationCollection}`)
     
     let inserted = extend({}, examination)
