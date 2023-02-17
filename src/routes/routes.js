@@ -5,17 +5,32 @@ const hub = require("./hub")
 const uuid = require("uuid").v4
 
 
-const toHtml = (org, data) => {
+const toHtml = (org, data, summary) => {
 
-	const rowMapper = d => {
+	
+	const summaryMapper = d => {
 		return `
-			<div>
-				<div class="title mt-2">Examination ${d.examination}</div>
-				<div><pre class="subtitle-2">${d.validation}</pre></div>
+			<div class="subtitle-1 mx-3 d-flex">
+				<div class="flex xs1">${d.name}:</div> 
+				<strong>${d.value}</strong>
 			</div>
 		`
 	}
 
+	const rowMapper = d => {
+		return `
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2">Examination <strong>${d.patientId}</strong>
+					<br/> 
+					State: <strong>${d.state}</strong> 
+					<br/>
+					Synchronized at <strong>${moment(d.updatedAt).format("YYYY-MM-DD HH:mm:ss")}</strong>
+				</div>
+				<div class="subtitle-1 mx-2">${d.reportComment || ""}</div>
+				<div><div class="subtitle-2">${(d.validation == true) ? "" : d.validation.replace(/\n/,"<br/>") }</div></div>
+			</div>
+		`
+	}
 
 	return `
 		<html>
@@ -33,14 +48,16 @@ const toHtml = (org, data) => {
 						<div class="v-application--wrap">
 							
 							<div class="mx-4">
-								<div class="" style="
-								    background: #6e91a4;
-								    color: white;
-								">
-									<div class="headline mx-2">Data Validation Report</div>
-									<div class="mx-3 subtitle-2 ">Organization: "${org}" Date: ${moment(new Date()).format("YYYY-MM-DD HH:mm:ss")}</div>
+								<div>
+									<div class="display-1 mx-2">Data Validation Report</div>
+									<div class="mx-3 title-2 ">Organization: "${org}" Date: ${moment(new Date()).format("YYYY-MM-DD HH:mm:ss")}</div>
 								</div>
-								<div class="ml-3">
+								<div class="ml-3 mt-3">
+									<div class="headline">Summary</div>
+									${summary.map(d => summaryMapper(d)).join("\n")}
+								</div>	
+								<div class="ml-3 mt-3">
+									<div class="headline">Details</div>
 									${data.map( d => rowMapper(d)).join("\n")}
 								</div>
 							</div>
@@ -63,7 +80,14 @@ const validate = (res, organization, type) => {
 	    if( type == "json" ){
 	    	res.send(result.data)
 	    } else {
-	    	res.send(toHtml(organization, result.data))
+	    	let summary = [
+	    		{ name: "pending", value: result.data.filter(d => d.state == "pending").length},
+	    		{ name: "inReview", value: result.data.filter(d => d.state == "inReview").length},
+	    		{ name: "accepted", value: result.data.filter(d => d.state == "accepted").length},
+	    		{ name: "rejected", value: result.data.filter(d => d.state == "rejected").length},
+	    		{ name: "total", value: result.data.length},
+	    	]
+	    	res.send(toHtml(organization, result.data, summary))
 	    }	
 	  })
 	  
@@ -73,7 +97,7 @@ const validate = (res, organization, type) => {
 	  })
 	  
 	  child.on('close', code => {
-	    console.log(`child process exited with code ${code}`);
+	    // console.log(`child process exited with code ${code}`);
 	  })
 	  
 	  child.send({ organization });
