@@ -15,6 +15,8 @@ module.exports = async logFile => {
   const controller = await require("../controller")()
    
   const labelsMetadata = loadYaml(path.join(__dirname,`../../.config/labeling/labels.yml`))
+
+  const backup = loadYaml(path.join(__dirname,`../../.config/data/backup.yml`))
   
   let orgs = controller.googledriveService.dirList("Ready for Review/*").map( d => d.name)
   
@@ -173,7 +175,7 @@ module.exports = async logFile => {
       logger.info(`Move "${asset.file.path}"" into "${asset.links.path}"`)
   
       asset = await controller.resolveAsset(asset)
-      let doc = db.collection(`examinations/${examination.id}/assets`).doc()
+      let doc = db.collection(`examinations/${examination.id}/assets`).doc(asset.id)
       batch.set(doc, asset)
       examination.$extention.assets.push(asset)
     }
@@ -184,7 +186,7 @@ module.exports = async logFile => {
     // console.log(controller.googledriveService.fileList("Ready for Review/${org}/${examination.patientId}/**/*"))
 
 
-    await controller.googledriveService.copy(`Ready for Review/${org}/${examination.patientId}/**/*`, "BACKUP", logger)
+    await controller.googledriveService.copy(`Ready for Review/${org}/${examination.patientId}/**/*`, backup.location, logger)
     
     logger.info(`${examination.patientId} data will be protected.`)
     
