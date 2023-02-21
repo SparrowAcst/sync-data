@@ -175,7 +175,15 @@ module.exports = async logFile => {
       logger.info(`Move "${asset.file.path}"" into "${asset.links.path}"`)
   
       asset = await controller.resolveAsset(asset)
-      let doc = db.collection(`examinations/${examination.id}/assets`).doc(asset.id)
+      
+      let doc 
+      if(asset.id){
+        doc = db.collection(`examinations/${examination.id}/assets`).doc(asset.id)
+        
+      } else {
+        doc = db.collection(`examinations/${examination.id}/assets`).doc()
+      }
+     
       batch.set(doc, asset)
       examination.$extention.assets.push(asset)
     }
