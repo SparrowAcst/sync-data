@@ -1,7 +1,7 @@
 const moment = require("moment")
 const path = require("path")
 const { loadYaml, pathExists } = require("../utils/file-system")
-const { find, sortBy, filter, extend } = require("lodash")
+const { find, sortBy, filter, extend, isUndefined } = require("lodash")
   
 
 module.exports = async logFile => {
@@ -164,6 +164,7 @@ module.exports = async logFile => {
       console.log(e.toString())
     }
 
+    
     logger.info(`Import ${examination.patientId} assets:`)
     
     let externalAssets = controller.buildExternalAssets(examination, assetsRules)
@@ -176,16 +177,23 @@ module.exports = async logFile => {
   
       asset = await controller.resolveAsset(asset)
       
+      // console.log("!!!!!!!!!!!!!!!!!!!!!!", asset)
+      
       let doc 
-      if(asset.id){
+      if(!isUndefined(asset.id) && !isNull(asset.id)){
+        // console.log("EXISTS")
         doc = db.collection(`examinations/${examination.id}/assets`).doc(asset.id)
         
       } else {
+        // console.log("UNDEFINED")
         doc = db.collection(`examinations/${examination.id}/assets`).doc()
       }
-     
+      
+      delete asset.id
+    
       batch.set(doc, asset)
       examination.$extention.assets.push(asset)
+    
     }
 
     await controller.commitBatch(batch, "add resolved assets")
