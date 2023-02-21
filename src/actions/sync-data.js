@@ -144,6 +144,7 @@ module.exports = async logFile => {
     examination.state = "inReview"
     examination.org = org
     examination.updatedAt = new Date()
+    examination.actorId = examination.userId
     logger.info(`Accept for review ${examination.patientId} in: ${controller.mongodbService.config.db.examinationCollection}`)
     
     let inserted = extend({}, examination)
