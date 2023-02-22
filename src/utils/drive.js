@@ -1,4 +1,6 @@
 
+
+
 const { google } = require("googleapis")
 const path = require("path")
 const fs = require("fs")
@@ -211,7 +213,20 @@ const Drive = class {
 
 	async copyFile(source, targetPath){
 		
+		
+		let size = 0
+		let oldSize = 0
 		let cloned = await this.getFile(source)
+		
+		cloned.data.on("data", chunk => {
+			size += chunk.length / 1024 / 1024 
+			if( (size - oldSize) > 0.2 ){
+				process.stdout.write(`Received: ${size.toFixed(1)} Mb ${'\x1b[0G'}`)
+				// console.log(`\rReceived ${size} bytes`)
+				oldSize = size	
+			}
+		})
+		
 		let destFolder = await this.createFolderbyPath(targetPath, path.dirname(source.path))
 		
 
