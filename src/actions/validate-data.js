@@ -88,6 +88,7 @@ module.exports = async (org, patientPattern) => {
           'patientId': '$patientId', 
           'validation': '$_validation', 
           'updatedAt': '$updatedAt',
+          'webViewLink': '$webViewLink',
           'synchronizedAt': '$synchronizedAt',
           'state': '$state', 
           'organization': {
