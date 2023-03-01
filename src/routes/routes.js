@@ -7,28 +7,64 @@ const uuid = require("uuid").v4
 
 const toHtml = (org, data, summary) => {
 
+	const colors = {
+		info:"#1565c0",
+		success:"#2e7d32",
+		error:"#c2185b",
+		warning:"#e64a19"
+	}
+
 	
 	const summaryMapper = d => {
 		return `
-			<div class="subtitle-1 mx-3 d-flex">
-				<div class="flex xs1">${d.name}:</div> 
+			<div class="subtitle-1 mx-3 d-flex" >
+				<div class="flex xs1" style="line-height: 1.2;">${d.name}:</div> 
 				<strong>${d.value}</strong>
 			</div>
 		`
 	}
 
-	const rowMapper = d => {
+	const getColor = d => {
+
+		switch(d.reportComment){
+			
+			case "Read the warnings and correct the data":
+				return colors.warning
+			
+			case "Data accepted. You can remove the data from the \"Ready for Review\" folder":
+				return colors.success
+				
+			case "The status will be set to \"inReview\" after the data is synchronized":
+				return colors.info
+			
+			case "Please wait while the data is reviewed":
+				return colors.info
+			
+			case "Data rejected. You can remove the data from the \"Ready for Review\" folder":
+				return colors.error
+		}
+
+	}
+
+	const rowMapper = (d, color) => {
 		return `
 			<div style="padding: 5px; margin: 5px;">
-				<div class="subtitle-1 mt-2">Examination <strong>${d.patientId}</strong>
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>${d.patientId}</strong> <a href="${d.webViewLink}" target="_blank">open folder</a>
 					<br/> 
 					State: <strong>${d.state}</strong> 
 					<br/>
-					Synchronized at <strong>${moment(d.updatedAt).format("YYYY-MM-DD HH:mm:ss")}</strong>
+					 ${(d.synchronizedAt) ? "Synchronized at <strong>"+ moment(d.synchronizedAt).format("YYYY-MM-DD HH:mm:ss")+"</strong>" : "<strong>Data is out of sync</strong>"}
 				</div>
-				<div class="subtitle-1 mx-2">${d.reportComment || ""}</div>
-				<div><div class="subtitle-2">${(d.validation == true) ? "" : d.validation.replace(/\n/,"<br/>") }</div></div>
+				<div style="color:${color}; border:1px solid;">
+					<div class="subtitle-1" style="background:${color}; color: white; padding:0 20px;">
+						${d.reportComment || ""}
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						${(d.validation == true) ? "" : d.validation.replace(/\n/g,"<br/>") }
+					</div>
+				</div>
 			</div>
+			
 		`
 	}
 
@@ -58,7 +94,7 @@ const toHtml = (org, data, summary) => {
 								</div>	
 								<div class="ml-3 mt-3">
 									<div class="headline">Details</div>
-									${data.map( d => rowMapper(d)).join("\n")}
+									${data.map( d => rowMapper(d, getColor(d))).join("\n")}
 								</div>
 							</div>
 						</div>
@@ -70,16 +106,16 @@ const toHtml = (org, data, summary) => {
 }
 
 
-const validate = (res, organization, type) => {
+const validate = (res, organization, patientPattern) => {
 
 	if(organization){
 	  const child = fork("./sync-data/src/childs/validate-data")
 	  
 	  child.on('message', result => {
-	    // console.log('Parent process received:', result.data);
-	    if( type == "json" ){
-	    	res.send(result.data)
-	    } else {
+	    
+	    // if( type == "json" ){
+	    // 	res.send(result.data)
+	    // } else {
 	    	let summary = [
 	    		{ name: "pending", value: result.data.filter(d => d.state == "pending").length},
 	    		{ name: "inReview", value: result.data.filter(d => d.state == "inReview").length},
@@ -88,7 +124,7 @@ const validate = (res, organization, type) => {
 	    		{ name: "total", value: result.data.length},
 	    	]
 	    	res.send(toHtml(organization, result.data, summary))
-	    }	
+	    // }	
 	  })
 	  
 	  child.on('error', error => {
@@ -100,7 +136,7 @@ const validate = (res, organization, type) => {
 	    // console.log(`child process exited with code ${code}`);
 	  })
 	  
-	  child.send({ organization });
+	  child.send({ organization, patientPattern });
 	
 	} else {
 		res.status(404).send("Organization data validation error: Organization undefined.")
@@ -109,22 +145,21 @@ const validate = (res, organization, type) => {
 }
 
 
-router.get("/validate/:org/:type", (req, res) => {
+router.get("/validate/:org/:patientPattern", (req, res) => {
 	
 	let organization = req.params.org
-	let type = req.params.type || "html"
-	type = (type != "html") ? "json" : "html"
+	let patientPattern = req.params.patientPattern || ".*"
 	
-	validate(res, organization, type)
+	validate(res, organization, patientPattern)
  
 })
 
 router.get("/validate/:org", (req, res) => {
 	
 	let organization = req.params.org
-	let type = "html"
+	let patientPattern = ".*"
 	
-	validate(res, organization, type)
+	validate(res, organization, patientPattern)
  
 })
 

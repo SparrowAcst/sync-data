@@ -41,7 +41,7 @@ async function getDirList() {
   		const part = await drive.files.list({
 	      pageSize: 250,
 	      pageToken: nextPageToken || "",	
-	      fields: "files(id, name, mimeType, md5Checksum, createdTime, modifiedTime, parents, size ), nextPageToken",
+	      fields: "files(id, webViewLink, name, mimeType, md5Checksum, createdTime, modifiedTime, parents, size ), nextPageToken",
 	      spaces: 'drive',
 	    });	
 	    res = res.concat(part.data.files)

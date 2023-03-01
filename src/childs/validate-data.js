@@ -5,7 +5,7 @@ const run = async () => {
   process.on('message', async params => {
     if(params && params.organization){
       
-      const data = await action(params.organization)
+      const data = await action(params.organization, params.patientPattern)
       process.send({data})
 
     } else {

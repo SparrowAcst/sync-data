@@ -79,30 +79,30 @@ const expandExaminations = async (...examinations) => {
 
 	for(let i=0; i < examinations.length; i++){
 		try {
-			// console.log("expand", i, examinations.length)
+			
 			let examination = examinations[i]
 			examination.$extention = {}
-			// console.log(0)
-			let users = db.collection('users');
-			examination.$extention.users = (await users.where("userId","==",examination.userId).get() ).docs.map(docMapper)
-			// console.log(1)
-			if(examination.$extention.users[0]){
-				let organizations = db.collection('organizations');
-				examination.$extention.organizations = 
-					[docMapper((await organizations.doc(examination.$extention.users[0].organization).get() ))]
-			}
-			// console.log(2)		
+			
+			if(examination.userId){
+			
+				let users = db.collection('users');
+				examination.$extention.users = (await users.where("userId","==",examination.userId).get() ).docs.map(docMapper)
+				if(examination.$extention.users[0]){
+					let organizations = db.collection('organizations');
+					examination.$extention.organizations = 
+						[docMapper((await organizations.doc(examination.$extention.users[0].organization).get() ))]
+				}
+			
+			}	
+			
 			let exams = db.collection('examinations');
 	    	const docRef = exams.doc(examination.id)
 
 			examination.$extention.forms = ( await docRef.collection('forms').get() ).docs.map(docMapper)
-			// console.log(3)
 			examination.$extention.recordPoints = ( await docRef.collection('recordPoints').get() ).docs.map(docMapper)
-			// console.log(4)
 			examination.$extention.records = ( await docRef.collection('records').get() ).docs.map(docMapper)
-			// console.log(5)
 			examination.$extention.assets = ( await docRef.collection('assets').get() ).docs.map(docMapper)
-			// console.log(6)
+		
 		} catch (e) {
 			console.log("ERROR", e.toString())
 		}
@@ -290,30 +290,32 @@ const resolveAsset = async asset => {
 }
 
 
-const validateExamination = ( examination, rules ) => {
+const validateExamination = ( examination, rules, org ) => {
 	let ids = /([A-Z]{3})([0-9]{4})/.exec(examination.patientId)
-    
+
     examination._validation = piper.validate({
         // context
         drive: googledriveService,
-        org: examination.$extention.organizations[0].name.toUpperCase(),
+        org, //: examination.$extention.organizations[0].name.toUpperCase(),
         doctor: ids[1],
         patient: ids[2],
         examination
       }, rules)
-
+    let webViewLink = googledriveService.dirList(`Ready for Review/${org}/${examination.patientId}`)[0].webViewLink
+    examination.webViewLink = webViewLink
     return examination
 }
 
 
 const buildExternalAssets = ( examination, rules) => {
         
-    return  piper.execute( { 
-        	drive: googledriveService,
-        	spots,
-        	examination
-        } , rules
-    )
+    return  piper.execute({ 
+	        	drive: googledriveService,
+	        	spots,
+	        	examination
+        	}, 
+        		rules
+    		)
 
 }
 
@@ -438,7 +440,8 @@ module.exports = async options => {
 
 		getNewExaminations,
 		getExaminationsInState,
-		expandExaminations: expandExaminationsInMemory,
+		// expandExaminations: expandExaminationsInMemory,
+		expandExaminations: expandExaminations,
 		validateExamination,
 		buildExternalAssets,
 		resolveAsset,
