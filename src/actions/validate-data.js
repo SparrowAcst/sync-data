@@ -34,7 +34,8 @@ module.exports = async (org, patientPattern) => {
 
   const patientRegExp = RegExp(patientPattern)
 
-  const logger = require("../utils/logger")(path.resolve(`./.logs/validation-${org}-${moment(new Date()).format("YYYY-MM-DD-HH-mm-ss")}.log`))
+  const logger = require("../utils/logger")()
+    // path.resolve(`./.logs/validation-${org}-${moment(new Date()).format("YYYY-MM-DD-HH-mm-ss")}.log`))
   
   logger.info(`DATA VALIDATION for "${org}" STARTS`)
   

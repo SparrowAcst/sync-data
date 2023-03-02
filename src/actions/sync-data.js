@@ -6,15 +6,21 @@ const { loadYaml, pathExists } = require("../utils/file-system")
 
 module.exports = async logFile => {
   
-  logFile = logFile 
-            ||
-            path.resolve(`./.logs/sync-data-${moment(new Date()).format("YYYY-MM-DD-HH-mm-ss")}.log`)
+  // logFile = logFile 
+  //           ||
+  //           path.resolve(`./.logs/sync-data-${moment(new Date()).format("YYYY-MM-DD-HH-mm-ss")}.log`)
   
-  const logger = require("../utils/logger")(logFile, true)
+  
+  const logger = require("../utils/logger")()
+    // logFile, true)
   
   logger.info(`SYNC DATA STARTS`)
   
-  const controller = await require("../controller")()
+  const controller = await require("../controller")({
+    firebaseService:{
+      noprefetch: true
+    }  
+  })
   
   const mongodb = controller.mongodbService
   const fb = controller.firebaseService

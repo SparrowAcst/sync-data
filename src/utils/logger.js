@@ -6,21 +6,21 @@ const { join } = require('path')
 
 module.exports = (file, parent) => {
  
-  file = file || join(tmpdir(), `${process.pid}-log`)
+  // file = file || join(tmpdir(), `${process.pid}-log`)
 
-  console.log(`Log file: ${file}`)  
+  // console.log(`Log file: ${file}`)  
   
   const transport = pino.transport({
 
     targets: [
-      {
-        target: 'pino-pretty',
-        options: {
-          destination: file,
-          mkdir: true,
-          colorize: false
-        }
-      },
+      // {
+      //   target: 'pino-pretty',
+      //   options: {
+      //     destination: file,
+      //     mkdir: true,
+      //     colorize: false
+      //   }
+      // },
       {
         target: 'pino-pretty'
       }
