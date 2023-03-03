@@ -119,7 +119,7 @@ const delay = (ms, msg) => new Promise(resolve => {
 })
 
 const commitBatch = async (batch, msg) => {
-	await delay(5000, msg)
+	await delay(5, msg)
 	try {
 		await batch.commit()
 	} catch (e) {
@@ -278,6 +278,8 @@ const createTestExaminations = async (...examinations) => {
 
 const resolveAsset = async asset => {
 	
+// START DEBUG COMMENT
+	
 	let fStream = await googledriveService.geFiletWriteStream(asset.file)
 	let file = await firebaseService.execute.saveFileFromStream(
 			asset.links.path,
@@ -285,6 +287,9 @@ const resolveAsset = async asset => {
 			fStream)
 	asset.links.url = file
 	delete asset.file
+
+// END DEBUG COMMENT
+
 	return asset
 
 }
@@ -347,7 +352,7 @@ const buildLabelingRecords = (examination, rules) => {
 	    record,
 	    recordPoint,
 	    form,
-	    assets: a
+	    asset: a
 	  })
 	  
 	  let res = {}

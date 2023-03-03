@@ -1,6 +1,9 @@
 const action = require("../actions/sync-data")
 const run = async () => {
-    await action()
+  const organization = process.argv[2] || ""
+  const pattern = process.argv[3] || ""
+
+    await action(organization,pattern)
 }
 run()
 

@@ -4,7 +4,7 @@ const { find, sortBy, filter, extend, isUndefined, isNull } = require("lodash")
 const { loadYaml, pathExists } = require("../utils/file-system")
   
 
-module.exports = async logFile => {
+module.exports = async (syncOrg, syncPatientPattern) => {
   
   // logFile = logFile 
   //           ||
@@ -38,6 +38,8 @@ module.exports = async logFile => {
     pathExists(path.join(__dirname,`../../.config/data/${o}/assets-rules.yml`))
   )
 
+  orgs = (syncOrg) ? [syncOrg] : orgs
+
   for( let k=0; k < orgs.length; k++ ){
     
     let org = orgs[k]
@@ -59,6 +61,9 @@ module.exports = async logFile => {
       inReviewExams.filter( exam => find(examsIds, id => exam.patientId == id)),
       d => d.patientId
     )  
+
+    const patientRegExp = RegExp(syncPatientPattern || ".*")
+    syncExams = syncExams.filter( e => patientRegExp.test(e.patientId))
 
     logger.info(`\nStart validation stage for ${syncExams.length} examinations:\n${syncExams.map(exam => "\t"+exam.patientId).join("\n")}`)
 
@@ -193,11 +198,16 @@ module.exports = async logFile => {
       }
 
       await controller.commitBatch(batch, "add resolved assets")
+
+// START DEBUG COMMENT
+
       
       logger.info(`Backup "Ready for Review/${org}/${examination.patientId}/**/*".`)
 
       await gdrive.copy(`Ready for Review/${org}/${examination.patientId}/**/*`, backup.location, logger)
       
+// END DEBUG COMMENT
+
       logger.info(`${examination.patientId} data will be protected.`)
       
       let labelingRecords = controller.buildLabelingRecords(examination, labelsMetadata)

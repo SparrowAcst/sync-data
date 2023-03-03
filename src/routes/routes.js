@@ -3,24 +3,91 @@ const { fork } = require("child_process")
 const moment = require("moment")
 const hub = require("./hub")
 const uuid = require("uuid").v4
-
+const {find, keys} = require("lodash")
 
 const toHtml = (org, data, summary) => {
 
 	const colors = {
 		info:"#1565c0",
 		success:"#2e7d32",
-		error:"#c2185b",
-		warning:"#e64a19"
+		error:"#ef5350",
+		warning:"#ffb300"
 	}
 
 	
 	const summaryMapper = d => {
+
+		const colors = {
+			total: "#eeeeee",
+			rejected:"#ef5350",
+			accepted:"#2e7d32",
+			inReview:"#1565c0",
+			pending:"#ffb300"
+		}
+
+		d = Object.keys(colors).map( key => {
+			const f = d.filter( v => v.name == key)[0]
+			return {
+			  name: f.name,
+				value: f.value,
+				itemStyle:{
+					color: colors[key]
+				}
+			}
+		})
+
+		
+
 		return `
-			<div class="subtitle-1 mx-3 d-flex" >
-				<div class="flex xs1" style="line-height: 1.2;">${d.name}:</div> 
-				<strong>${d.value}</strong>
-			</div>
+
+			<div id="main" style="width: 600px;height:200px; padding:50px"></div>
+			<script type="text/javascript">
+			      // Initialize the echarts instance based on the prepared dom
+			      let myChart = echarts.init(document.getElementById('main'));
+
+			      // Specify the configuration items and data for the chart
+			      let option = {
+					  grid: {
+					  	top:0,
+   	 					bottom:0,
+					    containLabel: true
+					  },
+					  xAxis: {
+					    type: 'value',
+					    show:false
+					  },
+					  yAxis: {
+					    type: 'category',
+					    axisLabel:{
+					      show: true,
+					      fontSize: "18px",
+					      fontWeight: "bold"
+					    },
+					    axisLine:{
+					      show:false
+					    },
+					    axisTick:{
+					      show: false
+					    },
+					    data: ${JSON.stringify(d.map( v => v.name))}
+					  },
+					  series: [
+					    {
+					      type: 'bar',
+					      label:{
+					        show: true,
+					        position:'right',
+						      fontSize: "18px",
+						      fontWeight: "bold"
+					      },
+					      data: ${JSON.stringify(d)}
+					    }
+					  ]
+					}
+
+			      // Display the chart using the configuration items and data just specified.
+			      myChart.setOption(option);
+			   </script>
 		`
 	}
 
@@ -55,7 +122,7 @@ const toHtml = (org, data, summary) => {
 					<br/>
 					 ${(d.synchronizedAt) ? "Synchronized at <strong>"+ moment(d.synchronizedAt).format("YYYY-MM-DD HH:mm:ss")+"</strong>" : "<strong>Data is out of sync</strong>"}
 				</div>
-				<div style="color:${color}; border:1px solid;">
+				<div style=" border:1px solid ${color};">
 					<div class="subtitle-1" style="background:${color}; color: white; padding:0 20px;">
 						${d.reportComment || ""}
 					</div>
@@ -76,6 +143,7 @@ const toHtml = (org, data, summary) => {
 			  <meta name="description" content="">
 			  <meta name="viewport" content="width=device-width, initial-scale=1">
 			  <link rel="stylesheet" href="../../../../vuetify.min.css" />
+			  <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.4.1/echarts.min.js" integrity="sha512-OTbGFYPLe3jhy4bUwbB8nls0TFgz10kn0TLkmyA+l3FyivDs31zsXCjOis7YGDtE2Jsy0+fzW+3/OVoPVujPmQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 			</head>
 
 			<body>
@@ -90,7 +158,7 @@ const toHtml = (org, data, summary) => {
 								</div>
 								<div class="ml-3 mt-3">
 									<div class="headline">Summary</div>
-									${summary.map(d => summaryMapper(d)).join("\n")}
+									${summaryMapper(summary)}
 								</div>	
 								<div class="ml-3 mt-3">
 									<div class="headline">Details</div>
@@ -284,3 +352,6 @@ router.post("/examination/reject", async (req, res) => {
 
 
 module.exports = router;
+
+
+
