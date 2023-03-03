@@ -40,7 +40,7 @@ const toHtml = (org, data, summary) => {
 
 		return `
 
-			<div id="main" style="width: 600px;height:200px; padding:50px"></div>
+			<div id="main" style="width: 600px;height:200px;"></div>
 			<script type="text/javascript">
 			      // Initialize the echarts instance based on the prepared dom
 			      let myChart = echarts.init(document.getElementById('main'));
@@ -157,7 +157,7 @@ const toHtml = (org, data, summary) => {
 									<div class="mx-3 title-2 ">Organization: "${org}" Date: ${moment(new Date()).format("YYYY-MM-DD HH:mm:ss")}</div>
 								</div>
 								<div class="ml-3 mt-3">
-									<div class="headline">Summary</div>
+									<div class="headline mb-2">Summary</div>
 									${summaryMapper(summary)}
 								</div>	
 								<div class="ml-3 mt-3">
