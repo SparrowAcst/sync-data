@@ -9,13 +9,13 @@ const piper = require("./utils/piper")
 
 const { loadYaml } = require("./utils/file-system")
 const spots = loadYaml(path.join(__dirname, "../.config/data/point-order.yml"))
-
+const formFields = require("./utils/form-fields")
 
 let mongodbService 
 let firebaseService 
 let googledriveService
 
-const { extend, differenceBy, isUndefined, find, flattenDeep, first, uniqBy, keys } = require("lodash")
+const { extend, differenceBy, isUndefined, find, flattenDeep, first, uniqBy, keys, maxBy } = require("lodash")
 
 const getNewExaminations = async () => {
 	let mongoExams = await mongodbService.execute.aggregate("sparrow.examination")
@@ -304,7 +304,8 @@ const validateExamination = ( examination, rules, org ) => {
         org, //: examination.$extention.organizations[0].name.toUpperCase(),
         doctor: ids[1],
         patient: ids[2],
-        examination
+        examination,
+        formFields
       }, rules)
     let webViewLink = googledriveService.dirList(`Ready for Review/${org}/${examination.patientId}`)[0].webViewLink
     examination.webViewLink = webViewLink
@@ -335,7 +336,8 @@ const buildLabelingRecords = (examination, rules) => {
 	  let formRecords = examination.$extention.forms.map( f => {
 	    let res = extend({}, f)
 	    res.examinationId = examination.id
-	    res.data = res.data[first(keys(f.data))]
+	    let key = maxBy(keys(f.data))
+	    res.data = res.data[key]
 	    return res 
 	  })
 
