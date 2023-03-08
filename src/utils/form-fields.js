@@ -204,6 +204,10 @@ const rules = {
         "pulmonary_stenosis": required,
         // Present
         // ///////////////////////////////////////////////////////////////////////
+        "valve_prostheses": required,
+        "pericardial_effusion": required,
+        "pericardial_constriction": required,
+
         "maximum_diameter_inferior_vena_cava_cannot_visualize": (form, field) => condRequired(form, field, false, "maximum_diameter_inferior_vena_cava"),
         "minimum_diameter_of_inferior_vena_cava_on_inspiration_cannot_visualize": (form, field) => condRequired(form, field, false, "minimum_diameter_of_inferior_vena_cava_on_inspiration"),       
         "fluid_pleural_cavities": required,
@@ -221,12 +225,12 @@ const rules = {
         "conclusion": required,
 
     // "average",
-    // "valve_prostheses",
-    // "pericardial_effusion",
+    // 
+    // 
     // "ra_volume_index",
     // "e_m_s_cannot_visualize",
     // "regional_abnormalities_of_left_ventricular_contractility",
-    // "pericardial_constriction",
+    // 
     // "inferior_vena_cava_collapse_inspiration",
     // "ef",
     // "ef_cannot_visualize",
