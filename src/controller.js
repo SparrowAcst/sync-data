@@ -283,7 +283,9 @@ const resolveAsset = async (examination, asset) => {
 	let doc 
         if(isUndefined(asset.id) || isNull(asset.id)){
         	doc = firebaseService.db.collection(`examinations/${examination.id}/assets`).doc()
-        	asset.links.path = `${examination.userId}/recordings/eKuore_${doc.id}`
+        	asset.id = doc.id
+        	asset.links.path = `${examination.userId}/recordings/eKuore_${asset.id}`
+
         	console.log("CREATE asset", asset.links.path)
         } else {
           console.log("UPDATE asset", asset.links.path)
