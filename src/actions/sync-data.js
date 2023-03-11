@@ -10,11 +10,10 @@ module.exports = async (syncOrg, syncPatientPattern) => {
   //           ||
   //           path.resolve(`./.logs/sync-data-${moment(new Date()).format("YYYY-MM-DD-HH-mm-ss")}.log`)
   
-  let logFile = path.resolve(`./.logs/sync-data.log`)
+  const logFile = path.join(__dirname,`../../.logs/sync.log`)
   const logger = require("../utils/logger")(logFile)
-    // logFile, true)
   
-  logger.info(`Log file ${path.resolve(logFile)}`)
+  logger.info(`Log file ${logFile}`)
   logger.info(`SYNC DATA STARTS`)
   
   const controller = await require("../controller")({

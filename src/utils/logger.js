@@ -15,14 +15,13 @@ module.exports = (file, parent) => {
   if(file) {
     targets.push(
       {
-        target: 'pino-pretty',
-        options: {
+        target: 'pino/file',
+        options: { 
           destination: file,
           mkdir: true,
-          colorize: false
+          append: false 
         }
-      }
-    )
+      })  
   }
 
   targets.push({
@@ -32,8 +31,8 @@ module.exports = (file, parent) => {
   const transport = pino.transport({ targets })
   
   let logger = pino(transport)
-  if(parent){
 
+  if(parent){
     return {
       info: message => {
         logger.info(message)
