@@ -188,6 +188,7 @@ module.exports = async (syncOrg, syncPatientPattern) => {
           doc = fb.db.collection(`examinations/${examination.id}/assets`).doc(asset.id)
         } else {
           doc = fb.db.collection(`examinations/${examination.id}/assets`).doc()
+          console.log(doc)
         }
         
         delete asset.id
