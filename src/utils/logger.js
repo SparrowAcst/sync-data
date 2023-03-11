@@ -9,23 +9,27 @@ module.exports = (file, parent) => {
   // file = file || join(tmpdir(), `${process.pid}-log`)
 
   // console.log(`Log file: ${file}`)  
-  
-  const transport = pino.transport({
 
-    targets: [
-      // {
-      //   target: 'pino-pretty',
-      //   options: {
-      //     destination: file,
-      //     mkdir: true,
-      //     colorize: false
-      //   }
-      // },
+  let targets = []
+
+  if(file) {
+    targets.push(
       {
-        target: 'pino-pretty'
+        target: 'pino-pretty',
+        options: {
+          destination: file,
+          mkdir: true,
+          colorize: false
+        }
       }
-    ]
+    )
+  }
+
+  targets.push({
+    target: 'pino-pretty'
   })
+  
+  const transport = pino.transport({ targets })
   
   let logger = pino(transport)
   if(parent){
@@ -42,6 +46,5 @@ module.exports = (file, parent) => {
     return logger  
   
   } 
-  
 
 }

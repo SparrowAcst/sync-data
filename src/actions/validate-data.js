@@ -33,13 +33,15 @@ module.exports = async (org, patientPattern) => {
   if(!pathExists(path.join(__dirname,`../../.config/data/${org}/validate-rules.yml`))) return []
 
   const patientRegExp = RegExp(patientPattern)
-
-  const logger = require("../utils/logger")()
-    // path.resolve(`./.logs/validation-${org}-${moment(new Date()).format("YYYY-MM-DD-HH-mm-ss")}.log`))
+  const logFile = `./.logs/validation-${org}.log`
+  const logger = require("../utils/logger")(logFile)
   
+  logger.info(`Log file ${path.resolve(logFile)}`)
   logger.info(`DATA VALIDATION for "${org}" STARTS`)
+
   
   const controller = await require("../controller")({
+    logger,
     firebaseService:{
       noprefetch: true
     }  
@@ -136,6 +138,9 @@ module.exports = async (org, patientPattern) => {
   })
 
   controller.close() 
+  logger.info("Data validation finalized")
+  logger.info("")
+  
   return result
 }
 

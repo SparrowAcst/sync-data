@@ -17,6 +17,11 @@ let googledriveService
 
 const { extend, differenceBy, isUndefined, isNull, find, flattenDeep, first, uniqBy, keys, maxBy } = require("lodash")
 
+
+let logger
+
+
+
 const getNewExaminations = async () => {
 	let mongoExams = await mongodbService.execute.aggregate("sparrow.examination")
   	let fbExams = await firebaseService.execute.getCollectionItems("examinations")
@@ -104,7 +109,8 @@ const expandExaminations = async (...examinations) => {
 			examination.$extention.assets = ( await docRef.collection('assets').get() ).docs.map(docMapper)
 		
 		} catch (e) {
-			console.log("ERROR", e.toString())
+			logger.info("ERROR")
+			logger.info(e.toString())
 		}
 	}
 
@@ -114,7 +120,7 @@ const expandExaminations = async (...examinations) => {
 
 
 const delay = (ms, msg) => new Promise(resolve => {
-	console.log(`Wait ${ms} for ${msg} settings`)
+	logger.info(`Wait ${ms} for ${msg} settings`)
 	setTimeout(() => resolve(), ms)
 })
 
@@ -123,7 +129,7 @@ const commitBatch = async (batch, msg) => {
 	try {
 		await batch.commit()
 	} catch (e) {
-		console.log("retry")
+		logger.info("retry")
 		commitBatch(batch, msg)
 	}
 } 
@@ -286,9 +292,9 @@ const resolveAsset = async (examination, asset) => {
         	asset.id = doc.id
         	asset.links.path = `${examination.userId}/recordings/eKuore_${asset.id}`
 
-        	console.log("CREATE asset", asset.links.path)
+        	logger.info(`CREATE asset ${asset.links.path}`)
         } else {
-          console.log("UPDATE asset", asset.links.path)
+          logger.info(`UPDATE asset ${asset.links.path}`)
         }
 
 
@@ -373,12 +379,12 @@ const buildLabelingRecords = (examination, rules) => {
 	  let res = {}
 	  
 	  rules = rules.filter(l => l.import)
-	  rules.forEach( l => {
+	  rules.forEach( (l, li) => {
 	    try {
-	      res[l.name] = eval(l.import)(examination)
+	      res[l.name] = eval(l.import)(examination, li)
 	    } catch(e) {
-	      console.log(l.import)
-	      console.log(e.toString())
+	      logger.info(l.import)
+	      logger.info(e.toString())
 	    }  
 	  
 	  })        
@@ -420,7 +426,8 @@ const mc = require("./utils/in-memory-collections")()
 module.exports = async options => {
 
 	options = normalizeOptions(options)	
-	
+	logger = options.logger || console
+
 	if(options.mongodbService && !mongodbService) mongodbService = await initMongoService()
 	if(options.firebaseService && !firebaseService) firebaseService = await initFirebaseService() 
 	if(options.googledriveService && !googledriveService) googledriveService = await initGoogledriveService()

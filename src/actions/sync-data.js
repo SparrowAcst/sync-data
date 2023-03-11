@@ -10,8 +10,8 @@ module.exports = async (syncOrg, syncPatientPattern) => {
   //           ||
   //           path.resolve(`./.logs/sync-data-${moment(new Date()).format("YYYY-MM-DD-HH-mm-ss")}.log`)
   
-  
-  const logger = require("../utils/logger")()
+  let logFile = path.resolve(`./.logs/sync-data.log`)
+  const logger = require("../utils/logger")(logFile)
     // logFile, true)
   
   logger.info(`SYNC DATA STARTS`)
@@ -123,7 +123,7 @@ module.exports = async (syncOrg, syncPatientPattern) => {
         let doc = fb.db.collection("examinations").doc(inserted.id)
         batch.update(doc, { state: inserted.state })
       } catch (e) {
-        console.log(e.toString())
+        logger.info(e.toString())
       }
 
     }
@@ -131,7 +131,7 @@ module.exports = async (syncOrg, syncPatientPattern) => {
     try {
       await controller.commitBatch(batch, "update examination state")
     } catch (e) {
-        console.log(e.toString())
+        logger.info(e.toString())
     }
       
     let readyForAccept = syncExams.filter(exam => exam._validation === true)
@@ -167,7 +167,7 @@ module.exports = async (syncOrg, syncPatientPattern) => {
         let doc = fb.db.collection("examinations").doc(examination.id)
         batch.update(doc, { state: "inReview" })
       } catch (e) {
-        console.log(e.toString())
+        logger.info(e.toString())
       }
 
       
@@ -183,15 +183,7 @@ module.exports = async (syncOrg, syncPatientPattern) => {
         asset = await controller.resolveAsset(examination, asset)
         logger.info(`Move data into "${asset.links.path}"`)
     
-        let doc 
-        // if(!isUndefined(asset.id) && !isNull(asset.id)){
-          doc = fb.db.collection(`examinations/${examination.id}/assets`).doc(asset.id)
-        //   console.log("UPDATE asset", asset.links.path)
-        // } else {
-        //   doc = fb.db.collection(`examinations/${examination.id}/assets`).doc()
-        //   asset.links.path = `${examination.userId}/recordings/eKuore_${doc.id}`
-        //   console.log("CREATE asset", asset.links.path)
-        // }
+        let doc = fb.db.collection(`examinations/${examination.id}/assets`).doc(asset.id)
         
         delete asset.id
       
@@ -234,7 +226,7 @@ module.exports = async (syncOrg, syncPatientPattern) => {
       let formOps = labelingRecords.formRecords.map( l => ({
         replaceOne :
           {
-             "filter" : {id: l.id},
+             "filter" : {path: l.path},
              "replacement" : l,
              "upsert" : true
           }
@@ -251,6 +243,8 @@ module.exports = async (syncOrg, syncPatientPattern) => {
 }
 
   logger.info("Data synchronization finalized")
+  logger.info("")
+
 
   controller.close() 
 }
