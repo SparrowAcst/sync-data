@@ -298,7 +298,7 @@ const resolveAsset = async (examination, asset) => {
 			asset.links.path,
 			asset.file,
 			fStream)
-	asset.links.url = file
+	asset.links.url = file[0]
 	delete asset.file
 
 // END DEBUG COMMENT
