@@ -18,6 +18,7 @@ module.exports = async (syncOrg, syncPatientPattern) => {
   logger.info(`SYNC DATA STARTS`)
   
   const controller = await require("../controller")({
+    logger,
     firebaseService:{
       noprefetch: true
     }  
