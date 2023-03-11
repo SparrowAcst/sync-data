@@ -7,6 +7,7 @@
     "validate": "node ./src/scripts/validate-data",
     "sync": "node ./src/scripts/sync-data",
     "child-validate": "node ./src/childs/test-validate",
+    "test-cron": "node test-cron",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
