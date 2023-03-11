@@ -282,7 +282,7 @@ const resolveAsset = async (examination, asset) => {
 
 	let doc 
         if(isUndefined(asset.id) || isNull(asset.id)){
-        	doc = fb.db.collection(`examinations/${examination.id}/assets`).doc()
+        	doc = firebaseService.db.collection(`examinations/${examination.id}/assets`).doc()
         	asset.links.path = `${examination.userId}/recordings/eKuore_${doc.id}`
         	console.log("CREATE asset", asset.links.path)
         } else {
