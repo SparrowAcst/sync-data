@@ -15,7 +15,7 @@ let mongodbService
 let firebaseService 
 let googledriveService
 
-const { extend, differenceBy, isUndefined, find, flattenDeep, first, uniqBy, keys, maxBy } = require("lodash")
+const { extend, differenceBy, isUndefined, isNull, find, flattenDeep, first, uniqBy, keys, maxBy } = require("lodash")
 
 const getNewExaminations = async () => {
 	let mongoExams = await mongodbService.execute.aggregate("sparrow.examination")
