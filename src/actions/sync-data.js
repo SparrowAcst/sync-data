@@ -181,7 +181,7 @@ module.exports = async (syncOrg, syncPatientPattern) => {
         
         
         asset = await controller.resolveAsset(examination, asset)
-        logger.info(`Move "${asset.file.path}"" into "${asset.links.path}"`)
+        logger.info(`Move data into "${asset.links.path}"`)
     
         let doc 
         // if(!isUndefined(asset.id) && !isNull(asset.id)){
