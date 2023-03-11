@@ -276,9 +276,20 @@ const createTestExaminations = async (...examinations) => {
 ////////////////////////////////////////////////////////////////////////////////////
 
 
-const resolveAsset = async asset => {
+const resolveAsset = async (examination, asset) => {
 	
 // START DEBUG COMMENT
+
+	let doc 
+        if(isUndefined(asset.id) || isNull(asset.id)){
+        	doc = fb.db.collection(`examinations/${examination.id}/assets`).doc()
+        	asset.links.path = `${examination.userId}/recordings/eKuore_${doc.id}`
+        	console.log("CREATE asset", asset.links.path)
+        } else {
+          console.log("UPDATE asset", asset.links.path)
+        }
+
+
 	
 	let fStream = await googledriveService.geFiletWriteStream(asset.file)
 	let file = await firebaseService.execute.saveFileFromStream(

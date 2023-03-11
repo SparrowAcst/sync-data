@@ -179,19 +179,19 @@ module.exports = async (syncOrg, syncPatientPattern) => {
         
         let asset = externalAssets[j]
         
+        
+        asset = await controller.resolveAsset(examination, asset)
         logger.info(`Move "${asset.file.path}"" into "${asset.links.path}"`)
     
-        asset = await controller.resolveAsset(asset)
-        
         let doc 
-        if(!isUndefined(asset.id) && !isNull(asset.id)){
+        // if(!isUndefined(asset.id) && !isNull(asset.id)){
           doc = fb.db.collection(`examinations/${examination.id}/assets`).doc(asset.id)
-          console.log("UPDATE asset", asset.links.path)
-        } else {
-          doc = fb.db.collection(`examinations/${examination.id}/assets`).doc()
-          asset.links.path = `${examination.userId}/recordings/eKuore_${doc.id}`
-          console.log("CREATE asset", asset.links.path)
-        }
+        //   console.log("UPDATE asset", asset.links.path)
+        // } else {
+        //   doc = fb.db.collection(`examinations/${examination.id}/assets`).doc()
+        //   asset.links.path = `${examination.userId}/recordings/eKuore_${doc.id}`
+        //   console.log("CREATE asset", asset.links.path)
+        // }
         
         delete asset.id
       
