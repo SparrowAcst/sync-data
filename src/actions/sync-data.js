@@ -14,6 +14,7 @@ module.exports = async (syncOrg, syncPatientPattern) => {
   const logger = require("../utils/logger")(logFile)
     // logFile, true)
   
+  logger.info(`Log file ${path.resolve(logFile)}`)
   logger.info(`SYNC DATA STARTS`)
   
   const controller = await require("../controller")({
@@ -210,7 +211,7 @@ module.exports = async (syncOrg, syncPatientPattern) => {
       let labelOps = labelingRecords.labelRecords.map( l => ({
         replaceOne :
           {
-             "filter" : {id: l.id},
+             "filter" : {path: l.path},
              "replacement" : l,
              "upsert" : true
           }
@@ -223,10 +224,11 @@ module.exports = async (syncOrg, syncPatientPattern) => {
         labelOps
       )
 
+      
       let formOps = labelingRecords.formRecords.map( l => ({
         replaceOne :
           {
-             "filter" : {path: l.path},
+             "filter" : {id: l.id},
              "replacement" : l,
              "upsert" : true
           }
