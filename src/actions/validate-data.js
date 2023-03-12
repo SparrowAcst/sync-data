@@ -33,7 +33,10 @@ module.exports = async (org, patientPattern) => {
   if(!pathExists(path.join(__dirname,`../../.config/data/${org}/validate-rules.yml`))) return []
 
   const patientRegExp = RegExp(patientPattern)
-  const logFile = path.join(__dirname,`../../.logs/validation-${org}.log`)
+ 
+  const logConfig = loadYaml(path.join(__dirname,`../../.config/log/log.conf.yml`))
+  const logFile = path.join(__dirname,`${logConfig.validate.log.path}/${org}/validate.log`)
+  
   const logger = require("../utils/logger")(logFile)
   
   logger.info(`Log file ${logFile}`)

@@ -6,6 +6,7 @@ const YAML = require("js-yaml")
 const { extend } = require("lodash")
 
 const writeFile = fs.writeFileSync
+const readFile = fs.readFileSync
 
 const getFileList = async ( pattern, options ) => await glob(pattern, options) 
 
@@ -60,6 +61,7 @@ module.exports = {
     writeFile,
     loadJSON,
     loadYaml,
-    pathExists: fse.pathExistsSync	
+    pathExists: fse.pathExistsSync,
+    readFile	
 }
 

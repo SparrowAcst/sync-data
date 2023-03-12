@@ -6,11 +6,9 @@ const { loadYaml, pathExists } = require("../utils/file-system")
 
 module.exports = async (syncOrg, syncPatientPattern) => {
   
-  // logFile = logFile 
-  //           ||
-  //           path.resolve(`./.logs/sync-data-${moment(new Date()).format("YYYY-MM-DD-HH-mm-ss")}.log`)
+  const logConfig = loadYaml(path.join(__dirname,`../../.config/log/log.conf.yml`))
+  const logFile = path.join(__dirname,`${logConfig.sync.log.path}`)
   
-  const logFile = path.join(__dirname,`../../.logs/sync.log`)
   const logger = require("../utils/logger")(logFile)
   
   logger.info(`Log file ${logFile}`)
