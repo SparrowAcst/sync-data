@@ -4,7 +4,7 @@
 const { google } = require("googleapis")
 const path = require("path")
 const fs = require("fs")
-const { find, isUndefined, extend, last } = require("lodash")
+const { find, isUndefined, extend, last, uniqBy, maxBy } = require("lodash")
 const nanomatch = require('nanomatch')
 
 const key = require(path.join(__dirname,"../../.config/key/gd/gd.key.json"))
@@ -31,7 +31,16 @@ const getPath = (files, node) => {
 	return res.join("/")	
 }
 
-const getList = files => files.map( f => extend(f, { path: getPath(files,f) }))
+const getList = files => {
+	const raws = files.map( f => extend(f, { path: getPath(files,f) }))
+	const pathes = uniqBy(raws, "path").map( d => d.path)
+	let res = []
+	pathes.forEach( p => {
+		res.push( maxBy(raws.filter(r => r.path == p), "modifiedTime"))
+	})
+	return res
+
+}	
 
 async function getDirList() {
   try {
@@ -41,7 +50,7 @@ async function getDirList() {
   		const part = await drive.files.list({
 	      pageSize: 250,
 	      pageToken: nextPageToken || "",	
-	      fields: "files(id, webViewLink, name, mimeType, md5Checksum, createdTime, modifiedTime, parents, size ), nextPageToken",
+	      fields: "files(id, webViewLink, name, mimeType, md5Checksum, createdTime, modifiedTime, parents, size, trashed, version ), nextPageToken",
 	      spaces: 'drive',
 	    });	
 	    res = res.concat(part.data.files)
@@ -90,7 +99,9 @@ const Drive = class {
 		for(let i = 0; i < filelist.length; i++){
 			for( let j = i+1; j < filelist.length; j++){
 				if( filelist[i].md5Checksum === filelist[j].md5Checksum) {
-					res.push([filelist[i], filelist[j]])
+					if(filelist[i].name != filelist[j].name){
+						res.push([filelist[i], filelist[j]])
+					}
 				}
 			}
 		}
@@ -286,6 +297,7 @@ const Drive = class {
 
 module.exports = async () => {
 	let filelist = await getDirList()
+	// console.log(JSON.stringify(filelist, null, " "))
 	return new Drive(filelist)
 }
 
