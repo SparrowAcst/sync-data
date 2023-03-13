@@ -116,7 +116,7 @@ const rules = {
         "present_respiratory_diseases": optional, //manyOf
         "clinical_diagnosis": required,
         "changes_recording":notEmpty, //manyOf
-        "comment_recording": required
+        "comment_recording": optional
    },
    
 
