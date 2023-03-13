@@ -182,7 +182,7 @@ const rules = {
         "maximum_volume_right_atrium_cannot_visualize": (form, field) => condRequired(form, field, false, "maximum_volume_right_atrium"),
         "mitral_ring": required,
         "mitral_valve_prolapse": required,
-        "mitral_regurgitation": required,
+        "mitral_regurgitation": optional,
         "mitral_stenosis": required,
         "aortic_valve": required,
         ///////////////////////////////////////////////////////////////////////////
