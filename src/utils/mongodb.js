@@ -69,6 +69,16 @@ const updateOne = async (collectionName, filter, data) => {
     await collection.updateOne(filter, { $set:data }, { upsert: true })
 }
 
+const listCollections = async dbSchema => {
+		
+	let conf = normalize(dbSchema)
+	const res =  await client
+					.db(conf.dbName)
+    				.listCollections()
+    				.toArray()
+	return res
+	
+}
 
 
 
@@ -91,7 +101,8 @@ module.exports =  async () => {
 			insertAll,
 			replaceOne,
 			updateOne,
-			bulkWrite	
+			bulkWrite,
+			listCollections	
 		}
 		
 	}

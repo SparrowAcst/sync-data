@@ -4,6 +4,7 @@ const fse = require("fs-extra")
 const path = require("path")
 const YAML = require("js-yaml")
 const { extend } = require("lodash")
+const runZip = require('zip-folder')
 
 const writeFile = fs.writeFileSync
 const readFile = fs.readFileSync
@@ -47,21 +48,37 @@ const getDirList = async (pattern, options) => {
 
 const makeDir = async dir => await fse.mkdirs(path.resolve(dir))
 
+const rmDir = require('lignator').remove
+
 const loadConfig = filename => YAML.load(fs.readFileSync(path.resolve(process.argv[2])).toString().replace(/\t/gm, " "))
 
 const loadJSON = filename => JSON.parse(fs.readFileSync(path.resolve(filename)).toString())
 
 const loadYaml = filename => YAML.load(fs.readFileSync(path.resolve(filename)).toString().replace(/\t/gm, " "))
 
+const zip = async (source, dest) => {
+    return new Promise( (resolve, reject) => {
+        runZip(source, dest, err => {
+            if(err) {
+                reject(err)
+            } else {
+                resolve()
+            }
+        })
+    })
+}
+
 module.exports = {
 	getFileList,
 	getDirList,
 	makeDir,
+    rmDir,
 	loadConfig,
     writeFile,
     loadJSON,
     loadYaml,
     pathExists: fse.pathExistsSync,
-    readFile	
+    readFile,
+    zip 	
 }
 

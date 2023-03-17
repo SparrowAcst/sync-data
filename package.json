@@ -6,6 +6,7 @@
   "scripts": {
     "validate": "node ./src/scripts/validate-data",
     "sync": "node ./src/scripts/sync-data",
+    "backup": "node ./src/scripts/backup",
     "child-validate": "node ./src/childs/test-validate",
     "test-cron": "node test-cron",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -23,13 +24,16 @@
     "google-drive-getfilelist": "^1.0.5",
     "googleapis": "^110.0.0",
     "js-yaml": "^4.1.0",
+    "lignator": "^1.0.2",
     "lodash": "^4.17.21",
     "moment": "^2.29.4",
     "mongodb": "^4.13.0",
     "nanomatch": "^1.2.13",
+    "node-mime-types": "^1.1.0",
     "ora": "^6.1.2",
     "pino": "^8.8.0",
     "pino-pretty": "^9.1.1",
-    "uuid": "^9.0.0"
+    "uuid": "^9.0.0",
+    "zip-folder": "^1.0.0"
   }
 }

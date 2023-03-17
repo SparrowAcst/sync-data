@@ -3,9 +3,11 @@
 
 const { google } = require("googleapis")
 const path = require("path")
+const { getMIMEType } = require('node-mime-types')
 const fs = require("fs")
 const { find, isUndefined, extend, last, uniqBy, maxBy } = require("lodash")
 const nanomatch = require('nanomatch')
+
 
 const key = require(path.join(__dirname,"../../.config/key/gd/gd.key.json"))
 
@@ -184,7 +186,7 @@ const Drive = class {
 		
 		let rootes = rootFolder.split("/")
 		rootes = rootes.map((part, index) => rootes.slice(0,index+1))
-		let partitions = path.split("/")
+		let partitions = (path) ? path.split("/") : []
 		partitions = partitions.map((part, index) => rootFolder.split("/").concat(partitions.slice(0,index+1)))
 		partitions = rootes.concat(partitions)
 		
@@ -220,6 +222,70 @@ const Drive = class {
 			}
 		}
 		return current
+	}
+
+
+	async uploadFile(sourcePath, targetPath){
+		
+		let size = 0
+		let oldSize = 0
+		
+
+		let destFolder = await this.createFolderbyPath(targetPath, '')
+		
+		const resource = {
+		    name: path.basename(sourcePath),
+		    // parents: [destFolder.id]
+		}
+
+		const body = fs.createReadStream(sourcePath)
+		
+		body.on("data", chunk => {
+			size += chunk.length / 1024 / 1024 
+			if( (size - oldSize) > 0.2 ){
+				process.stdout.write(`Received: ${size.toFixed(1)} Mb ${'\x1b[0G'}`)
+				// console.log(`\rReceived ${size} bytes`)
+				oldSize = size	
+			}
+		})		
+
+		const media = {
+		  	mimeType: getMIMEType(path.basename(sourcePath)),
+			body 
+		}
+
+		let cloned
+		
+		const existed = this.list(`${destFolder.path}/${path.basename(sourcePath)}`)[0]
+		if(existed){
+			// console.log("UPDATE", `${destFolder.path}/${path.basename(source.path)}`, destFolder)
+			cloned =  await drive.files.update({
+				fileId: existed.id,
+				resource,
+				media,
+				fields: "id",
+			})
+
+		} else {
+			// console.log("CREATE", `${destFolder.path}/${path.basename(source.path)}`, destFolder)
+			resource.parents = [destFolder.id]
+			cloned =  await drive.files.create({
+				  resource,
+				  media,
+				  fields: "id",
+			})
+
+		}		
+		
+		cloned  = await drive.files.get({ 
+			fileId: cloned.data.id, 
+			fields: 'id, name, mimeType, md5Checksum, createdTime, modifiedTime, parents, size' 
+		})
+
+		cloned = cloned.data
+		cloned.path = getPath(this.$filelist, cloned)
+		this.$filelist.push(cloned)
+
 	}
 
 	async copyFile(source, targetPath){
@@ -295,10 +361,19 @@ const Drive = class {
 
 }
 
-module.exports = async () => {
-	let filelist = await getDirList()
-	// console.log(JSON.stringify(filelist, null, " "))
-	return new Drive(filelist)
+module.exports = async options => {
+	
+	options = options || {
+		noprefetch: false
+	}
+
+	if(options.noprefetch == true){
+		return new Drive([])
+	} else {
+		let filelist = await getDirList()
+		return new Drive(filelist)
+	}	
+
 }
 
 

@@ -430,7 +430,7 @@ module.exports = async options => {
 
 	if(options.mongodbService && !mongodbService) mongodbService = await initMongoService()
 	if(options.firebaseService && !firebaseService) firebaseService = await initFirebaseService() 
-	if(options.googledriveService && !googledriveService) googledriveService = await initGoogledriveService()
+	if(options.googledriveService && !googledriveService) googledriveService = await initGoogledriveService(options.googledriveService)
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
