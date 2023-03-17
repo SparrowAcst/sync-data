@@ -34,6 +34,15 @@ const aggregate = async (collectionName, pipeline) => {
     return res
 }
 
+const getAggregateCursor =  (collectionName, pipeline) => {
+	let conf = normalize(collectionName)
+	let db = client.db(conf.dbName)
+    let collection = db.collection(conf.collectionName)
+    pipeline = pipeline || []
+    let res = collection.aggregate(pipeline.concat([{$project:{_id:0}}]))
+    return res
+}
+
 const removeAll = async (collectionName) => {
 	let conf = normalize(collectionName)
 	let db = client.db(conf.dbName)
@@ -102,7 +111,8 @@ module.exports =  async () => {
 			replaceOne,
 			updateOne,
 			bulkWrite,
-			listCollections	
+			listCollections,
+			getAggregateCursor	
 		}
 		
 	}

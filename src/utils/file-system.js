@@ -68,6 +68,10 @@ const zip = async (source, dest) => {
     })
 }
 
+const createWriteStream = filePath => fs.createWriteStream(filePath)
+
+
+
 module.exports = {
 	getFileList,
 	getDirList,
@@ -79,6 +83,7 @@ module.exports = {
     loadYaml,
     pathExists: fse.pathExistsSync,
     readFile,
-    zip 	
+    zip,
+    createWriteStream 	
 }
 

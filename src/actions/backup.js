@@ -1,8 +1,8 @@
 const moment = require("moment")
 const path = require("path")
 const { find, sortBy, filter, extend, isUndefined, isNull } = require("lodash")
-const { loadYaml, pathExists, makeDir, rmDir, zip, writeFile } = require("../utils/file-system")
-  
+const { loadYaml, pathExists, makeDir, rmDir, zip, createWriteStream } = require("../utils/file-system")
+// const { JsonStreamStringify } = require('json-stream-stringify')  
 
 module.exports = async (syncOrg, syncPatientPattern) => {
   
@@ -46,14 +46,37 @@ module.exports = async (syncOrg, syncPatientPattern) => {
   let collections = await mongodb.execute.listCollections("sparrow")
   collections = collections.map( c => c.name )
 
+  collections = [
+    "organization2",                                                                                                              
+    "harvest1-metadata"
+  ]
+
   logger.info(`Database: "sparrow" \nCollections:\n\t${collections.join("\n\t")}`)
 
   for( let index = 0; index < collections.length; index++){
     const collectionName = `sparrow.${collections[index]}`
-    const data = await mongodb.execute.aggregate(collectionName, [])
     const filePath = path.join(TEMP_DIR_PATH,`./${collectionName}.json`)
-    logger.info(`Collection "${collectionName}":  export ${data.length} items into ${filePath}`)
-    writeFile(filePath, JSON.stringify(data))
+    logger.info(`Collection "${collectionName}":`)
+    
+    const source = mongodb.execute.getAggregateCursor(collectionName, [])
+    const target = createWriteStream(filePath)
+
+    let counter = 0
+    target.write("[\n")
+    
+    for await (const doc of source) {
+      counter++
+      process.stdout.write(`Export: ${counter} items into ${filePath}${'\x1b[0G'}`)
+      target.write(JSON.stringify(doc, null, " "))
+      target.write(",")  
+    }
+
+    target.write("\n]")
+    
+    await source.close()
+    target.end()
+    logger.info(`${counter} items exported into ${filePath}`)
+
   }
 
   const ZIP_FILE_PATH = path.join(ZIP_DIR_PATH,`mongodb-backup-${moment(new Date).format("YYYY-MM-DD-HH-mm-ss")}.zip`)
