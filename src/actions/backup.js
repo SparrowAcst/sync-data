@@ -46,10 +46,10 @@ module.exports = async (syncOrg, syncPatientPattern) => {
   let collections = await mongodb.execute.listCollections("sparrow")
   collections = collections.map( c => c.name )
 
-  collections = [
-    "organization2",                                                                                                              
-    "harvest1-metadata"
-  ]
+  // collections = [
+  //   "organization2",                                                                                                              
+  //   "harvest1-metadata"
+  // ]
 
   logger.info(`Database: "sparrow" \nCollections:\n\t${collections.join("\n\t")}`)
 
