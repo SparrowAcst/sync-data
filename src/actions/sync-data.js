@@ -53,6 +53,12 @@ module.exports = async (syncOrg, syncPatientPattern) => {
        "examinations",
        [["state", "==", "pending"]]
     )
+    
+    // let inReviewExams = await fb.execute.getCollectionItems(
+    //    "examinations",
+    //    [["patientId", "==", "YAL0001"]]
+    // )
+    
 
     examsIds = examsIds.filter( id => find(inReviewExams, exam => exam.patientId == id))   
 
@@ -134,7 +140,9 @@ module.exports = async (syncOrg, syncPatientPattern) => {
     }
       
     let readyForAccept = syncExams.filter(exam => exam._validation === true)
+    // let readyForAccept = inReviewExams
     
+
     logger.info(`Start Import Stage for ${readyForAccept.length} examinations:\n${readyForAccept.map(exam => "\t"+exam.patientId).join("\n")}`)
 
   //////////////////////////////           Import Stage          //////////////////////////////////////////////////////////
@@ -178,7 +186,6 @@ module.exports = async (syncOrg, syncPatientPattern) => {
         
         let asset = externalAssets[j]
         
-        
         asset = await controller.resolveAsset(examination, asset)
         logger.info(`Move data into "${asset.links.path}"`)
     
@@ -193,14 +200,14 @@ module.exports = async (syncOrg, syncPatientPattern) => {
 
       await controller.commitBatch(batch, "add resolved assets")
 
-// START DEBUG COMMENT
+// // START DEBUG COMMENT
 
       
       logger.info(`Backup "Ready for Review/${org}/${examination.patientId}/**/*".`)
 
       await gdrive.copy(`Ready for Review/${org}/${examination.patientId}/**/*`, backup.location, logger)
       
-// END DEBUG COMMENT
+// // END DEBUG COMMENT
 
       logger.info(`${examination.patientId} data will be protected.`)
       
@@ -214,6 +221,8 @@ module.exports = async (syncOrg, syncPatientPattern) => {
              "upsert" : true
           }
       }))
+
+      // console.log(labelOps.length)
       
       logger.info(`Insert into labeling: ${mongodb.config.db.labelingCollection} ${labelOps.length} items`)
       

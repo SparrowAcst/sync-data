@@ -348,8 +348,8 @@ const buildExternalAssets = ( examination, rules) => {
 const buildLabelingRecords = (examination, rules) => {
 
 	let rows = examination.$extention.assets.map( a => {
-	  
 	  let record = find( examination.$extention.records, r => r.id == a.parentId)
+	  if(!record) return null
 	  let recordPoint = find( examination.$extention.recordPoints, r => r.id == record.parentId)
 
 	  let formRecords = examination.$extention.forms.map( f => {
@@ -397,8 +397,8 @@ const buildLabelingRecords = (examination, rules) => {
 	})
 
 	return {
-	  labelRecords: flattenDeep(rows.map( r => r.labelRecords)),
-	  formRecords: uniqBy(flattenDeep(rows.map( r => r.formRecords)), f => f.id)
+	  labelRecords: flattenDeep(rows.filter(r =>r).map( r => r.labelRecords)),
+	  formRecords: uniqBy(flattenDeep(rows.filter(r =>r).map( r => r.formRecords)), f => f.id)
 	}
 
 }
