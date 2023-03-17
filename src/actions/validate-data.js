@@ -107,9 +107,15 @@ module.exports = async (org, patientPattern) => {
     ]  
   )
 
+  const orgMapper = {
+    "Potashev": "POTASHEV",
+    "Denis": "Denis",
+    "Cardio Institute": "STRAZHESKO"
+  }
+
   result = result
     .map( d => {
-      d.organization = d.organization.name.toUpperCase()
+      d.organization = orgMapper[d.organization.name] //d.organization.name.toUpperCase()
       return d
     })
     .filter( d => d.organization == org)
