@@ -97,7 +97,7 @@ const rules = {
         "successful_cardiac_resuscitation_or_sustained_ventricular_tachycardia_in_the_past": required,
         "acute_coronary_syndrome_at_the_time_of_examination": (form, field) => condRequired(form, field, "Yes", ["acute_coronary_syndrome_at_the_time_of_examination_type", "killip_classification"]),
         "right_ventricular_infarction": required,
-        "past_history_of_acute_coronary_syndrome": (form, field) => condRequired(form, field, "Yes", "past_history_of_acute_coronary_syndrome_type"),
+        "past_history_of_acute_coronary_syndrome": required, //(form, field) => condRequired(form, field, "Yes", "past_history_of_acute_coronary_syndrome_type"),
         "carotid_stenosis": (form, field) => condRequired(form, field, "Present", "carotid_stenosis_type"), 
         "arterio_venous_fistula": required,
         "coronary_angiography_results": required,
