@@ -351,7 +351,7 @@ const Drive = class {
 				? true
 				: {
 					source,
-					target
+					target: cloned
 				  }
 
 		cloned.path = getPath(this.$filelist, cloned)
