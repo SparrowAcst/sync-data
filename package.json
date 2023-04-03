@@ -7,6 +7,8 @@
     "validate": "node ./src/scripts/validate-data",
     "sync": "node ./src/scripts/sync-data",
     "backup": "node ./src/scripts/backup",
+    "recovery": "node ./src/scripts/recovery-gd",
+    
     "child-validate": "node ./src/childs/test-validate",
     "test-cron": "node test-cron",
     "test": "echo \"Error: no test specified\" && exit 1"

@@ -197,11 +197,12 @@ const Drive = class {
 			let part = partitions[i]
 			
 			current = this.list(part.join("/"))[0]
+			// console.log("current", current)
 
 			if(!current){
 				
 				let parent = this.list(part.slice(0,-1).join("/"))[0]
-		
+				// console.log("parent", parent)
 				current = await drive.files.create({
 				  resource: {
 				    name: last(part),
@@ -345,18 +346,31 @@ const Drive = class {
 		})
 
 		cloned = cloned.data
+		
+		let result = (cloned.size == source.size && cloned.md5Checksum == source.md5Checksum)
+				? true
+				: {
+					source,
+					target
+				  }
+
 		cloned.path = getPath(this.$filelist, cloned)
 		this.$filelist.push(cloned)
+		
+		return result
 	}
 
 	async copy(sourcePath, targetPath, logger){
 		logger = logger || console
 		let cloned = this.fileList(sourcePath)
 		logger.info(`${cloned.length} items:`)
+		let result = []
 		for(let i=0; i < cloned.length; i++){
 			logger.info(`Backup ${cloned[i].path}`)
-			await this.copyFile(cloned[i], targetPath)
+			let r = await this.copyFile(cloned[i], targetPath)
+			result.push(r)
 		}
+		return result
 	}	
 
 }
@@ -371,6 +385,7 @@ module.exports = async options => {
 		return new Drive([])
 	} else {
 		let filelist = await getDirList()
+		// console.log(JSON.stringify(filelist, null, " "))
 		return new Drive(filelist)
 	}	
 
