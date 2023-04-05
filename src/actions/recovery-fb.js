@@ -74,7 +74,13 @@ const assetsRules = {
       
       /////////////////////////// Expand Examinations //////////////////////////////////////////////////////
       
-      let examination = ( await controller.expandExaminations(...[recoveryExams[i]]))[0]   
+      let examination = ( await controller.expandExaminations(...[recoveryExams[i]]))[0]
+      
+      if(!examination.$extention.organizations) {
+        info.log(`Examination: "${examination.patientId}" - ignored.`)
+        continue
+      }   
+      
       const currentOrganization = organizationMapper[examination.$extention.organizations[0].name]
       examination.org = currentOrganization
       logger.info(`Organization: "${currentOrganization}" Examination: "${examination.patientId}"`)
