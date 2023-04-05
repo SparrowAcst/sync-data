@@ -77,7 +77,7 @@ const assetsRules = {
       let examination = ( await controller.expandExaminations(...[recoveryExams[i]]))[0]
       
       if(!examination.$extention.organizations) {
-        info.log(`Examination: "${examination.patientId}" - ignored.`)
+        log.info(`Examination: "${examination.patientId}" - ignored.`)
         continue
       }   
       
