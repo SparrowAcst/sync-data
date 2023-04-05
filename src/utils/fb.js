@@ -1,6 +1,7 @@
 const { initializeApp, cert } = require('firebase-admin/app');
 const { getStorage } = require('firebase-admin/storage');
 const { getFirestore } = require('firebase-admin/firestore');
+const uuid = require("uuid").v4
 
 const path = require("path");
 
@@ -140,6 +141,19 @@ const downloadFile = async (srcFilename, destFilename) => {
 }
 
 
+const getFileMetadata = async filename => {
+  let res = []
+  try {
+    res = await bucket.file(filename).getMetadata()
+  } catch (e){
+    console.log(e.toString())
+  } finally {
+    return res[0]  
+  }
+  
+}
+
+
 
 
 
@@ -156,7 +170,8 @@ module.exports = async () => {
       uploadFile,
       downloadFile,
       saveFile,
-      saveFileFromStream  
+      saveFileFromStream,
+      getFileMetadata  
     }
   }
 

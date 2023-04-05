@@ -8,6 +8,7 @@
     "sync": "node ./src/scripts/sync-data",
     "backup": "node ./src/scripts/backup",
     "recovery": "node ./src/scripts/recovery-gd",
+    "recovery-fb": "node ./src/scripts/recovery-fb",
     
     "child-validate": "node ./src/childs/test-validate",
     "test-cron": "node test-cron",

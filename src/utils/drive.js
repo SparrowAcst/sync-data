@@ -50,7 +50,7 @@ async function getDirList() {
   	let nextPageToken
   	do {
   		const part = await drive.files.list({
-	      pageSize: 250,
+  		  pageSize: 250,
 	      pageToken: nextPageToken || "",	
 	      fields: "files(id, webViewLink, name, mimeType, md5Checksum, createdTime, modifiedTime, parents, size, trashed, version ), nextPageToken",
 	      spaces: 'drive',
@@ -69,8 +69,17 @@ async function getDirList() {
 
 
 const Drive = class {
+	
 	constructor (filelist) {
 		this.$filelist = filelist || []
+	}
+
+	async initiate(query){
+
+		const filelist = this.list(query)
+		console.log(this.$filelist.length, filelist.length)
+		return new Drive(filelist)
+
 	}
 
 	dirList(path){
@@ -129,7 +138,7 @@ const Drive = class {
 		      fileId: fileId,
 		      alt: 'media',
 		    });
-		    console.log(file)
+		    // console.log(file)
 		    return file.data;
 		  } catch (err) {
 		    throw err;

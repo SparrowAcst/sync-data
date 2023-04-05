@@ -15,10 +15,36 @@ let mongodbService
 let firebaseService 
 let googledriveService
 
-const { extend, differenceBy, isUndefined, isNull, find, flattenDeep, first, uniqBy, keys, maxBy } = require("lodash")
+const { 
+	extend, 
+	differenceBy, 
+	isUndefined, 
+	isNull, 
+	find, 
+	flattenDeep, 
+	first, 
+	uniqBy, 
+	keys, 
+	maxBy, 
+	template,
+	templateSettings 
+} = require("lodash")
 
 
 let logger
+
+
+const resolveTemplate = (_template, context) => {
+
+    templateSettings.interpolate = /\$\{([\s\S]+?)\}/g;
+
+    let result = template(_template)(context)
+
+    templateSettings.interpolate = /<%=([\s\S]+?)%>/g;
+
+    return result
+
+}
 
 
 
@@ -281,7 +307,13 @@ const createTestExaminations = async (...examinations) => {
 
 ////////////////////////////////////////////////////////////////////////////////////
 
+const checkNeedAssetRecovery = async (examination, asset) => {
+	let metadata = await firebaseService.execute.getFileMetadata(resolveTemplate(asset.links.path, { context: {examination, asset}}))
+	return isUndefined(metadata)
+}
 
+
+/////////////////////////////////////////////////////////////////////////////////////
 const resolveAsset = async (examination, asset) => {
 	
 // START DEBUG COMMENT
@@ -290,7 +322,7 @@ const resolveAsset = async (examination, asset) => {
         if(isUndefined(asset.id) || isNull(asset.id)){
         	doc = firebaseService.db.collection(`examinations/${examination.id}/assets`).doc()
         	asset.id = doc.id
-        	asset.links.path = `${examination.userId}/recordings/eKuore_${asset.id}`
+        	asset.links.path = resolveTemplate(asset.links.path, { context: {examination, asset}})
 
         	logger.info(`CREATE asset ${asset.links.path}`)
         } else {
@@ -300,12 +332,42 @@ const resolveAsset = async (examination, asset) => {
 
 	
 	let fStream = await googledriveService.geFiletWriteStream(asset.file)
+
+	let size = 0
+	let rawSize = 0
+	let oldSize = 0
+	
+	fStream.on("data", chunk => {
+		rawSize += chunk.length
+		size += chunk.length / 1024 / 1024 
+		if( (size - oldSize) > 0.1 ){
+			process.stdout.write(`Received: ${size.toFixed(1)} Mb ${'\x1b[0G'}`)
+			// console.log(`\rReceived ${size} bytes`)
+			oldSize = size	
+		}
+	})
+
+	fStream.on("error", error => {
+		logger.info(error.toString())
+		asset.error = error.toString()
+	})
+
+	fStream.on("end", () => {
+		let diff = asset.file.size - rawSize
+		if(diff != 0) {
+			asset.error = `Difference size: ${diff}. Source: ${asset.file.size}. Target: ${rawSize}`
+		}
+	})
+
 	let file = await firebaseService.execute.saveFileFromStream(
 			asset.links.path,
 			asset.file,
 			fStream)
 	asset.links.url = file[0]
-	delete asset.file
+	
+	if(!asset.error) {
+		delete asset.file
+	}	
 
 // END DEBUG COMMENT
 
@@ -474,10 +536,12 @@ module.exports = async options => {
 		resolveAsset,
 		buildLabelingRecords,
 		commitBatch,
-
+		checkNeedAssetRecovery,
+		resolveTemplate,
 // DEV MODE  //////////////////////////////////////////////////////////////////////////
 		
 		createTestExaminations, 
+
 
 ///////////////////////////////////////////////////////////////////////////////////////
 
