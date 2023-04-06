@@ -434,8 +434,17 @@ const Drive = class {
 							
 				} catch (e) {
 					logger.info(`${e.toString()}`)
+
+					const about = await drive.about.get({
+						fields:"*"
+					})
+					console.log(extend({}, {
+						storageQuota: about.data.storageQuota,
+						maxUploadSize: about.data.maxUploadSize
+					}))
+					
 					needRecivery.push(cloned[i])
-					await delay(100000, "after exception")
+					await delay(10000, "after exception")
 				}
 		}
 
@@ -454,7 +463,15 @@ const Drive = class {
 						
 			} catch (e) {
 				logger.info(`${e.toString()}`)
-				await delay(100000, "after exception")
+
+				const about = await drive.about.get({
+					fields:"*"
+				})
+				console.log(extend({}, {
+					storageQuota: about.data.storageQuota,
+					maxUploadSize: about.data.maxUploadSize
+				}))
+				await delay(10000, "after exception")
 			}
 
 		}	
