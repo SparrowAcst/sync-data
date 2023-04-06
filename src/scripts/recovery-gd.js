@@ -64,7 +64,7 @@ const run = async () => {
 		
 		for( let i=0; i< res.length; i++){
 			let d = res[i]
-			console.log(d.source.path, ">>")
+			console.log(i+1, " > ", d.source.path, ">>")
 			let result = await drive.copy(d.source.path, targetRoot)
 			console.log("\n")
 			// result = result.filter( r => r != true)
