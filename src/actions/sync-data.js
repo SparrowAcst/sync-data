@@ -2,6 +2,7 @@ const moment = require("moment")
 const path = require("path")
 const { find, sortBy, filter, extend, isUndefined, isNull } = require("lodash")
 const { loadYaml, pathExists } = require("../utils/file-system")
+const uuid = require("uuid").v4 
   
 
 module.exports = async (syncOrg, syncPatientPattern) => {

@@ -315,7 +315,7 @@ const checkNeedAssetRecovery = async (examination, asset) => {
 
 /////////////////////////////////////////////////////////////////////////////////////
 const resolveAsset = async (examination, asset) => {
-	
+	// console.log("resolve", asset)	
 // START DEBUG COMMENT
 
 	let doc 

@@ -7,7 +7,7 @@ const { getMIMEType } = require('node-mime-types')
 const fs = require("fs")
 const { find, isUndefined, extend, last, uniqBy, maxBy } = require("lodash")
 const nanomatch = require('nanomatch')
-
+const YAML = require("js-yaml")
 
 const key = require(path.join(__dirname,"../../.config/key/gd/gd.key.json"))
 
@@ -20,6 +20,14 @@ const jwtClient = new google.auth.JWT(
 );
 
 const drive = google.drive({version: 'v3', auth: jwtClient});
+
+
+const delay = (ms, msg) => new Promise(resolve => {
+	console.log(`Wait Google Drive ${ms}ms for ${msg}`)
+	setTimeout(() => resolve(), ms)
+})
+
+
 
 const getPath = (files, node) => {
 	let res = []
@@ -395,24 +403,102 @@ const Drive = class {
 		let cloned = this.fileList(sourcePath)
 		logger.info(`${cloned.length} items:`)
 		let result = []
+		let needRecivery = []
+		
 		for(let i=0; i < cloned.length; i++){
-			logger.info(`Backup ${cloned[i].path}`)
-			let r = await this.copyFile(cloned[i], targetPath)
-			if(r.error){
-				logger.info(`${r.error}`)
-				logger.info(`Recovery`)
-				r = await this.copyFile(cloned[i], targetPath)
-				logger.info(JSON.stringify(r, null, " "))	
+			
+				logger.info(`Backup ${cloned[i].path}`)
+				// await delay(1000, cloned[i].path)
+				try {
+					let r = await this.copyFile(cloned[i], targetPath)
+					if(r.error){
+						logger.info(`${r.error}`)
+						needRecivery.push(cloned[i])
+					} else {
+						result.push(r)	
+					}
+							
+				} catch (e) {
+					logger.info(`${e.toString()}`)
+					needRecivery.push(cloned[i])
+				}
+		}
+
+		logger.info(`${needRecivery.length} items will recovered/`)
+		
+		for(let i=0; i < needRecivery.length; i++){
+			try {
+				logger.info(`Recovery ${cloned[i].path}`)
+				let r = await this.copyFile(needRecivery[i], targetPath)
+				if(r.error){
+					logger.info(`${r.error}`)
+				} else {
+					result.push(r)	
+				}
+						
+			} catch (e) {
+
+				logger.info(`${e.toString()}`)
 			}
 
-			result.push(r)
-		}
+		}	
+		
 		return result
 	}	
+
+
+	// async copy(sourcePath, targetPath, logger){
+	// 	logger = logger || console
+	// 	let cloned = this.fileList(sourcePath)
+	// 	logger.info(`${cloned.length} items:`)
+	// 	let result = []
+	// 	for(let i=0; i < cloned.length; i++){
+			
+	// 			logger.info(`Backup ${cloned[i].path}`)
+	// 			// await delay(1000, cloned[i].path)
+	// 			try {
+	// 				let r = await this.copyFile(cloned[i], targetPath)
+	// 				if(r.error){
+	// 					logger.info(`${r.error}`)
+	// 					logger.info(`Recovery`)
+	// 					r = await this.copyFile(cloned[i], targetPath)
+	// 					logger.info(JSON.stringify(r, null, " "))
+	// 				}
+	// 				result.push(r)		
+	// 			} catch (e) {
+
+	// 			}
+
+
+				
+	// 		} catch (e) {
+	// 			console.log(e.toString())
+	// 			const about = await drive.about.get({
+	// 				fields:"*"
+	// 			})
+	// 			console.log(extend({}, {
+	// 				permissionId: about.data.permissionId,
+	// 				storageQuota: about.data.storageQuota,
+	// 				maxUploadSize: about.data.maxUploadSize
+	// 			}))
+	// 		}	
+	// 	}
+	// 	return result
+	// }	
 
 }
 
 module.exports = async options => {
+
+	console.log(`Google Drive client account: ${key.client_email} (project:${key.project_id})`)
+
+	// let about = await drive.about.get({
+	// 	fields:"*"
+	// })
+
+	// console.log("About Service:")
+	// console.log(YAML.dump(about.data))
+
 	
 	options = options || {
 		noprefetch: false
