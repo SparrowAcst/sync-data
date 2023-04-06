@@ -115,7 +115,7 @@ const rules = {
         "known_respiratory_failure_of_any_cause": required,
         "present_respiratory_diseases": optional, //manyOf
         "clinical_diagnosis": required,
-        "changes_recording":notEmpty, //manyOf
+        // "changes_recording":notEmpty, //manyOf
         "comment_recording": optional
    },
    
