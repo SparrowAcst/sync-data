@@ -133,7 +133,8 @@ const expandExaminations = async (...examinations) => {
 			examination.$extention.recordPoints = ( await docRef.collection('recordPoints').get() ).docs.map(docMapper)
 			examination.$extention.records = ( await docRef.collection('records').get() ).docs.map(docMapper)
 			examination.$extention.assets = ( await docRef.collection('assets').get() ).docs.map(docMapper)
-		
+			examination.$extention.assets = examination.$extention.assets.filter( a => !!a.links) 
+
 		} catch (e) {
 			logger.info("ERROR")
 			logger.info(e.toString())
