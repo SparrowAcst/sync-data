@@ -67,11 +67,11 @@ const run = async () => {
 			console.log(d.source.path, ">>")
 			let result = await drive.copy(d.source.path, targetRoot)
 			console.log("\n")
-			result = result.filter( r => r != true)
-			if( result.length> 0){
-				console.log("Failed:")
-				console.log(result)	
-			}
+			// result = result.filter( r => r != true)
+			// if( result.length> 0){
+			// 	console.log("Failed:")
+			// 	console.log(result)	
+			// }
 		}
 	} else {
 		console.log("No files for recovery")
