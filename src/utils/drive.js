@@ -300,12 +300,16 @@ const Drive = class {
 
 	async copyFile(source, targetPath){
 		
+		let result = {}
 		
+		let rawSize = 0
 		let size = 0
 		let oldSize = 0
+		
 		let cloned = await this.getFile(source)
 		
 		cloned.data.on("data", chunk => {
+			rawSize += chunk.length
 			size += chunk.length / 1024 / 1024 
 			if( (size - oldSize) > 0.2 ){
 				process.stdout.write(`Received: ${size.toFixed(1)} Mb ${'\x1b[0G'}`)
@@ -313,6 +317,21 @@ const Drive = class {
 				oldSize = size	
 			}
 		})
+
+
+		cloned.data.on("error", error => {
+			logger.info(error.toString())
+			result.error = error.toString()
+		})
+
+		cloned.data.on("end", () => {
+			let diff = source.size - rawSize
+			if(diff != 0) {
+				result.error = `Difference size: ${diff}. Source: ${source.size}. Target: ${rawSize}`
+			}
+		})
+
+
 		
 		let destFolder = await this.createFolderbyPath(targetPath, path.dirname(source.path))
 		
@@ -356,12 +375,14 @@ const Drive = class {
 
 		cloned = cloned.data
 		
-		let result = (cloned.size == source.size && cloned.md5Checksum == source.md5Checksum)
-				? true
-				: {
-					source,
-					target: cloned
-				  }
+		result = extend( result, 
+				(cloned.size == source.size && cloned.md5Checksum == source.md5Checksum)
+						? {}
+						: {
+							source,
+							target: cloned
+						  }
+		)				  
 
 		cloned.path = getPath(this.$filelist, cloned)
 		this.$filelist.push(cloned)
@@ -377,6 +398,13 @@ const Drive = class {
 		for(let i=0; i < cloned.length; i++){
 			logger.info(`Backup ${cloned[i].path}`)
 			let r = await this.copyFile(cloned[i], targetPath)
+			if(r.error){
+				logger.info(`${r.error}`)
+				logger.info(`Recovery`)
+				r = await this.copyFile(cloned[i], targetPath)
+				logger.info(JSON.stringify(r, null, " "))	
+			}
+
 			result.push(r)
 		}
 		return result

@@ -187,8 +187,16 @@ module.exports = async (syncOrg, syncPatientPattern) => {
         let asset = externalAssets[j]
         
         asset = await controller.resolveAsset(examination, asset)
-        logger.info(`Move data into "${asset.links.path}"`)
-    
+        if(asset.error){
+          logger.info(`"${asset.links.path}": ${asset.error}`)
+          delete assets.error
+          logger.info(`Recovery "${asset.links.path}"`)
+          asset = await controller.resolveAsset(examination, asset)
+          logger.info(`"${asset.links.path}":\n${JSON.stringify(asset, null, " ")}`)
+        } else {
+          logger.info(`Move data into "${asset.links.path}"`)
+        }
+        
         let doc = fb.db.collection(`examinations/${examination.id}/assets`).doc(asset.id)
         
         delete asset.id
@@ -240,6 +248,29 @@ module.exports = async (syncOrg, syncPatientPattern) => {
              "upsert" : true
           }
       }))
+
+      const attachementForm = {
+          "id":uuid(),
+          "type":"attachements",
+          "data": examination.$extention.assets
+                    .filter( d => d.type != "recording")
+                    .map( (d, index) => ({
+                      index,
+                      name: d.publicName || `${d.type}${index}`,
+                      mimeType: d.mimeType || d.type,
+                      url:  d.links.url
+                    })),  
+          examinationId: examination.id
+        }
+
+        formOps.push({
+          replaceOne :
+            {
+               "filter" : {id: attachementForm.id},
+               "replacement" : attachementForm,
+               "upsert" : true
+            }
+        })
 
       logger.info(`Insert into ${mongodb.config.db.formCollection} ${formOps.length} items`)
       await mongodb.execute.bulkWrite(
