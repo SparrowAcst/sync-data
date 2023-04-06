@@ -23,8 +23,22 @@ const drive = google.drive({version: 'v3', auth: jwtClient});
 
 
 const delay = (ms, msg) => new Promise(resolve => {
-	console.log(`Wait Google Drive ${ms}ms for ${msg}`)
-	setTimeout(() => resolve(), ms)
+	
+	let total = ms
+	let delta = 6000
+	
+	process.stdout.write(`Wait Google Drive ${Math.round(ms/delta)}s for ${msg} ${'\x1b[0G'}`)
+	
+	let interval = setInterval(() => {
+		ms -= delta
+		process.stdout.write(`Wait Google Drive ${Math.round(ms/delta)}s for ${msg} ${'\x1b[0G'}`)
+		if(ms <= 0){
+			process.stdout.write(`${'\x1b[0G'}`)
+			clearInterval(interval)
+			resolve()	
+		}
+	}, delta)
+
 })
 
 
@@ -406,9 +420,9 @@ const Drive = class {
 		let needRecivery = []
 		
 		for(let i=0; i < cloned.length; i++){
-			
-				logger.info(`Backup ${cloned[i].path}`)
-				// await delay(1000, cloned[i].path)
+				await delay(60000, "next operation")
+				logger.info(`Copy ${cloned[i].path} into ${targetPath}`)
+				
 				try {
 					let r = await this.copyFile(cloned[i], targetPath)
 					if(r.error){
@@ -421,6 +435,7 @@ const Drive = class {
 				} catch (e) {
 					logger.info(`${e.toString()}`)
 					needRecivery.push(cloned[i])
+					await delay(600000, "after exception")
 				}
 		}
 
@@ -428,6 +443,7 @@ const Drive = class {
 		
 		for(let i=0; i < needRecivery.length; i++){
 			try {
+				await delay(60000, "next operation")
 				logger.info(`Recovery ${cloned[i].path}`)
 				let r = await this.copyFile(needRecivery[i], targetPath)
 				if(r.error){
@@ -437,8 +453,8 @@ const Drive = class {
 				}
 						
 			} catch (e) {
-
 				logger.info(`${e.toString()}`)
+				await delay(600000, "after exception")
 			}
 
 		}	
