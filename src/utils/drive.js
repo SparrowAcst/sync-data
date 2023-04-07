@@ -369,6 +369,7 @@ const Drive = class {
 		
 
 		let cloned
+		let result = {}
 		
 		let destFolder = await this.createFolderbyPath(targetPath, path.dirname(source.path))
 		
@@ -418,7 +419,7 @@ const Drive = class {
 
 		cloned = cloned.data
 		
-		let result = extend( result, 
+		result = extend( result, 
 				(cloned.size == source.size && cloned.md5Checksum == source.md5Checksum)
 						? {}
 						: {
