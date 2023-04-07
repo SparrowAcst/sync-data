@@ -348,6 +348,9 @@ const Drive = class {
 
 		cloned.data.on("end", () => {
 			let diff = source.size - rawSize
+			
+			console.log(`DOWNLOAD ${rawSize} from ${source.size}`)
+			
 			if(diff != 0) {
 				result.error = `Difference size: ${diff}. Source: ${source.size}. Target: ${rawSize}`
 			}
