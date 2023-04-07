@@ -370,12 +370,16 @@ const Drive = class {
 
 		const existed = this.list(`${destFolder.path}/${path.basename(source.path)}`)[0]
 		
-		if(existed){
-			console.log("Delete previus ", `${destFolder.path}/${path.basename(source.path)}`, destFolder)
-			cloned =  await drive.files.delete({
-				fileId: existed.id
-			})
+		try {
+			if(existed){
+				console.log("Delete previus ", `${destFolder.path}/${path.basename(source.path)}`, destFolder)
+				cloned =  await drive.files.delete({
+					fileId: existed.id
+				})
 
+			}
+		} catch (e){
+			console.log(e.toString())
 		}
 	
 		console.log("Create", `${destFolder.path}/${path.basename(source.path)}`, destFolder)

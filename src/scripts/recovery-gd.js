@@ -60,7 +60,7 @@ const run = async () => {
 	console.log(`Recovery Google Drive Files: "${sourceRoot}" vs "${targetRoot}"`)
 	
 	
-	let res = getDiff(sourceRoot, targetRoot).filter( d => d.target)
+	let res = getDiff(sourceRoot, targetRoot)
 	// console.log(YAML.dump(res))
 	if(res.length > 0){
 		console.log(`Recovery ${res.length} items`)
