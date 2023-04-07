@@ -369,26 +369,22 @@ const Drive = class {
 		}
 
 		const existed = this.list(`${destFolder.path}/${path.basename(source.path)}`)[0]
-		if(existed){
-			// console.log("UPDATE", `${destFolder.path}/${path.basename(source.path)}`, destFolder)
-			cloned =  await drive.files.update({
-				fileId: existed.id,
-				resource,
-				media,
-				fields: "id",
-			})
-
-		} else {
-			// console.log("CREATE", `${destFolder.path}/${path.basename(source.path)}`, destFolder)
-			resource.parents = [destFolder.id]
-			cloned =  await drive.files.create({
-				  resource,
-				  media,
-				  fields: "id",
-			})
-
-		}		
 		
+		if(existed){
+			console.log("Delete previus ", `${destFolder.path}/${path.basename(source.path)}`, destFolder)
+			cloned =  await drive.files.delete({
+				fileId: existed.id
+			})
+
+		}
+	
+		console.log("Create", `${destFolder.path}/${path.basename(source.path)}`, destFolder)
+		resource.parents = [destFolder.id]
+		cloned =  await drive.files.create({
+			  resource,
+			  media,
+			  fields: "id",
+		})
 		
 		cloned  = await drive.files.get({ 
 			fileId: cloned.data.id, 
@@ -525,12 +521,12 @@ module.exports = async options => {
 
 	console.log(`Google Drive client account: ${key.client_email} (project:${key.project_id})`)
 
-	// let about = await drive.about.get({
-	// 	fields:"*"
-	// })
+	let about = await drive.about.get({
+		fields:"*"
+	})
 
-	// console.log("About Service:")
-	// console.log(YAML.dump(about.data))
+	console.log("About Service:")
+	console.log(YAML.dump(about.data))
 
 	
 	options = options || {

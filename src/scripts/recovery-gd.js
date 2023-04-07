@@ -4,6 +4,8 @@ const run = async () => {
 	const { find } = require("lodash")
 	const path = require("path")
 	const { loadYaml } = require("../utils/file-system")
+	const YAML = require("js-yaml")
+
 
 	const trimPath = (path, prefix) => path.replace(prefix, "")
 
@@ -59,26 +61,27 @@ const run = async () => {
 	
 	
 	let res = getDiff(sourceRoot, targetRoot)
-	if(res.length > 0){
-		console.log(`Recovery ${res.length} items`)
+	console.log(YAML.dump(res))
+	// if(res.length > 0){
+	// 	console.log(`Recovery ${res.length} items`)
 		
-		for( let i=0; i< res.length; i++){
-			let d = res[i]
-			console.log(i+1, " > ", d.source.path, ">>")
-			let result = await drive.copy(d.source.path, targetRoot)
-			console.log("\n")
-			// result = result.filter( r => r != true)
-			// if( result.length> 0){
-			// 	console.log("Failed:")
-			// 	console.log(result)	
-			// }
-		}
-	} else {
-		console.log("No files for recovery")
-	}	
+	// 	for( let i=0; i< res.length; i++){
+	// 		let d = res[i]
+	// 		console.log(i+1, " > ", d.source.path, ">>")
+	// 		let result = await drive.copy(d.source.path, targetRoot)
+	// 		console.log("\n")
+	// 		// result = result.filter( r => r != true)
+	// 		// if( result.length> 0){
+	// 		// 	console.log("Failed:")
+	// 		// 	console.log(result)	
+	// 		// }
+	// 	}
+	// } else {
+	// 	console.log("No files for recovery")
+	// }	
 
 	controller.close()
-	console.log("Recovery Google Drive Files finished")
+	// console.log("Recovery Google Drive Files finished")
 }
 
 run()
