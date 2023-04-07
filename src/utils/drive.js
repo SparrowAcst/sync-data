@@ -321,7 +321,8 @@ const Drive = class {
 	}
 
 
-	const upload = async source => new Promise( (resolve, reject) => {
+	async upload(source) {
+		return new Promise( (resolve, reject) => {
 		
 		let result = {}
 		
@@ -361,7 +362,7 @@ const Drive = class {
 		resolve(cloned.data)
 	}
 
-	)
+	)}
 
 
 	async copyFile(source, targetPath){
@@ -371,7 +372,7 @@ const Drive = class {
 		
 		let destFolder = await this.createFolderbyPath(targetPath, path.dirname(source.path))
 		
-		let clonedData = await upload(source)
+		let clonedData = await this.upload(source)
 
 
 
