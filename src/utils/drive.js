@@ -410,8 +410,22 @@ const Drive = class {
 			  resource,
 			  media,
 			  fields: "id",
-		})
+		},
+	    {
+	      // Use the `onUploadProgress` event from Axios to track the
+	      // number of bytes uploaded to this point.
+	      onUploadProgress: evt => {
+	      	process.stdout.write(`UPLOADED: ${evt.bytesRead}                       ${'\x1b[0G'}`)
+				
+	        // const progress = (evt.bytesRead / fileSize) * 100;
+	        // readline.clearLine(process.stdout, 0);
+	        // readline.cursorTo(process.stdout, 0);
+	        // process.stdout.write(`${Math.round(progress)}% complete`);
+	      },
+	    })
 		
+		console.log("\n", cloned.status)
+			
 		cloned  = await drive.files.get({ 
 			fileId: cloned.data.id, 
 			fields: 'id, name, mimeType, md5Checksum, createdTime, modifiedTime, parents, size' 
