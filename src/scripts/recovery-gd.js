@@ -60,25 +60,25 @@ const run = async () => {
 	console.log(`Recovery Google Drive Files: "${sourceRoot}" vs "${targetRoot}"`)
 	
 	
-	let res = getDiff(sourceRoot, targetRoot)
-	console.log(YAML.dump(res))
-	// if(res.length > 0){
-	// 	console.log(`Recovery ${res.length} items`)
+	let res = getDiff(sourceRoot, targetRoot).filter( d => target)
+	// console.log(YAML.dump(res))
+	if(res.length > 0){
+		console.log(`Recovery ${res.length} items`)
 		
-	// 	for( let i=0; i< res.length; i++){
-	// 		let d = res[i]
-	// 		console.log(i+1, " > ", d.source.path, ">>")
-	// 		let result = await drive.copy(d.source.path, targetRoot)
-	// 		console.log("\n")
-	// 		// result = result.filter( r => r != true)
-	// 		// if( result.length> 0){
-	// 		// 	console.log("Failed:")
-	// 		// 	console.log(result)	
-	// 		// }
-	// 	}
-	// } else {
-	// 	console.log("No files for recovery")
-	// }	
+		for( let i=0; i< res.length; i++){
+			let d = res[i]
+			console.log(i+1, " > ", d.source.path, ">>")
+			let result = await drive.copy(d.source.path, targetRoot)
+			console.log("\n")
+			// result = result.filter( r => r != true)
+			// if( result.length> 0){
+			// 	console.log("Failed:")
+			// 	console.log(result)	
+			// }
+		}
+	} else {
+		console.log("No files for recovery")
+	}	
 
 	controller.close()
 	// console.log("Recovery Google Drive Files finished")
