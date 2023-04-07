@@ -368,7 +368,7 @@ const Drive = class {
 	async copyFile(source, targetPath){
 		
 
-
+		let cloned
 		
 		let destFolder = await this.createFolderbyPath(targetPath, path.dirname(source.path))
 		
