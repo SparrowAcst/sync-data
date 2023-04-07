@@ -321,8 +321,8 @@ const Drive = class {
 	}
 
 
-	async upload(source) {
-		return new Promise( (resolve, reject) => {
+	upload(source) {
+		return new Promise( async (resolve, reject) => {
 		
 		let result = {}
 		
