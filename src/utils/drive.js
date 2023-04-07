@@ -418,7 +418,7 @@ const Drive = class {
 
 		cloned = cloned.data
 		
-		result = extend( result, 
+		let result = extend( result, 
 				(cloned.size == source.size && cloned.md5Checksum == source.md5Checksum)
 						? {}
 						: {
