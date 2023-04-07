@@ -320,7 +320,8 @@ const Drive = class {
 
 	}
 
-	async copyFile(source, targetPath){
+
+	const upload = async source => new Promise( (resolve, reject) => {
 		
 		let result = {}
 		
@@ -344,6 +345,7 @@ const Drive = class {
 		cloned.data.on("error", error => {
 			logger.info(error.toString())
 			result.error = error.toString()
+			reject(error)
 		})
 
 		cloned.data.on("end", () => {
@@ -356,10 +358,25 @@ const Drive = class {
 			}
 		})
 
+		resolve(cloned.data)
+	}
+
+	)
+
+
+	async copyFile(source, targetPath){
+		
+
 
 		
 		let destFolder = await this.createFolderbyPath(targetPath, path.dirname(source.path))
 		
+		let clonedData = await upload(source)
+
+
+
+
+
 
 		const resource = {
 		    name: source.name,
@@ -368,7 +385,7 @@ const Drive = class {
 
 		const media = {
 		  	mimeType: source.mimeType,
-			body: cloned.data,
+			body: clonedData,
 		}
 
 		const existed = this.list(`${destFolder.path}/${path.basename(source.path)}`)[0]
