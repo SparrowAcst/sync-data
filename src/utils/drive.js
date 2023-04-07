@@ -521,12 +521,12 @@ module.exports = async options => {
 
 	console.log(`Google Drive client account: ${key.client_email} (project:${key.project_id})`)
 
-	let about = await drive.about.get({
-		fields:"*"
-	})
+	// let about = await drive.about.get({
+	// 	fields:"*"
+	// })
 
-	console.log("About Service:")
-	console.log(YAML.dump(about.data))
+	// console.log("About Service:")
+	// console.log(YAML.dump(about.data))
 
 	
 	options = options || {
