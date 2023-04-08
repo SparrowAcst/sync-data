@@ -337,7 +337,7 @@ const Drive = class {
 				rawSize += chunk.length
 				size += chunk.length / 1024 / 1024 
 				if( (size - oldSize) > 0.2 ){
-					process.stdout.write(`Upload: ${rawSize} bytes ${'\x1b[0G'}`)
+					process.stdout.write(`Upload: ${rawSize} bytes                                                 ${'\x1b[0G'}`)
 					oldSize = size	
 				}
 			})
@@ -409,7 +409,8 @@ const Drive = class {
 		    }
 	    })
 		
-		logger.info(`Status: ${cloned.status} ${cloned.statusText}`)
+
+		logger.info(`Status: ${cloned.status} ${cloned.statusText}                                                             `)
 		// logger.info(`Validate file size...`)
 
 		cloned  = await drive.files.get({ 
@@ -425,7 +426,7 @@ const Drive = class {
 			// logger.info(`Validate successful`)
 		} else {
 			logger.info(`File size "${cloned.path}" failed: ${source.size} bytes expected but ${cloned.path} bytes uploaded`)
-			logger.info(`Use command "npm run recovery" for file recovery`)
+			logger.info(`For file recovery use command: npm run recovery "${source.path}"`)
 		}
 
 	}
