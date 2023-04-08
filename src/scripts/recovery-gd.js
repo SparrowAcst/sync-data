@@ -38,20 +38,22 @@ const run = async () => {
 		sourceList.forEach( s => {
 
 			let t = find(targetList, t => trimPath(t.path, target) == trimPath(s.path, source))
-			if( !t || (t.size != s.size)){
+			// if( !t || (t.size != s.size)){
 				res.push({
 					source:{
+						id: s.id,
 						path: s.path,
 						size: s.size
 					},
 					target:(t) 
 						? {
+							id: t.id
 							path: t.path,
 							size: t.size
 						}
 						: null
 				})
-			}
+			// }
 		})
 		return res		
 	}
@@ -61,7 +63,11 @@ const run = async () => {
 	
 	
 	let res = getDiff(sourceRoot, targetRoot)
-	// console.log(YAML.dump(res))
+	console.log("Difference")
+	console.log(YAML.dump(res))
+
+	res = res.filter( d => !d.target || d.target.size != d.source.size)
+	
 	if(res.length > 0){
 		console.log(`Recovery ${res.length} items`)
 		

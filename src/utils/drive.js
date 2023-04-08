@@ -367,6 +367,11 @@ const Drive = class {
 			return {}
 		}
 
+		if(existed){
+			logger.info(`${destFolder.path}/${path.basename(source.path)} already exists but expected size ${existed.size} not equal ${source.size}`)
+				
+		}
+
 		let cloned
 		let clonedData = await this.upload(source)
 
