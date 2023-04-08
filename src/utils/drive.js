@@ -326,7 +326,6 @@ const Drive = class {
 		
 		return new Promise( async (resolve, reject) => {
 		
-			let result = {}
 			
 			let rawSize = 0
 			let size = 0
@@ -346,7 +345,6 @@ const Drive = class {
 
 			cloned.data.on("error", error => {
 				logger.info(error.toString())
-				result.error = error.toString()
 				reject(error)
 			})
 
@@ -424,7 +422,6 @@ const Drive = class {
 		this.$filelist.push(cloned)
 		
 		if(cloned.size == source.size && cloned.md5Checksum == source.md5Checksum){
-			result = {}
 			logger.info(`Validate successful`)
 		} else {
 			logger.info(`File size "${cloned.path}" failed: ${source.size} bytes expected but ${cloned.path} bytes uploaded`)
