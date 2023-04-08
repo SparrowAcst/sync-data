@@ -349,7 +349,7 @@ const Drive = class {
 			})
 
 			cloned.data.on("end", () => {
-				logger.info(`UPLOAD ${rawSize} from ${source.size} bytes`)
+				logger.info(`UPLOAD ${rawSize} from ${source.size} bytes                                                      `)
 			})
 
 			resolve(cloned.data)
