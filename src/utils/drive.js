@@ -337,7 +337,7 @@ const Drive = class {
 				rawSize += chunk.length
 				size += chunk.length / 1024 / 1024 
 				if( (size - oldSize) > 0.2 ){
-					process.stdout.write(`Received: ${size.toFixed(1)} Mb ${'\x1b[0G'}`)
+					// process.stdout.write(`Received: ${size.toFixed(1)} Mb ${'\x1b[0G'}`)
 					oldSize = size	
 				}
 			})
@@ -349,6 +349,7 @@ const Drive = class {
 			})
 
 			cloned.data.on("end", () => {
+				console.log("\n")
 				logger.info(`UPLOAD ${rawSize} bytes from ${source.size} bytes`)
 			})
 
@@ -405,7 +406,7 @@ const Drive = class {
 			},
 	    	{
 		      onUploadProgress: evt => {
-		      	process.stdout.write(`UPLOAD: ${evt.bytesRead} bytes from ${source.size} (${(100*source.size/evt.bytesRead).toFixed(2)}%)                      ${'\x1b[0G'}`)
+		      	process.stdout.write(`UPLOAD: ${evt.bytesRead} from ${source.size} (${(100*source.size/evt.bytesRead).toFixed(2)}%)                      ${'\x1b[0G'}`)
 		    }
 	    })
 		
