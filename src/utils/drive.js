@@ -333,14 +333,14 @@ const Drive = class {
 			
 			let cloned = await this.getFile(source)
 			
-			cloned.data.on("data", chunk => {
-				rawSize += chunk.length
-				size += chunk.length / 1024 / 1024 
-				if( (size - oldSize) > 0.2 ){
-					process.stdout.write(`Upload: ${rawSize} bytes                                                 ${'\x1b[0G'}`)
-					oldSize = size	
-				}
-			})
+			// cloned.data.on("data", chunk => {
+			// 	rawSize += chunk.length
+			// 	size += chunk.length / 1024 / 1024 
+			// 	if( (size - oldSize) > 0.2 ){
+			// 		// process.stdout.write(`Upload: ${rawSize} bytes                                                 ${'\x1b[0G'}`)
+			// 		oldSize = size	
+			// 	}
+			// })
 
 
 			cloned.data.on("error", error => {
@@ -348,9 +348,9 @@ const Drive = class {
 				reject(error)
 			})
 
-			cloned.data.on("end", () => {
-				logger.info(`UPLOAD ${rawSize} from ${source.size} bytes                                                      `)
-			})
+			// cloned.data.on("end", () => {
+			// 	logger.info(`UPLOAD ${rawSize} from ${source.size} bytes                                                      `)
+			// })
 
 			resolve(cloned.data)
 		}
