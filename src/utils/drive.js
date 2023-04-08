@@ -394,7 +394,9 @@ const Drive = class {
 			logger.info(e.toString())
 		
 		}
-	
+		
+		await delay(1000, "complete operation")
+
 		logger.info (`Create: ${destFolder.path}/${path.basename(source.path)}`)
 		resource.parents = [destFolder.id]
 		
@@ -413,6 +415,7 @@ const Drive = class {
 		logger.info(`Status: ${cloned.status} ${cloned.statusText}                                                             `)
 		// logger.info(`Validate file size...`)
 
+		await delay(1000, "complete operation")
 		cloned  = await drive.files.get({ 
 			fileId: cloned.data.id, 
 			fields: 'id, name, mimeType, md5Checksum, createdTime, modifiedTime, parents, size' 
@@ -425,7 +428,7 @@ const Drive = class {
 		if(cloned.size == source.size && cloned.md5Checksum == source.md5Checksum){
 			// logger.info(`Validate successful`)
 		} else {
-			logger.info(`File size "${cloned.path}" failed: ${source.size} bytes expected but ${cloned.path} bytes uploaded`)
+			logger.info(`File size "${cloned.path}" failed: ${source.size} bytes expected but ${cloned.size} bytes saved`)
 			logger.info(`For file recovery use command: npm run recovery "${source.path}"`)
 		}
 
