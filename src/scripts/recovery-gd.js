@@ -47,7 +47,7 @@ const run = async () => {
 					},
 					target:(t) 
 						? {
-							id: t.id
+							id: t.id,
 							path: t.path,
 							size: t.size
 						}
