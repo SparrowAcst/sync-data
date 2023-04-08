@@ -362,7 +362,7 @@ const Drive = class {
 		let destFolder = await this.createFolderbyPath(targetPath, path.dirname(source.path))
 		const existed = this.list(`${destFolder.path}/${path.basename(source.path)}`)[0]
 		
-		if( existed && source.size == existed.path){
+		if( existed && source.size == existed.size){
 			logger.info(`${destFolder.path}/${path.basename(source.path)} already exists.`)
 			return {}
 		}
