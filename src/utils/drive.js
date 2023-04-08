@@ -21,6 +21,8 @@ const jwtClient = new google.auth.JWT(
 
 const drive = google.drive({version: 'v3', auth: jwtClient});
 
+let logger
+
 
 const delay = (ms, msg) => new Promise(resolve => {
 	
@@ -228,12 +230,11 @@ const Drive = class {
 			let part = partitions[i]
 			
 			current = this.list(part.join("/"))[0]
-			// console.log("current", current)
 
 			if(!current){
 				
 				let parent = this.list(part.slice(0,-1).join("/"))[0]
-				// console.log("parent", parent)
+
 				current = await drive.files.create({
 				  resource: {
 				    name: last(part),
@@ -322,67 +323,57 @@ const Drive = class {
 
 
 	upload(source) {
+		
 		return new Promise( async (resolve, reject) => {
 		
-		let result = {}
-		
-		let rawSize = 0
-		let size = 0
-		let oldSize = 0
-		
-		let cloned = await this.getFile(source)
-		
-		cloned.data.on("data", chunk => {
-			rawSize += chunk.length
-			size += chunk.length / 1024 / 1024 
-			if( (size - oldSize) > 0.2 ){
-				process.stdout.write(`Received: ${size.toFixed(1)} Mb ${'\x1b[0G'}`)
-				// console.log(`\rReceived ${size} bytes`)
-				oldSize = size	
-			}
-		})
-
-
-		cloned.data.on("error", error => {
-			logger.info(error.toString())
-			result.error = error.toString()
-			reject(error)
-		})
-
-		cloned.data.on("end", () => {
-			let diff = source.size - rawSize
+			let result = {}
 			
-			console.log(`DOWNLOAD ${rawSize} from ${source.size}`)
+			let rawSize = 0
+			let size = 0
+			let oldSize = 0
 			
-			if(diff != 0) {
-				result.error = `Difference size: ${diff}. Source: ${source.size}. Target: ${rawSize}`
-			}
-		})
+			let cloned = await this.getFile(source)
+			
+			cloned.data.on("data", chunk => {
+				rawSize += chunk.length
+				size += chunk.length / 1024 / 1024 
+				if( (size - oldSize) > 0.2 ){
+					process.stdout.write(`Received: ${size.toFixed(1)} Mb ${'\x1b[0G'}`)
+					oldSize = size	
+				}
+			})
 
-		resolve(cloned.data)
-	}
+
+			cloned.data.on("error", error => {
+				logger.info(error.toString())
+				result.error = error.toString()
+				reject(error)
+			})
+
+			cloned.data.on("end", () => {
+				logger.info(`UPLOAD ${rawSize} bytes from ${source.size} bytes`)
+			})
+
+			resolve(cloned.data)
+		}
 
 	)}
 
-
 	async copyFile(source, targetPath){
 		
+		let destFolder = await this.createFolderbyPath(targetPath, path.dirname(source.path))
+		const existed = this.list(`${destFolder.path}/${path.basename(source.path)}`)[0]
+		
+		if( existed && source.size == existed.path){
+			logger.info(`${destFolder.path}/${path.basename(source.path)} already exists.`)
+			return {}
+		}
 
 		let cloned
-		let result = {}
-		
-		let destFolder = await this.createFolderbyPath(targetPath, path.dirname(source.path))
-		
 		let clonedData = await this.upload(source)
-
-
-
-
-
 
 		const resource = {
 		    name: source.name,
-		    // parents: [destFolder.id]
 		}
 
 		const media = {
@@ -390,184 +381,101 @@ const Drive = class {
 			body: clonedData,
 		}
 
-		const existed = this.list(`${destFolder.path}/${path.basename(source.path)}`)[0]
 		
 		try {
+		
 			if(existed){
-				console.log("Delete previus ", `${destFolder.path}/${path.basename(source.path)}`, destFolder)
-				cloned =  await drive.files.delete({
-					fileId: existed.id
-				})
-
+		
+				logger.info(`Delete previus: ${destFolder.path}/${path.basename(source.path)}`)
+				cloned =  await this.delete(existed)
+		
 			}
+		
 		} catch (e){
-			console.log(e.toString())
+			
+			logger.info(e.toString())
+		
 		}
 	
-		console.log("Create", `${destFolder.path}/${path.basename(source.path)}`, destFolder)
+		logger.info (`Create: ${destFolder.path}/${path.basename(source.path)}`)
 		resource.parents = [destFolder.id]
+		
 		cloned =  await drive.files.create({
 			  resource,
 			  media,
 			  fields: "id",
-		},
-	    {
-	      // Use the `onUploadProgress` event from Axios to track the
-	      // number of bytes uploaded to this point.
-	      onUploadProgress: evt => {
-	      	process.stdout.write(`UPLOADED: ${evt.bytesRead}                       ${'\x1b[0G'}`)
-				
-	        // const progress = (evt.bytesRead / fileSize) * 100;
-	        // readline.clearLine(process.stdout, 0);
-	        // readline.cursorTo(process.stdout, 0);
-	        // process.stdout.write(`${Math.round(progress)}% complete`);
-	      },
+			},
+	    	{
+		      onUploadProgress: evt => {
+		      	process.stdout.write(`UPLOAD: ${evt.bytesRead} bytes                       ${'\x1b[0G'}`)
+		    }
 	    })
 		
-		console.log("\n", cloned.status)
-			
+		logger.info(`Status: ${cloned.status} ${cloned.statusText}`)
+		logger.info(`Validate file size...`)
+
 		cloned  = await drive.files.get({ 
 			fileId: cloned.data.id, 
 			fields: 'id, name, mimeType, md5Checksum, createdTime, modifiedTime, parents, size' 
 		})
 
 		cloned = cloned.data
-		
-		result = extend( result, 
-				(cloned.size == source.size && cloned.md5Checksum == source.md5Checksum)
-						? {}
-						: {
-							source,
-							target: cloned
-						  }
-		)				  
-
 		cloned.path = getPath(this.$filelist, cloned)
 		this.$filelist.push(cloned)
 		
+		if(cloned.size == source.size && cloned.md5Checksum == source.md5Checksum){
+			result = {}
+			logger.info(`Validate successful`)
+		} else {
+			result = {
+				source,
+				target: cloned
+			}
+			logger.info(`File size "${cloned.path}" failed: ${source.size} bytes expected but ${cloned.path} bytes uploaded`)
+			logger.info(`Use command "npm run recovery" for file recovery`)
+				
+		}
+
 		return result
 	}
 
-	async copy(sourcePath, targetPath, logger){
-		logger = logger || console
+	async delete(file){
+		let res = await drive.files.delete({
+			fileId: file.id
+		})
+		return res
+	}
+
+
+	async copy(sourcePath, targetPath){
+
 		let cloned = this.fileList(sourcePath)
+
 		logger.info(`${cloned.length} items:`)
-		let result = []
-		let needRecivery = []
-		
+
 		for(let i=0; i < cloned.length; i++){
-				await delay(10000, "next operation")
+				await delay(3000, "next operation")
 				logger.info(`Copy ${cloned[i].path} into ${targetPath}`)
 				
 				try {
+					
 					let r = await this.copyFile(cloned[i], targetPath)
-					if(r.error){
-						logger.info(`${r.error}`)
-						needRecivery.push(cloned[i])
-					} else {
-						result.push(r)	
-					}
-							
+				
 				} catch (e) {
 					logger.info(`${e.toString()}`)
-
-					const about = await drive.about.get({
-						fields:"*"
-					})
-					console.log(extend({}, {
-						storageQuota: about.data.storageQuota,
-						maxUploadSize: about.data.maxUploadSize
-					}))
-					
-					needRecivery.push(cloned[i])
-					await delay(10000, "after exception")
 				}
 		}
-
-		logger.info(`${needRecivery.length} items will recovered/`)
-		
-		for(let i=0; i < needRecivery.length; i++){
-			try {
-				await delay(10000, "next operation")
-				logger.info(`Recovery ${cloned[i].path}`)
-				let r = await this.copyFile(needRecivery[i], targetPath)
-				if(r.error){
-					logger.info(`${r.error}`)
-				} else {
-					result.push(r)	
-				}
-						
-			} catch (e) {
-				logger.info(`${e.toString()}`)
-
-				const about = await drive.about.get({
-					fields:"*"
-				})
-				console.log(extend({}, {
-					storageQuota: about.data.storageQuota,
-					maxUploadSize: about.data.maxUploadSize
-				}))
-				await delay(10000, "after exception")
-			}
-
-		}	
 		
 		return result
 	}	
-
-
-	// async copy(sourcePath, targetPath, logger){
-	// 	logger = logger || console
-	// 	let cloned = this.fileList(sourcePath)
-	// 	logger.info(`${cloned.length} items:`)
-	// 	let result = []
-	// 	for(let i=0; i < cloned.length; i++){
-			
-	// 			logger.info(`Backup ${cloned[i].path}`)
-	// 			// await delay(1000, cloned[i].path)
-	// 			try {
-	// 				let r = await this.copyFile(cloned[i], targetPath)
-	// 				if(r.error){
-	// 					logger.info(`${r.error}`)
-	// 					logger.info(`Recovery`)
-	// 					r = await this.copyFile(cloned[i], targetPath)
-	// 					logger.info(JSON.stringify(r, null, " "))
-	// 				}
-	// 				result.push(r)		
-	// 			} catch (e) {
-
-	// 			}
-
-
-				
-	// 		} catch (e) {
-	// 			console.log(e.toString())
-	// 			const about = await drive.about.get({
-	// 				fields:"*"
-	// 			})
-	// 			console.log(extend({}, {
-	// 				permissionId: about.data.permissionId,
-	// 				storageQuota: about.data.storageQuota,
-	// 				maxUploadSize: about.data.maxUploadSize
-	// 			}))
-	// 		}	
-	// 	}
-	// 	return result
-	// }	
 
 }
 
 module.exports = async options => {
 
-	console.log(`Google Drive client account: ${key.client_email} (project:${key.project_id})`)
+	console.log(`Use Google Drive client account: ${key.client_email} (project:${key.project_id})`)
 
-	// let about = await drive.about.get({
-	// 	fields:"*"
-	// })
-
-	// console.log("About Service:")
-	// console.log(YAML.dump(about.data))
-
+	logger = options.logger || console
 	
 	options = options || {
 		noprefetch: false

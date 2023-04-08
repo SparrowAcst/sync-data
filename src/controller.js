@@ -491,9 +491,17 @@ module.exports = async options => {
 	options = normalizeOptions(options)	
 	logger = options.logger || console
 
-	if(options.mongodbService && !mongodbService) mongodbService = await initMongoService()
-	if(options.firebaseService && !firebaseService) firebaseService = await initFirebaseService() 
-	if(options.googledriveService && !googledriveService) googledriveService = await initGoogledriveService(options.googledriveService)
+	if(options.mongodbService && !mongodbService) mongodbService = await initMongoService(
+		extend({}, options.mongodbService, {logger})
+	)
+	
+	if(options.firebaseService && !firebaseService) firebaseService = await initFirebaseService(
+		extend({}, options.firebaseService, {logger})
+	) 
+	
+	if(options.googledriveService && !googledriveService) googledriveService = await initGoogledriveService(
+		extend({}, options.googledriveService, {logger})
+	)
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////

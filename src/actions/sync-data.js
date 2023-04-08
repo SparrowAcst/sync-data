@@ -14,7 +14,7 @@ module.exports = async (syncOrg, syncPatientPattern) => {
   
   logger.info(`Log file ${logFile}`)
   logger.info(`SYNC DATA STARTS`)
-  
+
   const controller = await require("../controller")({
     logger,
     firebaseService:{
@@ -211,10 +211,11 @@ module.exports = async (syncOrg, syncPatientPattern) => {
 
 // // START DEBUG COMMENT
 
-      
-      logger.info(`Backup "Ready for Review/${org}/${examination.patientId}/**/*".`)
+      let backupSourcePath = controller.resolveTemplate(backup.source[org], { examination }) 
+      logger.info(`Backup ${backupSourcePath}`)
+      await gdrive.copy(backupSourcePath, backup.location, logger)
 
-      await gdrive.copy(`Ready for Review/${org}/${examination.patientId}/**/*`, backup.location, logger)
+      // await gdrive.copy(`Ready for Review/${org}/${examination.patientId}/**/*`, backup.location, logger)
       
 // // END DEBUG COMMENT
 

@@ -7,7 +7,6 @@ const path = require("path");
 
 const serviceAccount = require(path.join(__dirname,'../../.config/key/fb/fb.key.json'));
 
-
 const app = initializeApp({
   credential: cert(serviceAccount),
   storageBucket: `gs://${serviceAccount.project_id}.appspot.com`
@@ -15,6 +14,9 @@ const app = initializeApp({
 
 const bucket = getStorage(app).bucket();
 const db = getFirestore(app);
+
+let logger
+
 
 let collections = []
 
@@ -160,8 +162,9 @@ const getFileMetadata = async filename => {
 module.exports = async () => {
   collections = await db.listCollections()
   collections = collections.map(d => d.id)
-  // console.log(collections)
   
+  logger =  logger || console
+
   return {
     db,
     bucket,
