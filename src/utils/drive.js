@@ -406,7 +406,7 @@ const Drive = class {
 			},
 	    	{
 		      onUploadProgress: evt => {
-		      	process.stdout.write(`UPLOAD: ${evt.bytesRead} from ${source.size} (${(100*source.size/evt.bytesRead).toFixed(2)}%) ${'\x1b[0G'}`)
+		      	process.stdout.write(`UPLOAD: ${evt.bytesRead} from ${source.size} (${(100*evt.bytesRead/source.size).toFixed(2)}%) ${'\x1b[0G'}`)
 		    }
 	    })
 		
