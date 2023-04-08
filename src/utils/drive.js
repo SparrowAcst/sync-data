@@ -460,7 +460,6 @@ const Drive = class {
 				}
 		}
 		
-		return result
 	}	
 
 }
