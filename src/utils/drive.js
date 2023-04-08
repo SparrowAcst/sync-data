@@ -405,12 +405,12 @@ const Drive = class {
 			},
 	    	{
 		      onUploadProgress: evt => {
-		      	process.stdout.write(`UPLOAD: ${evt.bytesRead} bytes                       ${'\x1b[0G'}`)
+		      	process.stdout.write(`UPLOAD: ${evt.bytesRead} bytes from ${source.size} (${(100*source.size/evt.bytesRead).toFixed(2)}%)                      ${'\x1b[0G'}`)
 		    }
 	    })
 		
 		logger.info(`Status: ${cloned.status} ${cloned.statusText}`)
-		logger.info(`Validate file size...`)
+		// logger.info(`Validate file size...`)
 
 		cloned  = await drive.files.get({ 
 			fileId: cloned.data.id, 
@@ -422,7 +422,7 @@ const Drive = class {
 		this.$filelist.push(cloned)
 		
 		if(cloned.size == source.size && cloned.md5Checksum == source.md5Checksum){
-			logger.info(`Validate successful`)
+			// logger.info(`Validate successful`)
 		} else {
 			logger.info(`File size "${cloned.path}" failed: ${source.size} bytes expected but ${cloned.path} bytes uploaded`)
 			logger.info(`Use command "npm run recovery" for file recovery`)
