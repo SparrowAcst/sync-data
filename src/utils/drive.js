@@ -427,16 +427,10 @@ const Drive = class {
 			result = {}
 			logger.info(`Validate successful`)
 		} else {
-			result = {
-				source,
-				target: cloned
-			}
 			logger.info(`File size "${cloned.path}" failed: ${source.size} bytes expected but ${cloned.path} bytes uploaded`)
 			logger.info(`Use command "npm run recovery" for file recovery`)
-				
 		}
 
-		return result
 	}
 
 	async delete(file){
@@ -459,7 +453,7 @@ const Drive = class {
 				
 				try {
 					
-					let r = await this.copyFile(cloned[i], targetPath)
+					await this.copyFile(cloned[i], targetPath)
 				
 				} catch (e) {
 					logger.info(`${e.toString()}`)
