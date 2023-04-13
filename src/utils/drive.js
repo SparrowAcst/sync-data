@@ -16,7 +16,7 @@ const jwtClient = new google.auth.JWT(
   null,
   key.private_key,
   ["https://www.googleapis.com/auth/drive"],
-  null
+  "andrii.boldak@sparrowacoustics.com"
 );
 
 const drive = google.drive({version: 'v3', auth: jwtClient});
@@ -156,18 +156,49 @@ const Drive = class {
 		return nodes
 	}
 
-	async downloadFile(fileId) {
-		  try {
-		    const file = await drive.files.get({
-		      fileId: fileId,
-		      alt: 'media',
-		    });
-		    // console.log(file)
-		    return file.data;
-		  } catch (err) {
-		    throw err;
-		  }
+
+	async downloadFile(file, destPath){
+
+		return new Promise( async (resolve, reject) => {
+
+			logger.info(`Download ${file.path} into ${destPath}/${file.name}}`)
+			let inputStream = await this.geFiletWriteStream(file)
+			let destStream = fs.createWriteStream(`${destPath}/${file.name}`)
+			
+			inputStream.on("data", chunk => {
+				process.stdout.write(`DOWNLOAD: ${chunk.length} bytes                  ${'\x1b[0G'}`)
+			})
+			
+			inputStream.on("error", chunk => {
+				logger.info(e.toString())
+				reject(error)
+			})
+			
+			inputStream.on("end", chunk => {
+				logger.info(`${destPath}/${file.name} downloaded`)
+				destStream.end()
+				resolve(`${destPath}/${file.name}`)
+			})	
+
+			inputStream.pipe(destStream)
+
+		})
+
 	}
+
+
+	// async downloadFile(fileId) {
+	// 	  try {
+	// 	    const file = await drive.files.get({
+	// 	      fileId: fileId,
+	// 	      alt: 'media',
+	// 	    });
+	// 	    // console.log(file)
+	// 	    return file.data;
+	// 	  } catch (err) {
+	// 	    throw err;
+	// 	  }
+	// }
 
 	async exportFile(fileId, filePath){
 		return new Promise(async (resolve, reject) => {
@@ -198,6 +229,7 @@ const Drive = class {
 	}
 
 	async geFiletWriteStream(file){
+		// console.log(file)
 		let res = await drive.files.get(
 		    { fileId: file.id, alt: 'media' },
 		    { responseType: 'stream' }
@@ -472,10 +504,10 @@ const Drive = class {
 
 module.exports = async options => {
 
-	console.log(`Use Google Drive client account: ${key.client_email} (project:${key.project_id})`)
-
+	options = options || {}
 	logger = options.logger || console
-	
+	logger.info(`Use Google Drive client account: ${key.client_email} (project:${key.project_id})`)
+
 	options = options || {
 		noprefetch: false
 	}

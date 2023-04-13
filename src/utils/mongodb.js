@@ -54,6 +54,10 @@ const insertAll = async (collectionName, data) => {
 	let conf = normalize(collectionName)
 	let db = client.db(conf.dbName)
     let collection = db.collection(conf.collectionName)
+    // for( let i = 0; i< data.length; i++){
+    // 	await collection.insert(data[i])	
+    // }
+
 	await collection.insertMany(data)
 }
 

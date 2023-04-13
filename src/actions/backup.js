@@ -22,7 +22,9 @@ module.exports = async (syncOrg, syncPatientPattern) => {
   })
   
   const mongodb = controller.mongodbService
-  const gdrive = controller.googledriveService
+  const gdrive = await controller.googledriveService.create({
+    subject: mongodb.config.backup.subject 
+  })
   
   // logger.info(`${JSON.stringify(mongodb.config, null," ")}`)
  
@@ -31,7 +33,7 @@ module.exports = async (syncOrg, syncPatientPattern) => {
 
   const TEMP_DIR_PATH = path.join(__dirname,`${mongodb.config.backup.temp}`)
   const ZIP_DIR_PATH = path.join(__dirname,`${mongodb.config.backup.fs}`)
-  const BACKUP_PATH = `${backupConfig.location}/${mongodb.config.backup.gdrive}`
+  const BACKUP_PATH = `${mongodb.config.backup.gdrive}`
 
   if(!pathExists(TEMP_DIR_PATH)) {
     logger.info(`Create ${TEMP_DIR_PATH}`)
@@ -62,16 +64,16 @@ module.exports = async (syncOrg, syncPatientPattern) => {
     const target = createWriteStream(filePath)
 
     let counter = 0
-    target.write("[\n")
+    // target.write("[\n")
     
     for await (const doc of source) {
       counter++
       process.stdout.write(`Export: ${counter} items into ${filePath}${'\x1b[0G'}`)
-      target.write(JSON.stringify(doc, null, " "))
-      target.write(",")  
+      target.write(JSON.stringify(doc))
+      target.write("\n")  
     }
 
-    target.write("\n]")
+    // target.write("\n]")
     
     await source.close()
     target.end()

@@ -70,6 +70,34 @@ const zip = async (source, dest) => {
 
 const createWriteStream = filePath => fs.createWriteStream(filePath)
 
+const unzip = (path2zip, path2dest, logger) => new Promise( (resolve, reject) => {
+    const inly = require('inly');
+    logger = logger || console
+    const extract = inly(path2zip, path2dest);
+    let _p = 0
+    let extractedFilePath 
+    extract.on('file', (name) => {
+        extractedFilePath = name
+        logger.info(`File ${name} extracted`)
+    });
+
+    extract.on('progress', (percent) => {
+        // if( config.mode == "development"){
+        //  if( (percent % 5) == 0) _p = percent
+        //  logUpdate(`${frame()} ${ _p }%`)    
+        // }
+    });
+
+    extract.on('error', (error) => {
+        reject(error)
+    });
+
+    extract.on('end', () => {
+        resolve(extractedFilePath)
+    }); 
+})
+
+
 
 
 module.exports = {
@@ -84,6 +112,7 @@ module.exports = {
     pathExists: fse.pathExistsSync,
     readFile,
     zip,
+    unzip,
     createWriteStream 	
 }
 
