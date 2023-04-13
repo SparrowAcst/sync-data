@@ -67,6 +67,7 @@ const run = async () => {
 		
 		for( let i=0; i< res.length; i++){
 			let d = res[i]
+			console.log(i+1)
 			let result = await sourceDrive.copy(d.source.path, targetDrive, targetRoot)
 		}
 	} else {

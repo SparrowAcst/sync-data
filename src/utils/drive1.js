@@ -652,7 +652,7 @@ const Drive = class {
 
 		let cloned = this.fileList(sourcePath)
 
-		logger.info(`${cloned.length} items:`)
+		// logger.info(`${cloned.length} items:`)
 
 		for(let i=0; i < cloned.length; i++){
 				await delay(3000, "next operation")
