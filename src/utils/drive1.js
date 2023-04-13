@@ -601,7 +601,7 @@ const Drive = class {
 		
 		}
 		
-		await delay(1000, "complete operation")
+		// await delay(1000, "complete operation")
 
 		logger.info (`Create: ${destFolder.path}/${path.basename(source.path)}`)
 		resource.parents = [destFolder.id]
@@ -621,7 +621,7 @@ const Drive = class {
 		logger.info(`Status: ${cloned.status} ${cloned.statusText}                                                             `)
 		// logger.info(`Validate file size...`)
 
-		await delay(1000, "complete operation")
+		// await delay(1000, "complete operation")
 		cloned  = await targetDrive.$drive.files.get({ 
 			fileId: cloned.data.id, 
 			fields: 'id, name, mimeType, md5Checksum, createdTime, modifiedTime, parents, size' 
@@ -655,7 +655,7 @@ const Drive = class {
 		// logger.info(`${cloned.length} items:`)
 
 		for(let i=0; i < cloned.length; i++){
-				await delay(3000, "next operation")
+				// await delay(3000, "next operation")
 				logger.info(`Copy ${cloned[i].path} into ${targetPath}`)
 				
 				try {

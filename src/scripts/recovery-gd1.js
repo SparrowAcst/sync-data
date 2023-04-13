@@ -31,6 +31,9 @@ const run = async () => {
 		targetList = targetDrive.fileList(`${target}/**/*.*`)
 		let res = []
 		
+		console.log(trimPath(targetList[0].path, target))
+		console.log(trimPath(sourceList[0].path, source))
+		
 		sourceList.forEach( s => {
 
 			let t = find(targetList, t => trimPath(t.path, target) == trimPath(s.path, source))
