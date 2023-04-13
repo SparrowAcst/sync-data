@@ -9,11 +9,15 @@ module.exports = async (syncOrg, syncPatientPattern) => {
   
   const logConfig = loadYaml(path.join(__dirname,`../../.config/log/log.conf.yml`))
   const logFile = path.join(__dirname,`${logConfig.sync.log.path}`)
+  const backup = loadYaml(path.join(__dirname,`../../.config/data/backup.yml`))
+  
   
   const logger = require("../utils/logger")(logFile)
   
   logger.info(`Log file ${logFile}`)
   logger.info(`SYNC DATA STARTS`)
+
+
 
   const controller = await require("../controller")({
     logger,
@@ -24,13 +28,15 @@ module.exports = async (syncOrg, syncPatientPattern) => {
   
   const mongodb = controller.mongodbService
   const fb = controller.firebaseService
-  const gdrive = controller.googledriveService
+  const sourceDrive = await controller.googledriveService.create()
+  const targetDrive = await controller.googledriveService.create({
+    subject: backup.subject
+  })
      
   
   const labelsMetadata = loadYaml(path.join(__dirname,`../../.config/labeling/labels.yml`))
-  const backup = loadYaml(path.join(__dirname,`../../.config/data/backup.yml`))
   
-  let orgs = gdrive.dirList("Ready for Review/*").map( d => d.name)
+  let orgs = sourceDrive.dirList("Ready for Review/*").map( d => d.name)
   
   orgs = orgs.filter( o => 
     pathExists(path.join(__dirname,`../../.config/data/${o}/validate-rules.yml`)) 
@@ -48,7 +54,7 @@ module.exports = async (syncOrg, syncPatientPattern) => {
     const validateRules = loadYaml(path.join(__dirname,`../../.config/data/${org}/validate-rules.yml`))
     const assetsRules = loadYaml(path.join(__dirname,`../../.config/data/${org}/assets-rules.yml`))
 
-    let examsIds = gdrive.dirList(`Ready for Review/${org}/*`).map( d => d.name)
+    let examsIds = sourceDrive.dirList(`Ready for Review/${org}/*`).map( d => d.name)
 
     let inReviewExams = await fb.execute.getCollectionItems(
        "examinations",
@@ -81,7 +87,7 @@ module.exports = async (syncOrg, syncPatientPattern) => {
       
       let examination = syncExams[i]
       examination = await controller.expandExaminations(...[examination])
-      examination = controller.validateExamination(examination[0], validateRules, org)
+      examination = controller.validateExamination(examination[0], validateRules, org, sourceDrive)
       logger.info(`Validation stage for examination ${examination.patientId} >>>> ${(examination._validation == true) ? "succeful passed" : "failed: "+examination._validation}`)
 
       let insUser = extend({}, examination.$extention.users[0])
@@ -181,13 +187,13 @@ module.exports = async (syncOrg, syncPatientPattern) => {
       
       logger.info(`Import ${examination.patientId} assets:`)
       
-      let externalAssets = controller.buildExternalAssets(examination, assetsRules)
+      let externalAssets = controller.buildExternalAssets(examination, assetsRules, sourceDrive)
       
       for( let j = 0; j < externalAssets.length; j++){
         
         let asset = externalAssets[j]
         
-        asset = await controller.resolveAsset(examination, asset)
+        asset = await controller.resolveAsset(examination, asset, sourceDrive)
         if(asset.error){
           logger.info(`"${asset.links.path}": ${asset.error}`)
           delete assets.error
@@ -213,7 +219,7 @@ module.exports = async (syncOrg, syncPatientPattern) => {
 
       let backupSourcePath = controller.resolveTemplate(backup.source[org], { examination }) 
       logger.info(`Backup ${backupSourcePath}`)
-      await gdrive.copy(backupSourcePath, backup.location, logger)
+      await sourceDrive.copy(backupSourcePath, targetDrive, backup.location)
 
       // await gdrive.copy(`Ready for Review/${org}/${examination.patientId}/**/*`, backup.location, logger)
       

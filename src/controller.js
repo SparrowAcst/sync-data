@@ -315,7 +315,7 @@ const checkNeedAssetRecovery = async (examination, asset) => {
 
 
 /////////////////////////////////////////////////////////////////////////////////////
-const resolveAsset = async (examination, asset) => {
+const resolveAsset = async (examination, asset, drive) => {
 	// console.log("resolve", asset)	
 // START DEBUG COMMENT
 
@@ -332,7 +332,7 @@ const resolveAsset = async (examination, asset) => {
 
 
 	
-	let fStream = await googledriveService.geFiletWriteStream(asset.file)
+	let fStream = await drive.geFiletWriteStream(asset.file)
 
 	let size = 0
 	let rawSize = 0
@@ -395,10 +395,10 @@ const validateExamination = ( examination, rules, org, drive ) => {
 }
 
 
-const buildExternalAssets = ( examination, rules) => {
+const buildExternalAssets = ( examination, rules, drive) => {
         
     return  piper.execute({ 
-	        	drive: googledriveService,
+	        	drive,
 	        	spots,
 	        	examination
         	}, 
