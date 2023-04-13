@@ -377,19 +377,19 @@ const resolveAsset = async (examination, asset) => {
 }
 
 
-const validateExamination = ( examination, rules, org ) => {
+const validateExamination = ( examination, rules, org, drive ) => {
 	let ids = /([A-Z]{3})([0-9]{4})/.exec(examination.patientId)
 
     examination._validation = piper.validate({
         // context
-        drive: googledriveService,
+        drive,
         org, //: examination.$extention.organizations[0].name.toUpperCase(),
         doctor: ids[1],
         patient: ids[2],
         examination,
         formFields
       }, rules)
-    let webViewLink = googledriveService.dirList(`Ready for Review/${org}/${examination.patientId}`)[0].webViewLink
+    let webViewLink = drive.dirList(`Ready for Review/${org}/${examination.patientId}`)[0].webViewLink
     examination.webViewLink = webViewLink
     return examination
 }

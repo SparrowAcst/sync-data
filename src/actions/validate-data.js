@@ -52,7 +52,7 @@ module.exports = async (org, patientPattern) => {
 
   const mongodb = controller.mongodbService
   const fb = controller.firebaseService
-  const gdrive = controller.googledriveService
+  const gdrive = await controller.googledriveService.create()
     
   logger.info(`Organization: ${org}. Pattern: ${patientPattern}`)
 
@@ -125,7 +125,7 @@ module.exports = async (org, patientPattern) => {
     
     let examination = syncExams[i]
     examination = await controller.expandExaminations(...[examination])
-    examination = controller.validateExamination(examination[0], validateRules, org)
+    examination = controller.validateExamination(examination[0], validateRules, org, gdrive)
 
     logger.info(`${examination.patientId} >>> ${examination._validation}`)
 
