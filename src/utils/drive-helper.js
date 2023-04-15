@@ -1,4 +1,4 @@
-nodeconst { google } = require("googleapis");
+const { google } = require("googleapis");
 const { Readable } = require("stream");
 const FOLDER = "application/vnd.google-apps.folder";
 
@@ -180,9 +180,9 @@ const removeFile = ({ fileId, client }) => {
  * @returns {File} the parent folder at the end of the path
  */
 
-const getFolder = async ({ client, path }) => {
+const getFolder = async ({ client, path, createIfMissing = false}) => {
   let parent = null;
-  for await (let folder of folderIterator({ client, path, createIfMissing: true })) {
+  for await (let folder of folderIterator({ client, path, createIfMissing })) {
     parent = folder;
   }
   return parent && parent[0];
@@ -256,12 +256,12 @@ const folderIterator = ({ path = "", client, createIfMissing = false }) => {
                     parents,
                   })
                 : Promise.resolve(null)).then((res) => {
-                    this.parents = [res.data];
+                    this.parents = res && [res.data];
                     if (!this.parents) {
-                      console.log("...couldnt find/create folder", name);
-                      return Promise.reject("giving up");
+                      // console.log("...couldnt find/create folder", name);
+                      return Promise.reject(`...couldnt find/create folder ${name}`);
                     } else {
-                      console.log("...created folder", name, this.parents)
+                      // console.log("...created folder", name, this.parents)
                       return {
                         done: false,
                         value: this.parents ,
@@ -282,62 +282,67 @@ const folderIterator = ({ path = "", client, createIfMissing = false }) => {
 };
 
 
+module.exports = {
+  getFolder
+}
 
-(async () => {
-  // get a client
-  const client = await getClient({
-    prefix: "/crusher/store",
-    credentials: getDriveCreds(),
-    subject: "bruce@mcpher.com",
-  });
 
-  // write something
-  const content = "some data";
 
-  // top level
-  const res = await createFile({
-    client,
-    content: "some stuff at top level",
-    name: "toplevel.txt",
-  });
-  // get it back
-  const { content: topContent, fileId } = await getFile({
-    client,
-    fileId: res.data.id,
-  });
-  console.log(topContent, fileId);
+// (async () => {
+//   // get a client
+//   const client = await getClient({
+//     prefix: "/crusher/store",
+//     credentials: getDriveCreds(),
+//     subject: "bruce@mcpher.com",
+//   });
 
-  // delete it
-  await removeFile({ client, fileId });
+//   // write something
+//   const content = "some data";
 
-  // get a handle to some folder, and create it if necessary
-  const { id } = await getFolder({
-    client,
-    path: "/some/folder"
-  });
+//   // top level
+//   const res = await createFile({
+//     client,
+//     content: "some stuff at top level",
+//     name: "toplevel.txt",
+//   });
+//   // get it back
+//   const { content: topContent, fileId } = await getFile({
+//     client,
+//     fileId: res.data.id,
+//   });
+//   console.log(topContent, fileId);
 
-  // create a dile in that folder
-  const { data } = await createFile({
-    client,
-    content: "some stuff at sub level",
-    name: "sub.txt",
-    parents: [id],
-  });
+//   // delete it
+//   await removeFile({ client, fileId });
 
-  const { content: subContent, fileId: subFileId } = await getFile({
-    client,
-    fileId: data.id,
-  });
+//   // get a handle to some folder, and create it if necessary
+//   const { id } = await getFolder({
+//     client,
+//     path: "/some/folder"
+//   });
 
-  console.log(subContent, subFileId);
+//   // create a dile in that folder
+//   const { data } = await createFile({
+//     client,
+//     content: "some stuff at sub level",
+//     name: "sub.txt",
+//     parents: [id],
+//   });
 
-  // get the files of that name
-  const files = await getFilesByName({
-    name: 'sub.txt',
-    parents: [id],
-    client
-  })
+//   const { content: subContent, fileId: subFileId } = await getFile({
+//     client,
+//     fileId: data.id,
+//   });
 
-  // delete then all
-  await Promise.all(files.map(f => removeFile({ client, fileId: f.id })))
-})()
+//   console.log(subContent, subFileId);
+
+//   // get the files of that name
+//   const files = await getFilesByName({
+//     name: 'sub.txt',
+//     parents: [id],
+//     client
+//   })
+
+//   // delete then all
+//   await Promise.all(files.map(f => removeFile({ client, fileId: f.id })))
+// })()

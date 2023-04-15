@@ -28,10 +28,6 @@ module.exports = async (syncOrg, syncPatientPattern) => {
   
   const mongodb = controller.mongodbService
   const fb = controller.firebaseService
-  const sourceDrive = await controller.googledriveService.create()
-  const targetDrive = await controller.googledriveService.create({
-    subject: backup.subject
-  })
      
   
   const labelsMetadata = loadYaml(path.join(__dirname,`../../.config/labeling/labels.yml`))
@@ -50,6 +46,23 @@ module.exports = async (syncOrg, syncPatientPattern) => {
     
     let org = orgs[k]
     logger.info(`Organization: ${org}`)
+
+
+    const sourceDrive = await controller.googledriveService.create({
+      owner: backup.owner[org]
+    })
+
+    await sourceDrive.load(backup.read[org])
+  
+
+    const targetDrive = await controller.googledriveService.create({
+      subject: backup.subject
+    })
+
+    await targetDrive.load(`${backup.location}/${backup.read[org]}`)
+  
+
+
 
     const validateRules = loadYaml(path.join(__dirname,`../../.config/data/${org}/validate-rules.yml`))
     const assetsRules = loadYaml(path.join(__dirname,`../../.config/data/${org}/assets-rules.yml`))
@@ -198,7 +211,7 @@ module.exports = async (syncOrg, syncPatientPattern) => {
           logger.info(`"${asset.links.path}": ${asset.error}`)
           delete assets.error
           logger.info(`Recovery "${asset.links.path}"`)
-          asset = await controller.resolveAsset(examination, asset)
+          asset = await controller.resolveAsset(examination, asset, sourceDrive)
           logger.info(`"${asset.links.path}":\n${JSON.stringify(asset, null, " ")}`)
         } else {
           logger.info(`Move data into "${asset.links.path}"`)

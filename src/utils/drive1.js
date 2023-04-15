@@ -8,6 +8,7 @@ const fs = require("fs")
 const { find, findIndex, isUndefined, extend, last, uniqBy, maxBy } = require("lodash")
 const nanomatch = require('nanomatch')
 const YAML = require("js-yaml")
+const {getFolder} = require("./drive-helper")
 
 const key = require(path.join(__dirname,"../../.config/key/gd/gd.key.json"))
 
@@ -69,36 +70,36 @@ const getList = files => {
 }	
 
 
-// async function loadList({ drive, options}){
-// 	try {
-// 	  	let res = []
-// 	  	let nextPageToken
-// 	  	do {
+async function loadList({ drive, options}){
+	try {
+	  	let res = []
+	  	let nextPageToken
+	  	do {
 	
-// 	  		const part = await drive.files.list(
-// 	  			extend( 
-// 	  				{}, 
-// 	  				{
-// 			  		  pageSize: 250,
-// 				      pageToken: nextPageToken || "",	
-// 				      fields: "files(id, webViewLink, name, mimeType, md5Checksum, createdTime, modifiedTime, parents, size, trashed, version, owners ), nextPageToken",
-// 				      spaces: 'drive'
-// 				    },
-// 				    options
-// 				)
-// 			)		
-// 		    res = res.concat(part.data.files)
-// 		    nextPageToken = part.data.nextPageToken
+	  		const part = await drive.files.list(
+	  			extend( 
+	  				{}, 
+	  				{
+			  		  pageSize: 250,
+				      pageToken: nextPageToken || "",	
+				      fields: "files(id, webViewLink, name, mimeType, md5Checksum, createdTime, modifiedTime, parents, size, trashed, version, owners ), nextPageToken",
+				      spaces: 'drive'
+				    },
+				    options
+				)
+			)		
+		    res = res.concat(part.data.files)
+		    nextPageToken = part.data.nextPageToken
 	
-// 	  	} while (nextPageToken)
+	  	} while (nextPageToken)
 
-// 	  	return res
+	  	return res
   	
-//   	} catch (e) {
-//   		logger.info(e.toString())
-//     	throw e;
-//   	}
-// }
+  	} catch (e) {
+  		logger.info(e.toString())
+    	throw e;
+  	}
+}
 
 // async function getFolder ({ path = "", drive, createIfMissing = false}) {
 	
@@ -162,33 +163,31 @@ const getList = files => {
 // }
 
 
-// async function getTree ({ id, drive}) {
+async function getTree ({ id, drive}) {
 	
-// 	let temp = []
-// 	let prevs = []
-// 	let currents = await loadList({drive, options:{q: `'${id}' in parents and trashed = false` }})
+	let temp = []
+	let prevs = []
+	let currents = await loadList({drive, options:{q: `'${id}' in parents and trashed = false` }})
 	
-// 	for( let prevs =  currents.map(d => d); prevs.length > 0;  ) {
+	for( let prevs =  currents.map(d => d); prevs.length > 0;  ) {
 		
-// 		temp = temp.concat(prevs)
+		temp = temp.concat(prevs)
 
-// 		let nextWave = []
-// 		for(let j=0; j< prevs.length; j++){
-// 			let part = await loadList({drive, options:{q: `'${prevs[j].id}' in parents and trashed = false` }})
-// 			nextWave = nextWave.concat(part)	
-// 		}
+		let nextWave = []
+		for(let j=0; j< prevs.length; j++){
+			let part = await loadList({drive, options:{q: `'${prevs[j].id}' in parents and trashed = false` }})
+			nextWave = nextWave.concat(part)	
+		}
 
-// 		prevs = nextWave.map(d => d)
+		prevs = nextWave.map(d => d)
 		
-// 	}	
+	}	
 	
-// 	console.log("RETURN TREE\n", JSON.stringify(temp, null, " "))
+	// console.log("RETURN TREE\n", JSON.stringify(temp, null, " "))
 	
-// 	return {
-// 		cache: temp
-// 	}
+	return temp
 
-// }
+}
 
 
 // async function getDirList(drive, rootPath) {
@@ -233,23 +232,69 @@ const getList = files => {
 // }
 
 
-async function getDirList(drive) {
+const buildPath = ( drive, point ) => new Promise( async resolve => {
+	let current = point
+	let result = [current]
+	for(; current && current.parents; ){
+		
+		// console.log(current)
+		// let p = (await stub.list( f => current.parents.includes(f.id)))[0]
+		
+		let p = (await drive.files.get({
+  		  fileId: current.parents[0],
+  		  fields: 'id, name, mimeType, md5Checksum, createdTime, modifiedTime, parents, size'
+	    })).data
+		
+		current = p
+		
+		if(current){
+			result.push(p)
+		}
+	}
+
+	result.reverse()
+	point.path = result.map( r => r.name).join("/")
+	console.log(point.path)
+	resolve( point )
+})
+
+const FOLDER = "application/vnd.google-apps.folder"
+async function getDirList(drive, pattern) {
   try {
+  	console.log(`Load: "${pattern}"`)
   	let res = []
   	let nextPageToken
   	do {
   		const part = await drive.files.list({
-  		  q: "trashed = false", 
-  		  pageSize: 250,
+  		  q: `trashed = false and mimeType != '${FOLDER}'`, 
+  		  pageSize: 25,
 	      pageToken: nextPageToken || "",	
 	      fields: "files(id, webViewLink, name, mimeType, md5Checksum, createdTime, modifiedTime, parents, size, trashed, version ), nextPageToken",
 	      spaces: 'drive',
 	    });	
-	    res = res.concat(part.data.files)
+
+  		let files = part.data.files
+  		console.log(files.length)
+ 		
+  // 		for( p of files){
+  // 			console.log(p.name)
+		//    	p.path = (await buildPath( drive, p ))
+		// }
+
+		files = await Promise.all(files.map(f => buildPath( drive, f )))
+
+		let pathes = nanomatch(files.map(f => f.path), pattern)
+
+		files = files.filter( f => pathes.includes(f.path))
+
+	    res = res.concat(files)
+	    console.log("RES", res.length)
+	    // process.stdout.write(`${res.length} files                  ${'\x1b[0G'}`)
+		
 	    nextPageToken = part.data.nextPageToken
   	} while (nextPageToken)
 
-    return getList(res);
+    return res;
 
   } catch (err) {
     console.log(err.toString())
@@ -273,6 +318,44 @@ const Drive = class {
 	// 	return new Drive(filelist)
 
 	// }
+
+	getFolder(path){
+		return getFolder({
+			client: this.$drive,
+			path
+		})
+	}
+
+	async loadTree(path) {
+
+		let f 
+		
+		try {
+			
+			f = await this.getFolder(path)
+		
+		} catch(e){
+			logger.info(e.toString())
+		}	
+		
+		if(!f) return []
+			
+		let files  = await getTree({
+			drive: this.$drive,
+			id: f.id
+		})
+		this.$filelist = getList(files)
+		const prefix = path.split("/").slice(0,-1).join("/")
+
+		this.$filelist.forEach( f => {
+			f.path = `${prefix}/${f.path}`
+		}) 
+
+	}
+
+	async loadList(pattern){
+		this.$fileList = await getDirList(this.$drive, pattern)
+	}
 
 	dirList(path){
 		path = path || "**/*"
@@ -694,9 +777,9 @@ const create = async options => {
 	if(options.noprefetch == true){
 		return new Drive(drive, [], options.subject)
 	} else {
-		let filelist = await getDirList(drive)
+		// let filelist = await getDirList(drive)
 		// console.log(JSON.stringify(filelist, null, " "))
-		return new Drive(drive, filelist, options.subject)
+		return new Drive(drive, [], options.subject)
 	}
 
 }

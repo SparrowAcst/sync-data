@@ -43,6 +43,9 @@ module.exports = async (org, patientPattern) => {
   logger.info(`DATA VALIDATION for "${org}" STARTS`)
 
   
+ const backupConfig = loadYaml(path.join(__dirname,`../../.config/data/backup.yml`))
+  
+
   const controller = await require("../controller")({
     logger,
     firebaseService:{
@@ -52,7 +55,11 @@ module.exports = async (org, patientPattern) => {
 
   const mongodb = controller.mongodbService
   const fb = controller.firebaseService
-  const gdrive = await controller.googledriveService.create()
+  const gdrive = await controller.googledriveService.create({
+    owner: backupConfig.owner[org]
+  })
+  
+  await gdrive.load(backupConfig.read[org])
     
   logger.info(`Organization: ${org}. Pattern: ${patientPattern}`)
 

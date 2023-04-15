@@ -516,7 +516,7 @@ module.exports = async options => {
 		return new Drive([])
 	} else {
 		let filelist = await getDirList()
-		// console.log(JSON.stringify(filelist, null, " "))
+		console.log(filelist.map(f => f.path))
 		return new Drive(filelist)
 	}	
 
