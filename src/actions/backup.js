@@ -26,9 +26,11 @@ module.exports = async (syncOrg, syncPatientPattern) => {
     subject: mongodb.config.backup.subject 
   })
   
+  await gdrive.load(mongodb.config.backup.gdrive)
+  
   // logger.info(`${JSON.stringify(mongodb.config, null," ")}`)
  
-  const backupConfig = loadYaml(path.join(__dirname,`../../.config/data/backup.yml`))
+  // const backupConfig = loadYaml(path.join(__dirname,`../../.config/data/backup.yml`))
   
 
   const TEMP_DIR_PATH = path.join(__dirname,`${mongodb.config.backup.temp}`)
