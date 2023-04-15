@@ -32,7 +32,7 @@ module.exports = async (syncOrg, syncPatientPattern) => {
   
   const labelsMetadata = loadYaml(path.join(__dirname,`../../.config/labeling/labels.yml`))
   
-  let orgs = sourceDrive.dirList("Ready for Review/*").map( d => d.name)
+  let orgs = backup.organizations
   
   orgs = orgs.filter( o => 
     pathExists(path.join(__dirname,`../../.config/data/${o}/validate-rules.yml`)) 
