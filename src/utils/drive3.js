@@ -504,7 +504,7 @@ const Drive = class {
 		}
 		mem(2)
 		let cloned
-		let clonedData = await this.upload(source)
+		let clonedData = await this.getFile(source) //await this.upload(source)
 
 		const resource = {
 		    name: source.name,
