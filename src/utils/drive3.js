@@ -1,5 +1,13 @@
 
 
+const mem = (msg) => {
+		const used = process.memoryUsage();
+		console.log(`${msg} :Memory usage: ${Math.round(used.rss / 1024 / 1024 * 100) / 100} MB`);
+		return used.rss
+	}	
+	
+
+
 
 const { google } = require("googleapis")
 const path = require("path")
@@ -10,6 +18,9 @@ const nanomatch = require('nanomatch')
 const YAML = require("js-yaml")
 
 const key = require(path.join(__dirname,"../../.config/key/gd/gd.key.json"))
+
+
+
 
 
 let logger
@@ -478,7 +489,7 @@ const Drive = class {
 	)}
 
 	async copyFile(source, targetDrive, targetPath){
-		
+		mem(1)
 		let destFolder = await targetDrive.createFolderbyPath(targetPath, path.dirname(source.path))
 		const existed = targetDrive.list(`${destFolder.path}/${path.basename(source.path)}`)[0]
 		
@@ -491,14 +502,14 @@ const Drive = class {
 			logger.info(`${destFolder.path}/${path.basename(source.path)} already exists but expected size ${existed.size} not equal ${source.size}`)
 				
 		}
-
+		mem(2)
 		let cloned
 		let clonedData = await this.upload(source)
 
 		const resource = {
 		    name: source.name,
 		}
-
+		mem(3)
 		const media = {
 		  	mimeType: source.mimeType,
 			body: clonedData,
@@ -519,7 +530,7 @@ const Drive = class {
 			logger.info(e.toString())
 		
 		}
-
+mem(4)
 		logger.info (`Create: ${destFolder.path}/${path.basename(source.path)}`)
 		resource.parents = [destFolder.id]
 		
@@ -536,7 +547,7 @@ const Drive = class {
 		
 
 		logger.info(`Status: ${cloned.status} ${cloned.statusText}                                                             `)
-
+mem(5)
 		cloned  = await targetDrive.$drive.files.get({ 
 			fileId: cloned.data.id, 
 			fields: 'id, name, mimeType, md5Checksum, createdTime, modifiedTime, parents, size' 
@@ -551,6 +562,7 @@ const Drive = class {
 			logger.info(`File size "${cloned.path}" failed: ${source.size} bytes expected but ${cloned.size} bytes saved`)
 			logger.info(`For file recovery use command: npm run recovery "${source.path}"`)
 		}
+mem(6)
 
 	}
 
