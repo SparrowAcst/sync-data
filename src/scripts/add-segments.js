@@ -78,11 +78,13 @@ const run = async () => {
 	        '$sort': {
 	            'id': 1
 	        }
-	    }, {
-	        '$skip': skip
-	    }, {
-	        '$limit': PAGE_SIZE
-	    }]
+	    }
+	    // , {
+	    //     '$skip': skip
+	    // }, {
+	    //     '$limit': PAGE_SIZE
+	    // }
+	    ]
 
 	    buffer = await mongodb.execute.aggregate(`sparrow.${datasetName}`, pipeline)
 	    if (buffer.length > 0) {
