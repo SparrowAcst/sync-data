@@ -23,6 +23,13 @@ const run = async () => {
 		setTimeout(() => resolve(), ms)
 	})
 
+	const mem = (msg) => {
+		const used = process.memoryUsage();
+		console.log(`${msg} :Memory usage: ${Math.round(used.rss / 1024 / 1024 * 100) / 100} MB`);
+		return used.rss
+	}	
+
+
 
     const resolveSegmentation = async buffer => {
 
@@ -88,7 +95,7 @@ const run = async () => {
 		    
 
 		    console.log(`Update ${ops.length} items`) //:\n${ops.map( d => d.replaceOne.replacement["Examination ID"]+":"+d.replaceOne.replacement.id).join("\n")}`)
-
+		    mem()
 		    await delay(2000, "wait for fetch next buffer")
 
 	    }
