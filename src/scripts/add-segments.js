@@ -30,7 +30,7 @@ const run = async () => {
 
         for (let i = 0; i < buffer.length; i++) {
             let labeling = buffer[i]
-            process.stdout.write(`Load: ${labeling.path}.json                                   ${'\x1b[0G'}`)
+            process.stdout.write(`Load: (${i} ${labeling["Examination ID"]}) ${labeling.path}.json           ${'\x1b[0G'}`)
             let seg = await storage.fetchFileData(`${labeling.path}.json`)
             if (seg) {
             	labeling.segmentation = JSON.parse(seg.toString())
