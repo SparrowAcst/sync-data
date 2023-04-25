@@ -10,6 +10,7 @@
     "recovery-mongo": "node ./src/scripts/recovery-mongo",
     "recovery": "node ./src/scripts/recovery-gd1",
     "recovery-fb": "node ./src/scripts/recovery-fb",
+    "add-segments": "node ./src/scripts/add-segments",
     "child-validate": "node ./src/childs/test-validate",
     "test-cron": "node test-cron",
     "test": "echo \"Error: no test specified\" && exit 1"

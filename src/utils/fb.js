@@ -142,6 +142,12 @@ const downloadFile = async (srcFilename, destFilename) => {
   return bucket.file(srcFilename).download(options);
 }
 
+const fetchFileData = async srcFileName => {
+  const contents = await bucket.file(srcFileName).download();
+  return contents
+}
+
+
 
 const getFileMetadata = async filename => {
   let res = []
@@ -172,6 +178,7 @@ module.exports = async () => {
       getCollectionItems,
       uploadFile,
       downloadFile,
+      fetchFileData,
       saveFile,
       saveFileFromStream,
       getFileMetadata  

@@ -1,24 +1,26 @@
+const Storage = require("./src/utils/fb-storage")
+const path = require("path")
 
 const run  = async () => {
 
-	  const controller = await require("./src/controller")({
-	    firebaseService: 
-	    {
-	      noprefetch: true
-	    },
-	    
-	    googledriveService: true,
+	  const storage = new Storage(path.join(__dirname, `./.config/key/fb/fb.key.json`))	
+	  
 
-	    mongodbService: false,
-	  })
+	  let metadata = await storage.getFileMetadata("L16Y6v4cWBULzANufG7XoGhAuPh1/recordings/Android_04KDCbuieaogrNJuiJX8.json")
 
-	  // let metadata = await controller.firebaseService.execute.getFileMetadata("9ASbG0DQawa2ajr0APjbqhVz8pG2/assets/files/9woWosw3l2L2WRMVjptb_POT0053.pdf")
+	  console.log("metadata: ", metadata)
 
-	  // console.log(metadata)
+	  metadata = await storage.getFileMetadata("L16Y6v4cWBULzANufG7XoGhAuPh1/recordings/Android_04KDCbuieaogrNJuiJX8.js")
 
-	  // const drive = await controller.googledriveService.initiate("Ready for Review/Denis/**/*.*")
+	  console.log("metadata: ", metadata)
 
-	  // console.log(drive.list())
+	  let data = await storage.fetchFileData("L16Y6v4cWBULzANufG7XoGhAuPh1/recordings/Android_04KDCbuieaogrNJuiJX8.json")
+	  data = data.toString()
+	  console.log(JSON.parse(data))
+
+	  data = await storage.fetchFileData("L16Y6v4cWBULzANufG7XoGhAuPh1/recording/Android_04KDCbuieaogrNJuiJX8.json")
+	  console.log(data)
+
 
 }
 
