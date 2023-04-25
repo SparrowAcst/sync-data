@@ -66,7 +66,7 @@ const run = async () => {
 
 	    const pipeline = [{
 	        '$match': {
-	            // 'FINALIZED': true,
+	            'FINALIZED': true,
 	            'Examination ID': {
 				    $regex: examPattern
 				 },
