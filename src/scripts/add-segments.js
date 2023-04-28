@@ -67,18 +67,16 @@ const run = async () => {
 	    const pipeline = [{
 	        '$match': {
 	            'FINALIZED': true,
-	    //         'Examination ID': {
-				 //    $regex: examPattern
-				 // },
 	            'segmentation': {
 	                '$exists': false
 	            }
 	        }
-	    }, {
-	        '$sort': {
-	            'id': 1
-	        }
-	    },
+	    }
+	    // , {
+	    //     '$sort': {
+	    //         'id': 1
+	    //     }
+	    // },
 
 	    // , {
 	    //     '$skip': skip
