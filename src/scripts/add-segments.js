@@ -64,14 +64,16 @@ const run = async () => {
 
 	do {
 
-	    const pipeline = [{
+	    const pipeline = [
+	    {
 	        '$match': {
 	            'FINALIZED': true,
 	            'segmentation': {
 	                '$exists': false
 	            }
 	        }
-	    }
+	    },
+	    
 	    // , {
 	    //     '$sort': {
 	    //         'id': 1
