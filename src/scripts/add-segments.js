@@ -78,7 +78,9 @@ const run = async () => {
                     'Examination ID': 1
                 }
             },
-
+            {
+            	$skip: skip 
+            },
             {
                 '$limit': PAGE_SIZE
             }
