@@ -19,15 +19,15 @@ const run = async () => {
 
 
     const delay = (ms, msg) => new Promise(resolve => {
-		console.info(`Wait ${ms} for ${msg} settings`)
-		setTimeout(() => resolve(), ms)
-	})
+        console.info(`Wait ${ms} for ${msg} settings`)
+        setTimeout(() => resolve(), ms)
+    })
 
-	const mem = (msg) => {
-		const used = process.memoryUsage();
-		console.log(`${msg} :Memory usage: ${Math.round(used.rss / 1024 / 1024 * 100) / 100} MB`);
-		return used.rss
-	}	
+    const mem = (msg) => {
+        const used = process.memoryUsage();
+        console.log(`${msg} :Memory usage: ${Math.round(used.rss / 1024 / 1024 * 100) / 100} MB`);
+        return used.rss
+    }
 
 
 
@@ -40,7 +40,7 @@ const run = async () => {
             process.stdout.write(`Load: (${i} ${labeling["Examination ID"]}) ${labeling.path}.json           ${'\x1b[0G'}`)
             let seg = await storage.fetchFileData(`${labeling.path}.json`)
             if (seg) {
-            	labeling.segmentation = JSON.parse(seg.toString())
+                labeling.segmentation = JSON.parse(seg.toString())
                 ops.push({
                     replaceOne: {
                         "filter": { id: labeling.id },
@@ -48,70 +48,65 @@ const run = async () => {
                         "upsert": false
                     }
                 })
-        	}
-    	}
-    	console.log()
-    	return ops 
-	}
+            }
+        }
+        console.log()
+        return ops
+    }
 
 
-	console.log("Add segmentation into finalized labeling if exists:")
+    console.log("Add segmentation into finalized labeling if exists:")
 
-	const PAGE_SIZE = 50
-	let skip = 0
-	let buffer = []
-	bufferCount = 0
+    const PAGE_SIZE = 50
+    let skip = 0
+    let buffer = []
+    bufferCount = 0
 
-	do {
+    do {
 
-	    const pipeline = [
-	    {
-	        '$match': {
-	            'FINALIZED': true,
-	            'segmentation': {
-	                '$exists': false
-	            }
-	        }
-	    },
-	    
-	    // , {
-	    //     '$sort': {
-	    //         'id': 1
-	    //     }
-	    // },
+        const pipeline = [
+        	{
+                '$match': {
+                    segmentation: {
+                        $exists: false
+                    },
+                    FINALIZED: true
+                }
+            },
+            {
+                '$sort': {
+                    'Examination ID': 1
+                }
+            },
 
-	    // , {
-	    //     '$skip': skip
-	    // }, 
-	    
-	    {
-	        '$limit': PAGE_SIZE
-	    }
-	    ]
+            {
+                '$limit': PAGE_SIZE
+            }
+        ]
 
-	    buffer = await mongodb.execute.aggregate(`sparrow.${datasetName}`, pipeline)
-	    if (buffer.length > 0) {
-	        console.log(`Buffer: ${bufferCount} starts at ${skip} (${buffer.length} items)`) // \n${buffer.map(d => d["Examination ID"]+":"+d.id+":"+d.path).join("\n")}`)
-	    	let ops = await resolveSegmentation(buffer)
-		    
-		    if(ops.length > 0){
-		    	await mongodb.execute.bulkWrite(`sparrow.${datasetName}`, ops)	
-		    }
-		    
+        buffer = await mongodb.execute.aggregate(`sparrow.${datasetName}`, pipeline)
+        if (buffer.length > 0) {
+            console.log(`Buffer: ${bufferCount} starts at ${skip} (${buffer.length} items)`) // \n${buffer.map(d => d["Examination ID"]+":"+d.id+":"+d.path).join("\n")}`)
+            let ops = await resolveSegmentation(buffer)
 
-		    console.log(`Update ${ops.length} items`) //:\n${ops.map( d => d.replaceOne.replacement["Examination ID"]+":"+d.replaceOne.replacement.id).join("\n")}`)
-		    mem()
-		    await delay(2000, "wait for fetch next buffer")
-
-	    }
-	    
-	    skip += buffer.length
-	    bufferCount++
-
-	} while (buffer.length > 0)
+            if (ops.length > 0) {
+                await mongodb.execute.bulkWrite(`sparrow.${datasetName}`, ops)
+            }
 
 
-	mongodb.close()
+            console.log(`Update ${ops.length} items`) //:\n${ops.map( d => d.replaceOne.replacement["Examination ID"]+":"+d.replaceOne.replacement.id).join("\n")}`)
+            mem()
+            await delay(2000, "wait for fetch next buffer")
+
+        }
+
+        skip += buffer.length
+        bufferCount++
+
+    } while (buffer.length > 0)
+
+
+    mongodb.close()
 
 }
 
