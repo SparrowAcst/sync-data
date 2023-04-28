@@ -67,9 +67,9 @@ const run = async () => {
 	    const pipeline = [{
 	        '$match': {
 	            'FINALIZED': true,
-	            'Examination ID': {
-				    $regex: examPattern
-				 },
+	    //         'Examination ID': {
+				 //    $regex: examPattern
+				 // },
 	            'segmentation': {
 	                '$exists': false
 	            }
