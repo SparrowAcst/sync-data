@@ -103,9 +103,9 @@ const run = async () => {
                     'Examination ID': 1
                 }
             },
-            {
-            	$skip: skip 
-            },
+            // {
+            // 	$skip: skip 
+            // },
             {
                 '$limit': PAGE_SIZE
             }
