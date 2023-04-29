@@ -11,7 +11,13 @@
     "recovery": "node ./src/scripts/recovery-gd1",
     "recovery-fb": "node ./src/scripts/recovery-fb",
     "add-segments": "node ./src/scripts/add-segments",
+    "check-sound": "node ./src/scripts/check-sound",
+    
+    "export-mongo": "node ./src/scripts/export-mongo",
+    "import-mongo": "node ./src/scripts/import-mongo",
+    
     "child-validate": "node ./src/childs/test-validate",
+
     "test-cron": "node test-cron",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
