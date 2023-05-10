@@ -2,7 +2,7 @@ const action = require("../actions/validate-data")
 const {	makeDir, loadYaml, writeFile, pathExists} = require("../utils/file-system")
 const path = require("path")
 const moment = require("moment")
-const {find, keys} = require("lodash")
+const {find, keys, sortBy} = require("lodash")
 
 const toHtml = (org, data, summary) => {
 
@@ -119,6 +119,8 @@ const toHtml = (org, data, summary) => {
 					<br/> 
 					State: <strong>${d.state}</strong> 
 					<br/>
+					 Created at <strong> ${d.dateTime}</strong>
+					<br/> 
 					 ${(d.synchronizedAt) ? "Synchronized at <strong>"+ moment(d.synchronizedAt).format("YYYY-MM-DD HH:mm:ss")+"</strong>" : "<strong>Data is out of sync</strong>"}
 				</div>
 				<div style=" border:1px solid ${color};">
@@ -161,7 +163,7 @@ const toHtml = (org, data, summary) => {
 								</div>	
 								<div class="ml-3 mt-3">
 									<div class="headline">Details</div>
-									${data.map( d => rowMapper(d, getColor(d))).join("\n")}
+									${sortBy(data, d => d.patientId).map( d => rowMapper(d, getColor(d))).join("\n")}
 								</div>
 							</div>
 						</div>
@@ -190,6 +192,7 @@ const run = async () => {
 	console.log(reportPath)    
     
     let result = await action(organization, pattern)
+
     let summary = [
 		{ name: "pending", value: result.filter(d => d.state == "pending").length},
 		{ name: "inReview", value: result.filter(d => d.state == "inReview").length},

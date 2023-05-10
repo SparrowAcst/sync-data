@@ -1,0 +1,1996 @@
+
+		<html>
+			<head>
+			  <meta charset="utf-8">
+			  <meta http-equiv="x-ua-compatible" content="ie=edge">
+			  <meta name="description" content="">
+			  <meta name="viewport" content="width=device-width, initial-scale=1">
+			  <link rel="stylesheet" href="../../../../vuetify.min.css" />
+			  <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.4.1/echarts.min.js" integrity="sha512-OTbGFYPLe3jhy4bUwbB8nls0TFgz10kn0TLkmyA+l3FyivDs31zsXCjOis7YGDtE2Jsy0+fzW+3/OVoPVujPmQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+			</head>
+
+			<body>
+				<div class="app">
+					<div class="v-application v-application--is-ltr theme--light">
+						<div class="v-application--wrap">
+							
+							<div class="mx-4">
+								<div>
+									<div class="display-1 mx-2">Data Validation Report</div>
+									<div class="mx-3 title-2 ">Organization: "STRAZHESKO" Date: 2023-05-10 16:55:38</div>
+								</div>
+								<div class="ml-3 mt-3">
+									<div class="headline mb-2">Summary</div>
+									
+
+			<div id="main" style="width: 600px;height:200px;"></div>
+			<script type="text/javascript">
+			      // Initialize the echarts instance based on the prepared dom
+			      let myChart = echarts.init(document.getElementById('main'));
+
+			      // Specify the configuration items and data for the chart
+			      let option = {
+					  grid: {
+					  	top:0,
+   	 					bottom:0,
+					    containLabel: true
+					  },
+					  xAxis: {
+					    type: 'value',
+					    show:false
+					  },
+					  yAxis: {
+					    type: 'category',
+					    axisLabel:{
+					      show: true,
+					      fontSize: "18px",
+					      fontWeight: "bold"
+					    },
+					    axisLine:{
+					      show:false
+					    },
+					    axisTick:{
+					      show: false
+					    },
+					    data: ["total","rejected","accepted","inReview","pending"]
+					  },
+					  series: [
+					    {
+					      type: 'bar',
+					      label:{
+					        show: true,
+					        position:'right',
+						      fontSize: "18px",
+						      fontWeight: "bold"
+					      },
+					      data: [{"name":"total","value":91,"itemStyle":{"color":"#eeeeee"}},{"name":"rejected","value":0,"itemStyle":{"color":"#ef5350"}},{"name":"accepted","value":35,"itemStyle":{"color":"#2e7d32"}},{"name":"inReview","value":1,"itemStyle":{"color":"#1565c0"}},{"name":"pending","value":55,"itemStyle":{"color":"#ffb300"}}]
+					    }
+					  ]
+					}
+
+			      // Display the chart using the configuration items and data just specified.
+			      myChart.setOption(option);
+			   </script>
+		
+								</div>	
+								<div class="ml-3 mt-3">
+									<div class="headline">Details</div>
+									
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>YAL0028</strong> <a href="https://drive.google.com/drive/folders/1A6i2vQvP2cS3bCLnWpsA7G_0YU7d1UIZ" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>pending</strong> 
+					<br/>
+					 Created at <strong> 2023-03-28 13:08:43</strong>
+					<br/> 
+					 Synchronized at <strong>2023-04-10 00:13:41</strong>
+				</div>
+				<div style=" border:1px solid #ffb300;">
+					<div class="subtitle-1" style="background:#ffb300; color: white; padding:0 20px;">
+						Read the warnings and correct the data
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						<br/><br/>Stethophone recording for YAL0028 "heart/front/mitral/leftDecubitus/iOS" not found.
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>YAL0029</strong> <a href="https://drive.google.com/drive/folders/1vof1rKWJq3AmsAO9aErlTM3HbOFIa5q_" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>accepted</strong> 
+					<br/>
+					 Created at <strong> 2023-03-29T08:31:14.702262Z</strong>
+					<br/> 
+					 Synchronized at <strong>2023-04-06 20:19:00</strong>
+				</div>
+				<div style=" border:1px solid #2e7d32;">
+					<div class="subtitle-1" style="background:#2e7d32; color: white; padding:0 20px;">
+						Data accepted. You can remove the data from the "Ready for Review" folder
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>YAL0030</strong> <a href="https://drive.google.com/drive/folders/1wC6LgmBiDyxgOPzJFKzdMvTfJrmMt1ZJ" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>accepted</strong> 
+					<br/>
+					 Created at <strong> 2023-03-29T09:23:21.069722Z</strong>
+					<br/> 
+					 Synchronized at <strong>2023-04-10 00:13:54</strong>
+				</div>
+				<div style=" border:1px solid #2e7d32;">
+					<div class="subtitle-1" style="background:#2e7d32; color: white; padding:0 20px;">
+						Data accepted. You can remove the data from the "Ready for Review" folder
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>YAL0031</strong> <a href="https://drive.google.com/drive/folders/1rEUfnmtZAtj9b8hkXOUFKmaCEIfkDxxN" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>accepted</strong> 
+					<br/>
+					 Created at <strong> 2023-03-30T07:10:01.156193Z</strong>
+					<br/> 
+					 Synchronized at <strong>2023-04-06 20:19:56</strong>
+				</div>
+				<div style=" border:1px solid #2e7d32;">
+					<div class="subtitle-1" style="background:#2e7d32; color: white; padding:0 20px;">
+						Data accepted. You can remove the data from the "Ready for Review" folder
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>YAL0032</strong> <a href="https://drive.google.com/drive/folders/11ocLhrhAlaxbN1kaM5oZXqGUseTiz_Sp" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>accepted</strong> 
+					<br/>
+					 Created at <strong> 2023-03-30T08:43:05.286123Z</strong>
+					<br/> 
+					 Synchronized at <strong>2023-04-06 20:20:53</strong>
+				</div>
+				<div style=" border:1px solid #2e7d32;">
+					<div class="subtitle-1" style="background:#2e7d32; color: white; padding:0 20px;">
+						Data accepted. You can remove the data from the "Ready for Review" folder
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>YAL0033</strong> <a href="https://drive.google.com/drive/folders/1xIahOC-EEWamUP5-lGxfqx4Mf3JABHcA" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>accepted</strong> 
+					<br/>
+					 Created at <strong> 2023-03-31T06:51:02.320439Z</strong>
+					<br/> 
+					 Synchronized at <strong>2023-04-06 20:40:43</strong>
+				</div>
+				<div style=" border:1px solid #2e7d32;">
+					<div class="subtitle-1" style="background:#2e7d32; color: white; padding:0 20px;">
+						Data accepted. You can remove the data from the "Ready for Review" folder
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>YAL0034</strong> <a href="https://drive.google.com/drive/folders/1xZ1HiMh3bfH8tjIeyn8-CGmBiWHX7qvS" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>pending</strong> 
+					<br/>
+					 Created at <strong> 2023-03-31 12:10:25</strong>
+					<br/> 
+					 Synchronized at <strong>2023-04-10 00:13:45</strong>
+				</div>
+				<div style=" border:1px solid #ffb300;">
+					<div class="subtitle-1" style="background:#ffb300; color: white; padding:0 20px;">
+						Read the warnings and correct the data
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						<br/><br/>Stethophone recording for YAL0034 "heart/front/erbs/sitting/iOS" not found.
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>YAL0035</strong> <a href="https://drive.google.com/drive/folders/1VAUwIb2lKsjXFt11S9oCvYKrHwcBe1zy" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>accepted</strong> 
+					<br/>
+					 Created at <strong> 2023-04-03T11:32:23.170592Z</strong>
+					<br/> 
+					 Synchronized at <strong>2023-04-06 20:55:28</strong>
+				</div>
+				<div style=" border:1px solid #2e7d32;">
+					<div class="subtitle-1" style="background:#2e7d32; color: white; padding:0 20px;">
+						Data accepted. You can remove the data from the "Ready for Review" folder
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>YAL0036</strong> <a href="https://drive.google.com/drive/folders/1I6VfHL3I3A-8MCXa1ObEQBS2-BpFVOfq" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>accepted</strong> 
+					<br/>
+					 Created at <strong> 2023-04-03T13:14:39.143455Z</strong>
+					<br/> 
+					 Synchronized at <strong>2023-04-06 21:01:50</strong>
+				</div>
+				<div style=" border:1px solid #2e7d32;">
+					<div class="subtitle-1" style="background:#2e7d32; color: white; padding:0 20px;">
+						Data accepted. You can remove the data from the "Ready for Review" folder
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>YAL0037</strong> <a href="https://drive.google.com/drive/folders/1gUzt-ijtOuWw4wJH98P2F3REjI_3TYLh" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>accepted</strong> 
+					<br/>
+					 Created at <strong> 2023-04-04T07:52:01.334783Z</strong>
+					<br/> 
+					 Synchronized at <strong>2023-04-06 20:01:28</strong>
+				</div>
+				<div style=" border:1px solid #2e7d32;">
+					<div class="subtitle-1" style="background:#2e7d32; color: white; padding:0 20px;">
+						Data accepted. You can remove the data from the "Ready for Review" folder
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>YAL0038</strong> <a href="https://drive.google.com/drive/folders/1F6h8dj9Hv5bRycmkHxW-zq2Atg6Um5kL" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>accepted</strong> 
+					<br/>
+					 Created at <strong> 2023-04-04T08:22:37.232432Z</strong>
+					<br/> 
+					 Synchronized at <strong>2023-04-06 21:02:46</strong>
+				</div>
+				<div style=" border:1px solid #2e7d32;">
+					<div class="subtitle-1" style="background:#2e7d32; color: white; padding:0 20px;">
+						Data accepted. You can remove the data from the "Ready for Review" folder
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>YAL0039</strong> <a href="https://drive.google.com/drive/folders/1VeEBJvCyTcHG6otl7q4d0lJa5sNTX2FP" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>accepted</strong> 
+					<br/>
+					 Created at <strong> 2023-04-04T09:57:19.422967Z</strong>
+					<br/> 
+					 Synchronized at <strong>2023-04-16 00:48:33</strong>
+				</div>
+				<div style=" border:1px solid #2e7d32;">
+					<div class="subtitle-1" style="background:#2e7d32; color: white; padding:0 20px;">
+						Data accepted. You can remove the data from the "Ready for Review" folder
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>YAL0050</strong> <a href="https://drive.google.com/drive/folders/1kE-4doTVFObfCN1QMxBN0n9nPtleSOhl" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>inReview</strong> 
+					<br/>
+					 Created at <strong> 2023-04-11T11:23:50.232687Z</strong>
+					<br/> 
+					 Synchronized at <strong>2023-05-10 00:05:34</strong>
+				</div>
+				<div style=" border:1px solid #1565c0;">
+					<div class="subtitle-1" style="background:#1565c0; color: white; padding:0 20px;">
+						Please wait while the data is reviewed
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>YAL0051</strong> <a href="https://drive.google.com/drive/folders/1yXH9i1RqvYaf7-QvkNlIyNfyMSGJ82Sp" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>pending</strong> 
+					<br/>
+					 Created at <strong> 2023-04-11 18:23:51</strong>
+					<br/> 
+					 <strong>Data is out of sync</strong>
+				</div>
+				<div style=" border:1px solid #ffb300;">
+					<div class="subtitle-1" style="background:#ffb300; color: white; padding:0 20px;">
+						Read the warnings and correct the data
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						<br/>The following patient form fields  (1 from 55) cannot be null:<br/><strong>"Heart failure type"</strong><br/><strong>"Functional class nyha"</strong><br/><a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a>
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>YAL0052</strong> <a href="https://drive.google.com/drive/folders/1D4NSiq4Utb7KxTYmGB447qyA1JHjJrWQ" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>accepted</strong> 
+					<br/>
+					 Created at <strong> 2023-04-12T07:05:33.809864Z</strong>
+					<br/> 
+					 Synchronized at <strong>2023-05-02 20:23:17</strong>
+				</div>
+				<div style=" border:1px solid #2e7d32;">
+					<div class="subtitle-1" style="background:#2e7d32; color: white; padding:0 20px;">
+						Data accepted. You can remove the data from the "Ready for Review" folder
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>YAL0053</strong> <a href="https://drive.google.com/drive/folders/1U7ChzjKx82ZNLT-Gs2YZVWbChadXrt_Q" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>accepted</strong> 
+					<br/>
+					 Created at <strong> 2023-04-12T12:07:54.121199Z</strong>
+					<br/> 
+					 Synchronized at <strong>2023-04-16 00:58:00</strong>
+				</div>
+				<div style=" border:1px solid #2e7d32;">
+					<div class="subtitle-1" style="background:#2e7d32; color: white; padding:0 20px;">
+						Data accepted. You can remove the data from the "Ready for Review" folder
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>YAL0054</strong> <a href="https://drive.google.com/drive/folders/1Rj96poKD9rUC2UMwhamoJDHUKK-CU_c0" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>pending</strong> 
+					<br/>
+					 Created at <strong> 2023-04-13 12:06:05</strong>
+					<br/> 
+					 <strong>Data is out of sync</strong>
+				</div>
+				<div style=" border:1px solid #ffb300;">
+					<div class="subtitle-1" style="background:#ffb300; color: white; padding:0 20px;">
+						Read the warnings and correct the data
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						<br/>File "Ready for Review/STRAZHESKO/YAL0054/ECHO")/YAL0054.rar" not found.<br/>Patient form not found. <a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a><br/>EKG form not found. <a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a><br/>Echo form not found.<a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a>
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>YAL0055</strong> <a href="https://drive.google.com/drive/folders/13JG9PMUck8A2zKB6XAK4PPBycFz5qb1v" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>pending</strong> 
+					<br/>
+					 Created at <strong> 2023-04-13 15:48:39</strong>
+					<br/> 
+					 <strong>Data is out of sync</strong>
+				</div>
+				<div style=" border:1px solid #ffb300;">
+					<div class="subtitle-1" style="background:#ffb300; color: white; padding:0 20px;">
+						Read the warnings and correct the data
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						<br/>Patient form not found. <a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a><br/>EKG form not found. <a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a>
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>YAL0056</strong> <a href="https://drive.google.com/drive/folders/12E0U54Mk8igDwqeubhXoO47B9QSFHxa5" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>accepted</strong> 
+					<br/>
+					 Created at <strong> 2023-04-14T07:35:16.874927Z</strong>
+					<br/> 
+					 Synchronized at <strong>2023-04-19 22:30:54</strong>
+				</div>
+				<div style=" border:1px solid #2e7d32;">
+					<div class="subtitle-1" style="background:#2e7d32; color: white; padding:0 20px;">
+						Data accepted. You can remove the data from the "Ready for Review" folder
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>YAL0057</strong> <a href="https://drive.google.com/drive/folders/1t-SNJ1BdnBLkz9OZt8HBiYHqaIjMnuFz" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>pending</strong> 
+					<br/>
+					 Created at <strong> 2023-04-14 13:04:29</strong>
+					<br/> 
+					 Synchronized at <strong>2023-04-19 22:30:10</strong>
+				</div>
+				<div style=" border:1px solid #ffb300;">
+					<div class="subtitle-1" style="background:#ffb300; color: white; padding:0 20px;">
+						Read the warnings and correct the data
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						<br/>Files "Ready for Review/STRAZHESKO/YAL0057/LITMANN")/[ audio files ]" -  12 audio files expected but 0 found.
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>YAL0058</strong> <a href="https://drive.google.com/drive/folders/130blCstszfwtGcrAjsZv4QPjPwzPPNzu" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>accepted</strong> 
+					<br/>
+					 Created at <strong> 2023-04-15T07:35:11.000446Z</strong>
+					<br/> 
+					 Synchronized at <strong>2023-04-26 22:28:31</strong>
+				</div>
+				<div style=" border:1px solid #2e7d32;">
+					<div class="subtitle-1" style="background:#2e7d32; color: white; padding:0 20px;">
+						Data accepted. You can remove the data from the "Ready for Review" folder
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>YAL0059</strong> <a href="https://drive.google.com/drive/folders/1yMORL0el6ZmAJ5OzZWy5eqLGtwjmRR8E" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>accepted</strong> 
+					<br/>
+					 Created at <strong> 2023-04-15T10:18:35.435027Z</strong>
+					<br/> 
+					 Synchronized at <strong>2023-05-04 23:32:17</strong>
+				</div>
+				<div style=" border:1px solid #2e7d32;">
+					<div class="subtitle-1" style="background:#2e7d32; color: white; padding:0 20px;">
+						Data accepted. You can remove the data from the "Ready for Review" folder
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>YAL0060</strong> <a href="https://drive.google.com/drive/folders/1PVIIvYLAizm7LBBxSEeG8O5KvjPYxFkq" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>accepted</strong> 
+					<br/>
+					 Created at <strong> 2023-04-17T07:41:34.620737Z</strong>
+					<br/> 
+					 Synchronized at <strong>2023-05-03 16:39:56</strong>
+				</div>
+				<div style=" border:1px solid #2e7d32;">
+					<div class="subtitle-1" style="background:#2e7d32; color: white; padding:0 20px;">
+						Data accepted. You can remove the data from the "Ready for Review" folder
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>YAL0061</strong> <a href="https://drive.google.com/drive/folders/1slETlb8LOBwlJjBJd9rTKSKjxwSTp5YE" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>accepted</strong> 
+					<br/>
+					 Created at <strong> 2023-04-17T07:51:27.805348Z</strong>
+					<br/> 
+					 Synchronized at <strong>2023-05-02 20:24:29</strong>
+				</div>
+				<div style=" border:1px solid #2e7d32;">
+					<div class="subtitle-1" style="background:#2e7d32; color: white; padding:0 20px;">
+						Data accepted. You can remove the data from the "Ready for Review" folder
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>YAL0062</strong> <a href="https://drive.google.com/drive/folders/1nFgKIvrgfR0M5CPiOmXFg_HDBDZdWC-_" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>accepted</strong> 
+					<br/>
+					 Created at <strong> 2023-04-18T08:43:40.965827Z</strong>
+					<br/> 
+					 Synchronized at <strong>2023-04-26 22:30:22</strong>
+				</div>
+				<div style=" border:1px solid #2e7d32;">
+					<div class="subtitle-1" style="background:#2e7d32; color: white; padding:0 20px;">
+						Data accepted. You can remove the data from the "Ready for Review" folder
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>YAL0063</strong> <a href="https://drive.google.com/drive/folders/18pVcIMj8bL3XXv9M__Jgcpg5E2pAqRgT" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>pending</strong> 
+					<br/>
+					 Created at <strong> 2023-04-18 12:42:28</strong>
+					<br/> 
+					 <strong>Data is out of sync</strong>
+				</div>
+				<div style=" border:1px solid #ffb300;">
+					<div class="subtitle-1" style="background:#ffb300; color: white; padding:0 20px;">
+						Read the warnings and correct the data
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						<br/>Patient form not found. <a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a><br/>EKG form not found. <a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a>
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>YAL0064</strong> <a href="https://drive.google.com/drive/folders/1mcJsJDFShN9R__FsXaajg4y7fkCAa-JN" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>pending</strong> 
+					<br/>
+					 Created at <strong> 2023-04-18 14:36:31</strong>
+					<br/> 
+					 <strong>Data is out of sync</strong>
+				</div>
+				<div style=" border:1px solid #ffb300;">
+					<div class="subtitle-1" style="background:#ffb300; color: white; padding:0 20px;">
+						Read the warnings and correct the data
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						<br/>Patient form not found. <a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a><br/>EKG form not found. <a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a>
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>YAL0065</strong> <a href="https://drive.google.com/drive/folders/1nJsVVmfZ0XwSjgqLjwhW5qp01Q8tJwfm" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>pending</strong> 
+					<br/>
+					 Created at <strong> 2023-04-19 10:51:16</strong>
+					<br/> 
+					 <strong>Data is out of sync</strong>
+				</div>
+				<div style=" border:1px solid #ffb300;">
+					<div class="subtitle-1" style="background:#ffb300; color: white; padding:0 20px;">
+						Read the warnings and correct the data
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						<br/>Patient form not found. <a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a><br/>EKG form not found. <a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a>
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>YAL0066</strong> <a href="https://drive.google.com/drive/folders/1L4HeNE8064xV23TsEbXglkeN9Vr6Crsf" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>accepted</strong> 
+					<br/>
+					 Created at <strong> 2023-04-19T08:17:59.714687Z</strong>
+					<br/> 
+					 Synchronized at <strong>2023-05-02 20:26:15</strong>
+				</div>
+				<div style=" border:1px solid #2e7d32;">
+					<div class="subtitle-1" style="background:#2e7d32; color: white; padding:0 20px;">
+						Data accepted. You can remove the data from the "Ready for Review" folder
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>YAL0067</strong> <a href="https://drive.google.com/drive/folders/1T-0xfdwqJ5kd5amkwDdWZxss3bCaEbOJ" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>accepted</strong> 
+					<br/>
+					 Created at <strong> 2023-04-19T11:37:13.616259Z</strong>
+					<br/> 
+					 Synchronized at <strong>2023-05-04 23:33:45</strong>
+				</div>
+				<div style=" border:1px solid #2e7d32;">
+					<div class="subtitle-1" style="background:#2e7d32; color: white; padding:0 20px;">
+						Data accepted. You can remove the data from the "Ready for Review" folder
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>YAL0068</strong> <a href="https://drive.google.com/drive/folders/1m94lHU_SjFqQnQ767ixeLBCqFl1eo8Ll" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>accepted</strong> 
+					<br/>
+					 Created at <strong> 2023-04-19T13:41:06.395381Z</strong>
+					<br/> 
+					 Synchronized at <strong>2023-04-26 22:31:52</strong>
+				</div>
+				<div style=" border:1px solid #2e7d32;">
+					<div class="subtitle-1" style="background:#2e7d32; color: white; padding:0 20px;">
+						Data accepted. You can remove the data from the "Ready for Review" folder
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>YAL0069</strong> <a href="https://drive.google.com/drive/folders/1uEvN-l8WjnKd31JqkOonLuTd7IKrgs9A" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>accepted</strong> 
+					<br/>
+					 Created at <strong> 2023-04-19T13:41:11.393220Z</strong>
+					<br/> 
+					 Synchronized at <strong>2023-05-02 20:27:42</strong>
+				</div>
+				<div style=" border:1px solid #2e7d32;">
+					<div class="subtitle-1" style="background:#2e7d32; color: white; padding:0 20px;">
+						Data accepted. You can remove the data from the "Ready for Review" folder
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>YAL0070</strong> <a href="https://drive.google.com/drive/folders/1UEzGIWWnKk1HWOwTij-DWa9vb9XDzy52" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>accepted</strong> 
+					<br/>
+					 Created at <strong> 2023-04-20T08:12:36.500435Z</strong>
+					<br/> 
+					 Synchronized at <strong>2023-05-02 20:29:04</strong>
+				</div>
+				<div style=" border:1px solid #2e7d32;">
+					<div class="subtitle-1" style="background:#2e7d32; color: white; padding:0 20px;">
+						Data accepted. You can remove the data from the "Ready for Review" folder
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>YAL0071</strong> <a href="https://drive.google.com/drive/folders/15Xux5yGEMTAHnBNBwmSd4jOZwl_mk8F2" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>accepted</strong> 
+					<br/>
+					 Created at <strong> 2023-04-20T09:47:14.624362Z</strong>
+					<br/> 
+					 Synchronized at <strong>2023-05-02 20:30:14</strong>
+				</div>
+				<div style=" border:1px solid #2e7d32;">
+					<div class="subtitle-1" style="background:#2e7d32; color: white; padding:0 20px;">
+						Data accepted. You can remove the data from the "Ready for Review" folder
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>YAL0072</strong> <a href="https://drive.google.com/drive/folders/1iXtqr5vayOUOdCvuUQTE60Hfq8nRT4Az" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>accepted</strong> 
+					<br/>
+					 Created at <strong> 2023-04-21T06:37:56.277618Z</strong>
+					<br/> 
+					 Synchronized at <strong>2023-05-02 20:31:22</strong>
+				</div>
+				<div style=" border:1px solid #2e7d32;">
+					<div class="subtitle-1" style="background:#2e7d32; color: white; padding:0 20px;">
+						Data accepted. You can remove the data from the "Ready for Review" folder
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>YAL0073</strong> <a href="https://drive.google.com/drive/folders/1OAc68wJV2CIsslax8S5tl3WbJ49l6-fR" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>accepted</strong> 
+					<br/>
+					 Created at <strong> 2023-04-21T07:48:32.093985Z</strong>
+					<br/> 
+					 Synchronized at <strong>2023-05-04 23:35:06</strong>
+				</div>
+				<div style=" border:1px solid #2e7d32;">
+					<div class="subtitle-1" style="background:#2e7d32; color: white; padding:0 20px;">
+						Data accepted. You can remove the data from the "Ready for Review" folder
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>YAL0074</strong> <a href="https://drive.google.com/drive/folders/1cmRRG_iAtJhgo3A67aNKlca0oCMHJMLk" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>accepted</strong> 
+					<br/>
+					 Created at <strong> 2023-04-21T09:12:29.302297Z</strong>
+					<br/> 
+					 Synchronized at <strong>2023-05-02 20:32:32</strong>
+				</div>
+				<div style=" border:1px solid #2e7d32;">
+					<div class="subtitle-1" style="background:#2e7d32; color: white; padding:0 20px;">
+						Data accepted. You can remove the data from the "Ready for Review" folder
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>YAL0075</strong> <a href="https://drive.google.com/drive/folders/17h8xYclv_UQqYjyuTQH0psbNwd2Ri7h0" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>accepted</strong> 
+					<br/>
+					 Created at <strong> 2023-04-21T13:50:29.748256Z</strong>
+					<br/> 
+					 Synchronized at <strong>2023-05-03 20:42:54</strong>
+				</div>
+				<div style=" border:1px solid #2e7d32;">
+					<div class="subtitle-1" style="background:#2e7d32; color: white; padding:0 20px;">
+						Data accepted. You can remove the data from the "Ready for Review" folder
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>YAL0076</strong> <a href="https://drive.google.com/drive/folders/191tZc0vXMChWhhjsSuF5dtV6mSemQV1Z" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>pending</strong> 
+					<br/>
+					 Created at <strong> 2023-04-21 17:31:22</strong>
+					<br/> 
+					 <strong>Data is out of sync</strong>
+				</div>
+				<div style=" border:1px solid #ffb300;">
+					<div class="subtitle-1" style="background:#ffb300; color: white; padding:0 20px;">
+						Read the warnings and correct the data
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						<br/>File "Ready for Review/STRAZHESKO/YAL0076/ECHO")/YAL0076.rar" not found.<br/>Files "Ready for Review/STRAZHESKO/YAL0076/LITMANN")/[ audio files ]" -  12 audio files expected but 0 found.<br/><br/>Stethophone recording for YAL0076 "lungs/back/middleBackRight/sitting/iOS" not found.<br/>Stethophone recording  for YAL0076 "lungs/back/middleBackRight/sitting/android" not found.<br/>Stethophone recording for YAL0076 "heart/front/leftCarotid/supine/iOS" not found.<br/>Stethophone recording  for YAL0076 "heart/front/leftCarotid/supine/android" not found.<br/>Stethophone recording for YAL0076 "abdomen/front/leftAbdomen/supine/iOS" not found.<br/>Stethophone recording  for YAL0076 "abdomen/front/leftAbdomen/supine/android" not found.<br/>Stethophone recording for YAL0076 "lungs/back/lowerBackRight/sitting/iOS" not found.<br/>Stethophone recording  for YAL0076 "lungs/back/lowerBackRight/sitting/android" not found.<br/>Stethophone recording for YAL0076 "abdomen/front/rightAbdomen/supine/iOS" not found.<br/>Stethophone recording  for YAL0076 "abdomen/front/rightAbdomen/supine/android" not found.<br/>Stethophone recording for YAL0076 "heart/front/mitral/leftDecubitus/iOS" not found.<br/>Stethophone recording  for YAL0076 "heart/front/mitral/leftDecubitus/android" not found.<br/>Stethophone recording for YAL0076 "heart/front/tricuspid/supine/iOS" not found.<br/>Stethophone recording  for YAL0076 "heart/front/tricuspid/supine/android" not found.<br/>Stethophone recording for YAL0076 "heart/front/aortic/supine/iOS" not found.<br/>Stethophone recording  for YAL0076 "heart/front/aortic/supine/android" not found.<br/>Stethophone recording for YAL0076 "heart/front/rightCarotid/supine/iOS" not found.<br/>Stethophone recording  for YAL0076 "heart/front/rightCarotid/supine/android" not found.<br/>Stethophone recording for YAL0076 "heart/front/erbs/sitting/iOS" not found.<br/>Stethophone recording  for YAL0076 "heart/front/erbs/sitting/android" not found.<br/>Stethophone recording for YAL0076 "heart/front/erbsRight/sitting/iOS" not found.<br/>Stethophone recording  for YAL0076 "heart/front/erbsRight/sitting/android" not found.<br/>Stethophone recording for YAL0076 "lungs/back/middleBackLeft/sitting/iOS" not found.<br/>Stethophone recording  for YAL0076 "lungs/back/middleBackLeft/sitting/android" not found.<br/>Stethophone recording for YAL0076 "heart/front/pulmonic/supine/iOS" not found.<br/>Stethophone recording  for YAL0076 "heart/front/pulmonic/supine/android" not found.<br/>Stethophone recording for YAL0076 "heart/back/lowerBackLeft/sitting/iOS" not found.<br/>Stethophone recording  for YAL0076 "heart/back/lowerBackLeft/sitting/android" not found.<br/>Patient form not found. <a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a><br/>EKG form not found. <a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a><br/>Echo form not found.<a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a>
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>YAL0077</strong> <a href="https://drive.google.com/drive/folders/1VLpX3dIrfaHor-mgM9MsJkUPMKKW73B4" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>accepted</strong> 
+					<br/>
+					 Created at <strong> 2023-04-24T06:47:39.446056Z</strong>
+					<br/> 
+					 Synchronized at <strong>2023-05-04 23:36:37</strong>
+				</div>
+				<div style=" border:1px solid #2e7d32;">
+					<div class="subtitle-1" style="background:#2e7d32; color: white; padding:0 20px;">
+						Data accepted. You can remove the data from the "Ready for Review" folder
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>YAL0078</strong> <a href="https://drive.google.com/drive/folders/1K-m1_C00ZnFZiw0JXdFTIwPAE63gUFiq" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>accepted</strong> 
+					<br/>
+					 Created at <strong> 2023-04-24T07:50:37.349024Z</strong>
+					<br/> 
+					 Synchronized at <strong>2023-05-04 23:38:01</strong>
+				</div>
+				<div style=" border:1px solid #2e7d32;">
+					<div class="subtitle-1" style="background:#2e7d32; color: white; padding:0 20px;">
+						Data accepted. You can remove the data from the "Ready for Review" folder
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>YAL0079</strong> <a href="https://drive.google.com/drive/folders/1eSmu_0ajDTwvxvDZ8G6_bCXr0zrG-vtT" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>pending</strong> 
+					<br/>
+					 Created at <strong> 2023-04-24 15:10:32</strong>
+					<br/> 
+					 <strong>Data is out of sync</strong>
+				</div>
+				<div style=" border:1px solid #ffb300;">
+					<div class="subtitle-1" style="background:#ffb300; color: white; padding:0 20px;">
+						Read the warnings and correct the data
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						<br/>The following patient form fields  (1 from 55) cannot be null:<br/><strong>"Heart failure type"</strong><br/><strong>"Functional class nyha"</strong><br/><a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a>
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>YAL0080</strong> <a href="https://drive.google.com/drive/folders/1ye-f8te_usvyY5eG9a4Ha9kYwyOQ4JcO" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>accepted</strong> 
+					<br/>
+					 Created at <strong> 2023-04-25T05:46:15.751183Z</strong>
+					<br/> 
+					 Synchronized at <strong>2023-05-03 20:44:23</strong>
+				</div>
+				<div style=" border:1px solid #2e7d32;">
+					<div class="subtitle-1" style="background:#2e7d32; color: white; padding:0 20px;">
+						Data accepted. You can remove the data from the "Ready for Review" folder
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>YAL0081</strong> <a href="https://drive.google.com/drive/folders/1Co8qu9_9-kDaA1u0kB4V417ulFMFKQ2a" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>pending</strong> 
+					<br/>
+					 Created at <strong> 2023-04-25 09:53:24</strong>
+					<br/> 
+					 <strong>Data is out of sync</strong>
+				</div>
+				<div style=" border:1px solid #ffb300;">
+					<div class="subtitle-1" style="background:#ffb300; color: white; padding:0 20px;">
+						Read the warnings and correct the data
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						<br/>File "Ready for Review/STRAZHESKO/YAL0081/ECHO")/YAL0081.rar" not found.
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>YAL0082</strong> <a href="https://drive.google.com/drive/folders/1C9eOdwwhrhvDLp3kJ79-5ovxJn_n4DWc" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>accepted</strong> 
+					<br/>
+					 Created at <strong> 2023-04-25T08:30:31.685632Z</strong>
+					<br/> 
+					 Synchronized at <strong>2023-05-04 23:39:18</strong>
+				</div>
+				<div style=" border:1px solid #2e7d32;">
+					<div class="subtitle-1" style="background:#2e7d32; color: white; padding:0 20px;">
+						Data accepted. You can remove the data from the "Ready for Review" folder
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>YAL0083</strong> <a href="https://drive.google.com/drive/folders/1qz8XkmldgC8gsmWNOf3BIHtzspaxVuoc" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>pending</strong> 
+					<br/>
+					 Created at <strong> 2023-04-25 12:09:31</strong>
+					<br/> 
+					 <strong>Data is out of sync</strong>
+				</div>
+				<div style=" border:1px solid #ffb300;">
+					<div class="subtitle-1" style="background:#ffb300; color: white; padding:0 20px;">
+						Read the warnings and correct the data
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						<br/>File "Ready for Review/STRAZHESKO/YAL0083/ECHO")/YAL0083.rar" not found.<br/>Files "Ready for Review/STRAZHESKO/YAL0083/LITMANN")/[ audio files ]" -  12 audio files expected but 0 found.<br/><br/>Stethophone recording  for YAL0083 "heart/front/tricuspid/supine/android" not found.<br/>Patient form not found. <a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a><br/>EKG form not found. <a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a><br/>The following ECHO form fields  (2 from 51) cannot be null:<br/><strong>"Regional abnormalities of left ventricular contractility"</strong><br/><strong>"Mitral stenosis"</strong><br/><a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a>
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>YAL0084</strong> <a href="https://drive.google.com/drive/folders/1cFd7t-AsfN6IZHTqzEbdxH9d_RHlWgOT" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>pending</strong> 
+					<br/>
+					 Created at <strong> 2023-04-25 18:02:12</strong>
+					<br/> 
+					 <strong>Data is out of sync</strong>
+				</div>
+				<div style=" border:1px solid #ffb300;">
+					<div class="subtitle-1" style="background:#ffb300; color: white; padding:0 20px;">
+						Read the warnings and correct the data
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						<br/>The following patient form fields  (1 from 55) cannot be null:<br/><strong>"Heart failure type"</strong><br/><strong>"Functional class nyha"</strong><br/><a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a>
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>YAL0085</strong> <a href="https://drive.google.com/drive/folders/1flX0Pn2xt84gecsrmoIeix8P-jWtJfQe" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>pending</strong> 
+					<br/>
+					 Created at <strong> 2023-04-26 09:39:14</strong>
+					<br/> 
+					 <strong>Data is out of sync</strong>
+				</div>
+				<div style=" border:1px solid #ffb300;">
+					<div class="subtitle-1" style="background:#ffb300; color: white; padding:0 20px;">
+						Read the warnings and correct the data
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						<br/>File "Ready for Review/STRAZHESKO/YAL0085/ECHO")/YAL0085.rar" not found.<br/>Files "Ready for Review/STRAZHESKO/YAL0085/LITMANN")/[ audio files ]" -  12 audio files expected but 0 found.<br/>Patient form not found. <a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a><br/>EKG form not found. <a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a><br/>Echo form not found.<a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a>
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>YAL0086</strong> <a href="https://drive.google.com/drive/folders/1RwKK_yRLH9AS-Gg5N2Jp_u8_kDa-mkAK" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>pending</strong> 
+					<br/>
+					 Created at <strong> 2023-04-26 12:01:22</strong>
+					<br/> 
+					 <strong>Data is out of sync</strong>
+				</div>
+				<div style=" border:1px solid #ffb300;">
+					<div class="subtitle-1" style="background:#ffb300; color: white; padding:0 20px;">
+						Read the warnings and correct the data
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						<br/>File "Ready for Review/STRAZHESKO/YAL0086/ECHO")/YAL0086.rar" not found.<br/>Files "Ready for Review/STRAZHESKO/YAL0086/LITMANN")/[ audio files ]" -  12 audio files expected but 0 found.
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>YAL0087</strong> <a href="https://drive.google.com/drive/folders/13j_lPuaA75qAyJ4pioQVGwX8fKwt2SBe" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>accepted</strong> 
+					<br/>
+					 Created at <strong> 2023-04-26T11:08:55.350820Z</strong>
+					<br/> 
+					 Synchronized at <strong>2023-05-04 23:40:50</strong>
+				</div>
+				<div style=" border:1px solid #2e7d32;">
+					<div class="subtitle-1" style="background:#2e7d32; color: white; padding:0 20px;">
+						Data accepted. You can remove the data from the "Ready for Review" folder
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>YAL0088</strong> <a href="https://drive.google.com/drive/folders/1dNAImnqZHdux7uUHal_pB7n-cr0ZNroN" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>accepted</strong> 
+					<br/>
+					 Created at <strong> 2023-04-27T07:42:58.375717Z</strong>
+					<br/> 
+					 Synchronized at <strong>2023-05-03 20:47:32</strong>
+				</div>
+				<div style=" border:1px solid #2e7d32;">
+					<div class="subtitle-1" style="background:#2e7d32; color: white; padding:0 20px;">
+						Data accepted. You can remove the data from the "Ready for Review" folder
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>YAL0089</strong> <a href="https://drive.google.com/drive/folders/1vguMVBho6-3aUUZWPc2g4iojFqCAetLG" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>pending</strong> 
+					<br/>
+					 Created at <strong> 2023-04-27 10:43:07</strong>
+					<br/> 
+					 <strong>Data is out of sync</strong>
+				</div>
+				<div style=" border:1px solid #ffb300;">
+					<div class="subtitle-1" style="background:#ffb300; color: white; padding:0 20px;">
+						Read the warnings and correct the data
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						<br/>File "Ready for Review/STRAZHESKO/YAL0089/ECHO")/YAL0089.rar" not found.<br/>Files "Ready for Review/STRAZHESKO/YAL0089/LITMANN")/[ audio files ]" -  12 audio files expected but 0 found.<br/>Patient form not found. <a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a><br/>EKG form not found. <a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a><br/>The following ECHO form fields  (1 from 51) cannot be null:<br/><strong>"Pericardial constriction"</strong><br/><a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a>
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>YAL0090</strong> <a href="https://drive.google.com/drive/folders/1i5XlRP06lDW5q0p2IYniYXQ5lpAX4gGs" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>pending</strong> 
+					<br/>
+					 Created at <strong> 2023-04-27 12:04:42</strong>
+					<br/> 
+					 <strong>Data is out of sync</strong>
+				</div>
+				<div style=" border:1px solid #ffb300;">
+					<div class="subtitle-1" style="background:#ffb300; color: white; padding:0 20px;">
+						Read the warnings and correct the data
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						<br/>File "Ready for Review/STRAZHESKO/YAL0090/ECHO")/YAL0090.rar" not found.<br/>Files "Ready for Review/STRAZHESKO/YAL0090/LITMANN")/[ audio files ]" -  12 audio files expected but 0 found.<br/>The following EKG form fields  (1 from 18) cannot be null:<br/><strong>"Preexcitation syndrom"</strong><br/><a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a>
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>YAL0091</strong> <a href="https://drive.google.com/drive/folders/1eHxbTBqtUpNBZ0rwFzjxJmX3kxrTewAr" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>pending</strong> 
+					<br/>
+					 Created at <strong> 2023-04-27 13:49:11</strong>
+					<br/> 
+					 <strong>Data is out of sync</strong>
+				</div>
+				<div style=" border:1px solid #ffb300;">
+					<div class="subtitle-1" style="background:#ffb300; color: white; padding:0 20px;">
+						Read the warnings and correct the data
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						<br/>File "Ready for Review/STRAZHESKO/YAL0091/ECHO")/YAL0091.rar" not found.<br/>Files "Ready for Review/STRAZHESKO/YAL0091/LITMANN")/[ audio files ]" -  12 audio files expected but 0 found.<br/>Patient form not found. <a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a><br/>EKG form not found. <a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a><br/>The following ECHO form fields  (1 from 51) cannot be null:<br/><strong>"Regional abnormalities right ventricular contractility"</strong><br/><a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a>
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>YAL0092</strong> <a href="https://drive.google.com/drive/folders/18v3DwXAVaZI-QGn14MchMo6m6_WTh7Jx" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>pending</strong> 
+					<br/>
+					 Created at <strong> 2023-04-27 14:51:51</strong>
+					<br/> 
+					 <strong>Data is out of sync</strong>
+				</div>
+				<div style=" border:1px solid #ffb300;">
+					<div class="subtitle-1" style="background:#ffb300; color: white; padding:0 20px;">
+						Read the warnings and correct the data
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						<br/>File "Ready for Review/STRAZHESKO/YAL0092/ECHO")/YAL0092.rar" not found.
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>YAL0093</strong> <a href="https://drive.google.com/drive/folders/1W10pZeZmDlFFPFCi9B6-zwsigBrwOhon" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>pending</strong> 
+					<br/>
+					 Created at <strong> 2023-04-28 10:57:37</strong>
+					<br/> 
+					 <strong>Data is out of sync</strong>
+				</div>
+				<div style=" border:1px solid #ffb300;">
+					<div class="subtitle-1" style="background:#ffb300; color: white; padding:0 20px;">
+						Read the warnings and correct the data
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						<br/>File "Ready for Review/STRAZHESKO/YAL0093/ECHO")/YAL0093.rar" not found.
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>YAL0094</strong> <a href="https://drive.google.com/drive/folders/1yZvNR8-l9GFpVyFp95GTxt7VNkLRwwMv" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>pending</strong> 
+					<br/>
+					 Created at <strong> 2023-04-28 10:57:41</strong>
+					<br/> 
+					 <strong>Data is out of sync</strong>
+				</div>
+				<div style=" border:1px solid #ffb300;">
+					<div class="subtitle-1" style="background:#ffb300; color: white; padding:0 20px;">
+						Read the warnings and correct the data
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						<br/>File "Ready for Review/STRAZHESKO/YAL0094/ECHO")/YAL0094.rar" not found.<br/><br/>Stethophone recording for YAL0094 "lungs/back/middleBackRight/sitting/iOS" not found.<br/>The following ECHO form fields  (1 from 51) cannot be null:<br/><strong>"Pulmonary stenosis"</strong><br/><a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a>
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>YAL0095</strong> <a href="https://drive.google.com/drive/folders/1dTkLsk2fc1cxmaAidp4hpK80TlJsnyT9" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>pending</strong> 
+					<br/>
+					 Created at <strong> 2023-04-28 10:57:46</strong>
+					<br/> 
+					 <strong>Data is out of sync</strong>
+				</div>
+				<div style=" border:1px solid #ffb300;">
+					<div class="subtitle-1" style="background:#ffb300; color: white; padding:0 20px;">
+						Read the warnings and correct the data
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						<br/>File "Ready for Review/STRAZHESKO/YAL0095/ECHO")/YAL0095.rar" not found.<br/>Files "Ready for Review/STRAZHESKO/YAL0095/LITMANN")/[ audio files ]" -  12 audio files expected but 0 found.<br/>Patient form not found. <a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a><br/>EKG form not found. <a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a>
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>YAL0096</strong> <a href="https://drive.google.com/drive/folders/11o1LakJy05v8jOgIczhpoj59-MBpMKZC" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>pending</strong> 
+					<br/>
+					 Created at <strong> 2023-04-28 13:37:03</strong>
+					<br/> 
+					 <strong>Data is out of sync</strong>
+				</div>
+				<div style=" border:1px solid #ffb300;">
+					<div class="subtitle-1" style="background:#ffb300; color: white; padding:0 20px;">
+						Read the warnings and correct the data
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						<br/>File "Ready for Review/STRAZHESKO/YAL0096/ECHO")/YAL0096.rar" not found.<br/>Files "Ready for Review/STRAZHESKO/YAL0096/LITMANN")/[ audio files ]" -  12 audio files expected but 0 found.<br/>Patient form not found. <a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a><br/>EKG form not found. <a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a><br/>The following ECHO form fields  (1 from 51) cannot be null:<br/><strong>"Vegetations"</strong><br/><a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a>
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>YAL0097</strong> <a href="https://drive.google.com/drive/folders/1imGsWu8E_F75p930BAaC3O39r2pbx8S3" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>pending</strong> 
+					<br/>
+					 Created at <strong> 2023-05-01 09:23:33</strong>
+					<br/> 
+					 <strong>Data is out of sync</strong>
+				</div>
+				<div style=" border:1px solid #ffb300;">
+					<div class="subtitle-1" style="background:#ffb300; color: white; padding:0 20px;">
+						Read the warnings and correct the data
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						<br/>File "Ready for Review/STRAZHESKO/YAL0097/ECHO")/YAL0097.rar" not found.<br/>Files "Ready for Review/STRAZHESKO/YAL0097/LITMANN")/[ audio files ]" -  12 audio files expected but 0 found.<br/>Patient form not found. <a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a><br/>EKG form not found. <a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a><br/>The following ECHO form fields  (1 from 51) cannot be null:<br/><strong>"Mitral stenosis"</strong><br/><a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a>
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>YAL0098</strong> <a href="https://drive.google.com/drive/folders/1b5WUy9AfYA4qcV2w4iK25PMa3jdqyLRj" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>accepted</strong> 
+					<br/>
+					 Created at <strong> 2023-05-01T08:01:28.781529Z</strong>
+					<br/> 
+					 Synchronized at <strong>2023-05-04 23:42:16</strong>
+				</div>
+				<div style=" border:1px solid #2e7d32;">
+					<div class="subtitle-1" style="background:#2e7d32; color: white; padding:0 20px;">
+						Data accepted. You can remove the data from the "Ready for Review" folder
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>YAL0099</strong> <a href="https://drive.google.com/drive/folders/1TobXT8vnZIq_VhloWdRyLeE0cnkuexSR" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>pending</strong> 
+					<br/>
+					 Created at <strong> 2023-05-01 11:01:35</strong>
+					<br/> 
+					 <strong>Data is out of sync</strong>
+				</div>
+				<div style=" border:1px solid #ffb300;">
+					<div class="subtitle-1" style="background:#ffb300; color: white; padding:0 20px;">
+						Read the warnings and correct the data
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						<br/>File "Ready for Review/STRAZHESKO/YAL0099/ECHO")/YAL0099.rar" not found.<br/>Files "Ready for Review/STRAZHESKO/YAL0099/LITMANN")/[ audio files ]" -  12 audio files expected but 0 found.<br/>Patient form not found. <a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a><br/>EKG form not found. <a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a>
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>YAL0100</strong> <a href="https://drive.google.com/drive/folders/185ItCt44BTRFFIe427w8B3ufvY2vjeDK" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>pending</strong> 
+					<br/>
+					 Created at <strong> 2023-05-01 13:03:28</strong>
+					<br/> 
+					 <strong>Data is out of sync</strong>
+				</div>
+				<div style=" border:1px solid #ffb300;">
+					<div class="subtitle-1" style="background:#ffb300; color: white; padding:0 20px;">
+						Read the warnings and correct the data
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						<br/>File "Ready for Review/STRAZHESKO/YAL0100/ECHO")/YAL0100.rar" not found.<br/>Files "Ready for Review/STRAZHESKO/YAL0100/LITMANN")/[ audio files ]" -  12 audio files expected but 0 found.<br/>Patient form not found. <a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a><br/>EKG form not found. <a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a>
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>YAL0101</strong> <a href="https://drive.google.com/drive/folders/1sSme9Ht2zPJ6X97A7vsbQow_5iXVWx-x" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>pending</strong> 
+					<br/>
+					 Created at <strong> 2023-05-02 11:47:01</strong>
+					<br/> 
+					 <strong>Data is out of sync</strong>
+				</div>
+				<div style=" border:1px solid #ffb300;">
+					<div class="subtitle-1" style="background:#ffb300; color: white; padding:0 20px;">
+						Read the warnings and correct the data
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						<br/>Patient form not found. <a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a><br/>EKG form not found. <a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a><br/>Echo form not found.<a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a>
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>YAL0102</strong> <a href="https://drive.google.com/drive/folders/1mdpE8sk1F_O9_wQSm_I_MS9VN2BuPbVF" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>pending</strong> 
+					<br/>
+					 Created at <strong> 2023-05-02 11:47:49</strong>
+					<br/> 
+					 <strong>Data is out of sync</strong>
+				</div>
+				<div style=" border:1px solid #ffb300;">
+					<div class="subtitle-1" style="background:#ffb300; color: white; padding:0 20px;">
+						Read the warnings and correct the data
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						<br/>File "Ready for Review/STRAZHESKO/YAL0102/ECHO")/YAL0102.rar" not found.<br/>Files "Ready for Review/STRAZHESKO/YAL0102/LITMANN")/[ audio files ]" -  12 audio files expected but 0 found.<br/>Patient form not found. <a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a><br/>EKG form not found. <a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a>
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>YAL0103</strong> <a href="https://drive.google.com/drive/folders/16RhfOH42MR1wtsjWR5A-IFwVaNxU-zJs" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>pending</strong> 
+					<br/>
+					 Created at <strong> 2023-05-02 18:58:59</strong>
+					<br/> 
+					 <strong>Data is out of sync</strong>
+				</div>
+				<div style=" border:1px solid #ffb300;">
+					<div class="subtitle-1" style="background:#ffb300; color: white; padding:0 20px;">
+						Read the warnings and correct the data
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						<br/>Patient form not found. <a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a><br/>EKG form not found. <a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a><br/>Echo form not found.<a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a>
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>YAL0104</strong> <a href="https://drive.google.com/drive/folders/1MdZSuQu8nITMKNW2JMXfMbi3dyhLtOht" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>pending</strong> 
+					<br/>
+					 Created at <strong> 2023-05-03 10:18:16</strong>
+					<br/> 
+					 <strong>Data is out of sync</strong>
+				</div>
+				<div style=" border:1px solid #ffb300;">
+					<div class="subtitle-1" style="background:#ffb300; color: white; padding:0 20px;">
+						Read the warnings and correct the data
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						<br/>File "Ready for Review/STRAZHESKO/YAL0104/ECHO")/YAL0104.rar" not found.<br/>Files "Ready for Review/STRAZHESKO/YAL0104/LITMANN")/[ audio files ]" -  12 audio files expected but 0 found.<br/>Patient form not found. <a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a><br/>EKG form not found. <a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a>
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>YAL0105</strong> <a href="https://drive.google.com/drive/folders/1r-VCDUV7Z8ZrpFSYkrMPWw-sLxV9gCoO" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>pending</strong> 
+					<br/>
+					 Created at <strong> 2023-05-03 10:18:32</strong>
+					<br/> 
+					 <strong>Data is out of sync</strong>
+				</div>
+				<div style=" border:1px solid #ffb300;">
+					<div class="subtitle-1" style="background:#ffb300; color: white; padding:0 20px;">
+						Read the warnings and correct the data
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						<br/>Patient form not found. <a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a><br/>EKG form not found. <a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a><br/>Echo form not found.<a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a>
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>YAL0106</strong> <a href="https://drive.google.com/drive/folders/1iSHxpO8VPBjHMbiGK5FizNzYyAbJ0aZN" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>pending</strong> 
+					<br/>
+					 Created at <strong> 2023-05-03 14:18:10</strong>
+					<br/> 
+					 <strong>Data is out of sync</strong>
+				</div>
+				<div style=" border:1px solid #ffb300;">
+					<div class="subtitle-1" style="background:#ffb300; color: white; padding:0 20px;">
+						Read the warnings and correct the data
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						<br/>Files "Ready for Review/STRAZHESKO/YAL0106/LITMANN")/[ audio files ]" -  12 audio files expected but 0 found.<br/>Patient form not found. <a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a><br/>EKG form not found. <a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a><br/>Echo form not found.<a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a>
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>YAL0107</strong> <a href="https://drive.google.com/drive/folders/1yM20CzSfhN3EKE-TTcdCN9Jd49zYBXXx" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>pending</strong> 
+					<br/>
+					 Created at <strong> 2023-05-03 16:06:19</strong>
+					<br/> 
+					 <strong>Data is out of sync</strong>
+				</div>
+				<div style=" border:1px solid #ffb300;">
+					<div class="subtitle-1" style="background:#ffb300; color: white; padding:0 20px;">
+						Read the warnings and correct the data
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						<br/>File "Ready for Review/STRAZHESKO/YAL0107/ECHO")/YAL0107.rar" not found.<br/>Files "Ready for Review/STRAZHESKO/YAL0107/LITMANN")/[ audio files ]" -  12 audio files expected but 0 found.<br/>Patient form not found. <a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a><br/>EKG form not found. <a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a>
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>YAL0108</strong> <a href="https://drive.google.com/drive/folders/1EskSXsVOMLs1w-i-448-7Mg14jvfFNFz" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>pending</strong> 
+					<br/>
+					 Created at <strong> 2023-05-03 17:36:59</strong>
+					<br/> 
+					 <strong>Data is out of sync</strong>
+				</div>
+				<div style=" border:1px solid #ffb300;">
+					<div class="subtitle-1" style="background:#ffb300; color: white; padding:0 20px;">
+						Read the warnings and correct the data
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						<br/>File "Ready for Review/STRAZHESKO/YAL0108/ECHO")/YAL0108.rar" not found.<br/>Files "Ready for Review/STRAZHESKO/YAL0108/LITMANN")/[ audio files ]" -  12 audio files expected but 0 found.<br/>Patient form not found. <a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a><br/>EKG form not found. <a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a>
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>YAL0109</strong> <a href="https://drive.google.com/drive/folders/1eAPkG4SdZRyq6rOQDdlUbPXi8qgijX7p" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>pending</strong> 
+					<br/>
+					 Created at <strong> 2023-05-03 18:11:21</strong>
+					<br/> 
+					 <strong>Data is out of sync</strong>
+				</div>
+				<div style=" border:1px solid #ffb300;">
+					<div class="subtitle-1" style="background:#ffb300; color: white; padding:0 20px;">
+						Read the warnings and correct the data
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						<br/>Files "Ready for Review/STRAZHESKO/YAL0109/LITMANN")/[ audio files ]" -  12 audio files expected but 0 found.<br/>Patient form not found. <a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a><br/>EKG form not found. <a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a><br/>Echo form not found.<a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a>
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>YAL0110</strong> <a href="https://drive.google.com/drive/folders/1HmPYfSwatQvztTJSfA50X8IMVgSnIJrW" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>pending</strong> 
+					<br/>
+					 Created at <strong> 2023-05-04 11:32:57</strong>
+					<br/> 
+					 <strong>Data is out of sync</strong>
+				</div>
+				<div style=" border:1px solid #ffb300;">
+					<div class="subtitle-1" style="background:#ffb300; color: white; padding:0 20px;">
+						Read the warnings and correct the data
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						<br/>Files "Ready for Review/STRAZHESKO/YAL0110/LITMANN")/[ audio files ]" -  12 audio files expected but 0 found.<br/>Patient form not found. <a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a><br/>EKG form not found. <a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a><br/>Echo form not found.<a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a>
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>YAL0111</strong> <a href="https://drive.google.com/drive/folders/1JmwV4OyQRCaqcoXkadi9MoBhLBOG_0-9" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>pending</strong> 
+					<br/>
+					 Created at <strong> 2023-05-05 09:51:15</strong>
+					<br/> 
+					 <strong>Data is out of sync</strong>
+				</div>
+				<div style=" border:1px solid #ffb300;">
+					<div class="subtitle-1" style="background:#ffb300; color: white; padding:0 20px;">
+						Read the warnings and correct the data
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						<br/>Files "Ready for Review/STRAZHESKO/YAL0111/LITMANN")/[ audio files ]" -  12 audio files expected but 0 found.<br/>Patient form not found. <a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a><br/>EKG form not found. <a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a><br/>Echo form not found.<a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a>
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>YAL0112</strong> <a href="https://drive.google.com/drive/folders/1dUeBfXvcTmNNqxqULrf9OfjmCscmMogx" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>pending</strong> 
+					<br/>
+					 Created at <strong> 2023-05-05 11:14:19</strong>
+					<br/> 
+					 <strong>Data is out of sync</strong>
+				</div>
+				<div style=" border:1px solid #ffb300;">
+					<div class="subtitle-1" style="background:#ffb300; color: white; padding:0 20px;">
+						Read the warnings and correct the data
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						<br/>File "Ready for Review/STRAZHESKO/YAL0112/ECHO")/YAL0112.rar" not found.<br/>Files "Ready for Review/STRAZHESKO/YAL0112/LITMANN")/[ audio files ]" -  12 audio files expected but 0 found.<br/>Patient form not found. <a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a><br/>EKG form not found. <a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a><br/>Echo form not found.<a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a>
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>YAL0113</strong> <a href="https://drive.google.com/drive/folders/1tC5rr96mVuFppvIdXnrL5VeSSehUQcDP" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>pending</strong> 
+					<br/>
+					 Created at <strong> 2023-05-05 18:43:56</strong>
+					<br/> 
+					 <strong>Data is out of sync</strong>
+				</div>
+				<div style=" border:1px solid #ffb300;">
+					<div class="subtitle-1" style="background:#ffb300; color: white; padding:0 20px;">
+						Read the warnings and correct the data
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						<br/>File "Ready for Review/STRAZHESKO/YAL0113/ECHO")/YAL0113.rar" not found.<br/>Files "Ready for Review/STRAZHESKO/YAL0113/LITMANN")/[ audio files ]" -  12 audio files expected but 0 found.<br/>Patient form not found. <a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a><br/>EKG form not found. <a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a><br/>Echo form not found.<a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a>
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>YAL0114</strong> <a href="https://drive.google.com/drive/folders/18lotztc1gxg4W-51uoyiOSBuzRR_EFCM" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>pending</strong> 
+					<br/>
+					 Created at <strong> 2023-05-06 18:00:23</strong>
+					<br/> 
+					 <strong>Data is out of sync</strong>
+				</div>
+				<div style=" border:1px solid #ffb300;">
+					<div class="subtitle-1" style="background:#ffb300; color: white; padding:0 20px;">
+						Read the warnings and correct the data
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						<br/>File "Ready for Review/STRAZHESKO/YAL0114/ECHO")/YAL0114.rar" not found.<br/>Files "Ready for Review/STRAZHESKO/YAL0114/LITMANN")/[ audio files ]" -  12 audio files expected but 0 found.<br/>Patient form not found. <a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a><br/>EKG form not found. <a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a><br/>Echo form not found.<a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a>
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>YAL0115</strong> <a href="https://drive.google.com/drive/folders/1cAtQ8SyQSnOlGUsb1lFQ-QtrpN8Br8Gx" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>pending</strong> 
+					<br/>
+					 Created at <strong> 2023-05-07 12:20:22</strong>
+					<br/> 
+					 <strong>Data is out of sync</strong>
+				</div>
+				<div style=" border:1px solid #ffb300;">
+					<div class="subtitle-1" style="background:#ffb300; color: white; padding:0 20px;">
+						Read the warnings and correct the data
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						<br/>File "Ready for Review/STRAZHESKO/YAL0115/ECHO")/YAL0115.rar" not found.<br/>Files "Ready for Review/STRAZHESKO/YAL0115/LITMANN")/[ audio files ]" -  12 audio files expected but 0 found.<br/>Patient form not found. <a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a><br/>EKG form not found. <a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a><br/>Echo form not found.<a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a>
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>YAL0116</strong> <a href="https://drive.google.com/drive/folders/1A9Z4QCGDqTaDv2cXlDIrs9MbXsrzRuyI" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>pending</strong> 
+					<br/>
+					 Created at <strong> 2023-05-07 17:55:03</strong>
+					<br/> 
+					 <strong>Data is out of sync</strong>
+				</div>
+				<div style=" border:1px solid #ffb300;">
+					<div class="subtitle-1" style="background:#ffb300; color: white; padding:0 20px;">
+						Read the warnings and correct the data
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						<br/>Files "Ready for Review/STRAZHESKO/YAL0116/LITMANN")/[ audio files ]" -  12 audio files expected but 0 found.<br/>Patient form not found. <a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a><br/>EKG form not found. <a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a>
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>YAL0117</strong> <a href="https://drive.google.com/drive/folders/11s1MPH8m5LIIgI_VJvjVKfKBQCt_hho8" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>pending</strong> 
+					<br/>
+					 Created at <strong> 2023-05-08 10:26:45</strong>
+					<br/> 
+					 <strong>Data is out of sync</strong>
+				</div>
+				<div style=" border:1px solid #ffb300;">
+					<div class="subtitle-1" style="background:#ffb300; color: white; padding:0 20px;">
+						Read the warnings and correct the data
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						<br/>Files "Ready for Review/STRAZHESKO/YAL0117/LITMANN")/[ audio files ]" -  12 audio files expected but 0 found.<br/>Patient form not found. <a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a><br/>EKG form not found. <a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a><br/>Echo form not found.<a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a>
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>YAL0118</strong> <a href="https://drive.google.com/drive/folders/1HrRaOx0p84b9djrVMNdjjCApYVsw-7sr" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>pending</strong> 
+					<br/>
+					 Created at <strong> 2023-05-08 10:26:49</strong>
+					<br/> 
+					 <strong>Data is out of sync</strong>
+				</div>
+				<div style=" border:1px solid #ffb300;">
+					<div class="subtitle-1" style="background:#ffb300; color: white; padding:0 20px;">
+						Read the warnings and correct the data
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						<br/>Files "Ready for Review/STRAZHESKO/YAL0118/LITMANN")/[ audio files ]" -  12 audio files expected but 0 found.<br/>Patient form not found. <a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a><br/>EKG form not found. <a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a>
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>YAL0119</strong> <a href="https://drive.google.com/drive/folders/1Inp2bDxmECf9RRVff6uMVI7OY5Sw2uOA" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>pending</strong> 
+					<br/>
+					 Created at <strong> 2023-05-08 11:12:04</strong>
+					<br/> 
+					 <strong>Data is out of sync</strong>
+				</div>
+				<div style=" border:1px solid #ffb300;">
+					<div class="subtitle-1" style="background:#ffb300; color: white; padding:0 20px;">
+						Read the warnings and correct the data
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						<br/>File "Ready for Review/STRAZHESKO/YAL0119/ECHO")/YAL0119.rar" not found.<br/>Files "Ready for Review/STRAZHESKO/YAL0119/LITMANN")/[ audio files ]" -  12 audio files expected but 0 found.<br/>Patient form not found. <a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a><br/>EKG form not found. <a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a><br/>Echo form not found.<a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a>
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>YAL0120</strong> <a href="https://drive.google.com/drive/folders/16rh2RkjdA8eefFANv6COKTWrt6gztSIM" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>pending</strong> 
+					<br/>
+					 Created at <strong> 2023-05-08 12:04:48</strong>
+					<br/> 
+					 <strong>Data is out of sync</strong>
+				</div>
+				<div style=" border:1px solid #ffb300;">
+					<div class="subtitle-1" style="background:#ffb300; color: white; padding:0 20px;">
+						Read the warnings and correct the data
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						<br/>File "Ready for Review/STRAZHESKO/YAL0120/ECHO")/YAL0120.rar" not found.<br/>Files "Ready for Review/STRAZHESKO/YAL0120/LITMANN")/[ audio files ]" -  12 audio files expected but 0 found.<br/>Patient form not found. <a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a><br/>EKG form not found. <a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a><br/>Echo form not found.<a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a>
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>YAL0121</strong> <a href="https://drive.google.com/drive/folders/1sG-QxekK3m50hBcwwgAlgYmV2TSUSWA1" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>pending</strong> 
+					<br/>
+					 Created at <strong> 2023-05-08 14:45:39</strong>
+					<br/> 
+					 <strong>Data is out of sync</strong>
+				</div>
+				<div style=" border:1px solid #ffb300;">
+					<div class="subtitle-1" style="background:#ffb300; color: white; padding:0 20px;">
+						Read the warnings and correct the data
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						<br/>File "Ready for Review/STRAZHESKO/YAL0121/ECHO")/YAL0121.rar" not found.<br/>Files "Ready for Review/STRAZHESKO/YAL0121/LITMANN")/[ audio files ]" -  12 audio files expected but 0 found.<br/>Patient form not found. <a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a><br/>EKG form not found. <a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a><br/>Echo form not found.<a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a>
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>YAL0122</strong> <a href="https://drive.google.com/drive/folders/1AuUfFVe3oGnmQKFIVLxAq7U2_zRxJoDJ" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>pending</strong> 
+					<br/>
+					 Created at <strong> 2023-05-09 11:30:13</strong>
+					<br/> 
+					 <strong>Data is out of sync</strong>
+				</div>
+				<div style=" border:1px solid #ffb300;">
+					<div class="subtitle-1" style="background:#ffb300; color: white; padding:0 20px;">
+						Read the warnings and correct the data
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						<br/>Files "Ready for Review/STRAZHESKO/YAL0122/LITMANN")/[ audio files ]" -  12 audio files expected but 0 found.<br/>Patient form not found. <a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a><br/>EKG form not found. <a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a>
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>YAL0123</strong> <a href="https://drive.google.com/drive/folders/1wq-uyBUUDbqknBQvO7u9TRWCa0edOC_s" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>pending</strong> 
+					<br/>
+					 Created at <strong> 2023-05-09 11:30:17</strong>
+					<br/> 
+					 <strong>Data is out of sync</strong>
+				</div>
+				<div style=" border:1px solid #ffb300;">
+					<div class="subtitle-1" style="background:#ffb300; color: white; padding:0 20px;">
+						Read the warnings and correct the data
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						<br/>Files "Ready for Review/STRAZHESKO/YAL0123/LITMANN")/[ audio files ]" -  12 audio files expected but 0 found.<br/><br/>Stethophone recording for YAL0123 "heart/front/pulmonic/supine/iOS" not found.<br/>Stethophone recording  for YAL0123 "heart/front/pulmonic/supine/android" not found.<br/>Stethophone recording for YAL0123 "abdomen/front/leftAbdomen/supine/iOS" not found.<br/>Stethophone recording  for YAL0123 "abdomen/front/leftAbdomen/supine/android" not found.<br/>Stethophone recording for YAL0123 "lungs/back/middleBackRight/sitting/iOS" not found.<br/>Stethophone recording  for YAL0123 "lungs/back/middleBackRight/sitting/android" not found.<br/>Stethophone recording for YAL0123 "heart/front/aortic/supine/iOS" not found.<br/>Stethophone recording  for YAL0123 "heart/front/aortic/supine/android" not found.<br/>Stethophone recording for YAL0123 "heart/front/mitral/leftDecubitus/iOS" not found.<br/>Stethophone recording  for YAL0123 "heart/front/mitral/leftDecubitus/android" not found.<br/>Stethophone recording for YAL0123 "abdomen/front/rightAbdomen/supine/iOS" not found.<br/>Stethophone recording  for YAL0123 "abdomen/front/rightAbdomen/supine/android" not found.<br/>Stethophone recording for YAL0123 "heart/front/rightCarotid/supine/iOS" not found.<br/>Stethophone recording  for YAL0123 "heart/front/rightCarotid/supine/android" not found.<br/>Stethophone recording for YAL0123 "heart/front/leftCarotid/supine/iOS" not found.<br/>Stethophone recording  for YAL0123 "heart/front/leftCarotid/supine/android" not found.<br/>Stethophone recording for YAL0123 "lungs/back/lowerBackRight/sitting/iOS" not found.<br/>Stethophone recording  for YAL0123 "lungs/back/lowerBackRight/sitting/android" not found.<br/>Stethophone recording for YAL0123 "lungs/back/middleBackLeft/sitting/iOS" not found.<br/>Stethophone recording  for YAL0123 "lungs/back/middleBackLeft/sitting/android" not found.<br/>Stethophone recording for YAL0123 "heart/front/tricuspid/supine/iOS" not found.<br/>Stethophone recording  for YAL0123 "heart/front/tricuspid/supine/android" not found.<br/>Stethophone recording for YAL0123 "heart/front/erbsRight/sitting/iOS" not found.<br/>Stethophone recording  for YAL0123 "heart/front/erbsRight/sitting/android" not found.<br/>Stethophone recording for YAL0123 "heart/back/lowerBackLeft/sitting/iOS" not found.<br/>Stethophone recording  for YAL0123 "heart/back/lowerBackLeft/sitting/android" not found.<br/>Stethophone recording for YAL0123 "heart/front/erbs/sitting/iOS" not found.<br/>Stethophone recording  for YAL0123 "heart/front/erbs/sitting/android" not found.<br/>Patient form not found. <a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a><br/>EKG form not found. <a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a><br/>The following ECHO form fields  (1 from 51) cannot be null:<br/><strong>"Heart tumors"</strong><br/><a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a>
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>YAL0124</strong> <a href="https://drive.google.com/drive/folders/17crZD9RHF37yOJMc3WgHNz0uAqz_SuDM" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>pending</strong> 
+					<br/>
+					 Created at <strong> 2023-05-09 11:30:20</strong>
+					<br/> 
+					 <strong>Data is out of sync</strong>
+				</div>
+				<div style=" border:1px solid #ffb300;">
+					<div class="subtitle-1" style="background:#ffb300; color: white; padding:0 20px;">
+						Read the warnings and correct the data
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						<br/>File "Ready for Review/STRAZHESKO/YAL0124/ECHO")/YAL0124.rar" not found.<br/>Files "Ready for Review/STRAZHESKO/YAL0124/LITMANN")/[ audio files ]" -  12 audio files expected but 0 found.<br/>Patient form not found. <a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a><br/>EKG form not found. <a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a><br/>Echo form not found.<a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a>
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>YAL0125</strong> <a href="https://drive.google.com/drive/folders/1B0PF8GUl96MlGuAi5yi-TOBTHBA_Tq_b" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>pending</strong> 
+					<br/>
+					 Created at <strong> 2023-05-09 13:34:26</strong>
+					<br/> 
+					 <strong>Data is out of sync</strong>
+				</div>
+				<div style=" border:1px solid #ffb300;">
+					<div class="subtitle-1" style="background:#ffb300; color: white; padding:0 20px;">
+						Read the warnings and correct the data
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						<br/>File "Ready for Review/STRAZHESKO/YAL0125/ECHO")/YAL0125.rar" not found.<br/>Files "Ready for Review/STRAZHESKO/YAL0125/LITMANN")/[ audio files ]" -  12 audio files expected but 0 found.<br/>Patient form not found. <a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a><br/>EKG form not found. <a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a><br/>Echo form not found.<a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a>
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>YAL0126</strong> <a href="https://drive.google.com/drive/folders/1RHSY5MlB3gdsBY4IwCGLzH9vzzt34r1b" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>pending</strong> 
+					<br/>
+					 Created at <strong> 2023-05-09 15:14:05</strong>
+					<br/> 
+					 <strong>Data is out of sync</strong>
+				</div>
+				<div style=" border:1px solid #ffb300;">
+					<div class="subtitle-1" style="background:#ffb300; color: white; padding:0 20px;">
+						Read the warnings and correct the data
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						<br/>Files "Ready for Review/STRAZHESKO/YAL0126/LITMANN")/[ audio files ]" -  12 audio files expected but 0 found.<br/>Patient form not found. <a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a><br/>EKG form not found. <a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a><br/>Echo form not found.<a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a>
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>YAL0127</strong> <a href="https://drive.google.com/drive/folders/1j6EbzAXBaUDkQx9XwZrwisnoe1Brs1C-" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>pending</strong> 
+					<br/>
+					 Created at <strong> 2023-05-09 17:58:01</strong>
+					<br/> 
+					 <strong>Data is out of sync</strong>
+				</div>
+				<div style=" border:1px solid #ffb300;">
+					<div class="subtitle-1" style="background:#ffb300; color: white; padding:0 20px;">
+						Read the warnings and correct the data
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						<br/>File "Ready for Review/STRAZHESKO/YAL0127/ECHO")/YAL0127.rar" not found.<br/>Files "Ready for Review/STRAZHESKO/YAL0127/LITMANN")/[ audio files ]" -  12 audio files expected but 0 found.<br/>Patient form not found. <a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a><br/>EKG form not found. <a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a><br/>Echo form not found.<a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a>
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>YAL0128</strong> <a href="https://drive.google.com/drive/folders/1Uq4plcsQ5_NOXN9zrbWi_Lt4yPkyrEmn" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>pending</strong> 
+					<br/>
+					 Created at <strong> 2023-05-09 18:10:20</strong>
+					<br/> 
+					 <strong>Data is out of sync</strong>
+				</div>
+				<div style=" border:1px solid #ffb300;">
+					<div class="subtitle-1" style="background:#ffb300; color: white; padding:0 20px;">
+						Read the warnings and correct the data
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						<br/>File "Ready for Review/STRAZHESKO/YAL0128/ECHO")/YAL0128.rar" not found.<br/>Files "Ready for Review/STRAZHESKO/YAL0128/LITMANN")/[ audio files ]" -  12 audio files expected but 0 found.<br/><br/>Stethophone recording  for YAL0128 "heart/front/aortic/supine/android" not found.<br/>Stethophone recording for YAL0128 "lungs/back/middleBackLeft/sitting/iOS" not found.<br/>Stethophone recording  for YAL0128 "lungs/back/middleBackLeft/sitting/android" not found.<br/>Stethophone recording for YAL0128 "heart/front/leftCarotid/supine/iOS" not found.<br/>Stethophone recording  for YAL0128 "heart/front/leftCarotid/supine/android" not found.<br/>Stethophone recording for YAL0128 "lungs/back/middleBackRight/sitting/iOS" not found.<br/>Stethophone recording  for YAL0128 "lungs/back/middleBackRight/sitting/android" not found.<br/>Stethophone recording for YAL0128 "heart/front/erbs/sitting/iOS" not found.<br/>Stethophone recording  for YAL0128 "heart/front/erbs/sitting/android" not found.<br/>Stethophone recording for YAL0128 "heart/front/rightCarotid/supine/iOS" not found.<br/>Stethophone recording  for YAL0128 "heart/front/rightCarotid/supine/android" not found.<br/>Stethophone recording  for YAL0128 "abdomen/front/rightAbdomen/supine/android" not found.<br/>Stethophone recording  for YAL0128 "heart/front/mitral/leftDecubitus/android" not found.<br/>Stethophone recording  for YAL0128 "heart/front/pulmonic/supine/android" not found.<br/>Stethophone recording for YAL0128 "lungs/back/lowerBackRight/sitting/iOS" not found.<br/>Stethophone recording  for YAL0128 "lungs/back/lowerBackRight/sitting/android" not found.<br/>Stethophone recording for YAL0128 "heart/front/erbsRight/sitting/iOS" not found.<br/>Stethophone recording  for YAL0128 "heart/front/erbsRight/sitting/android" not found.<br/>Stethophone recording for YAL0128 "heart/back/lowerBackLeft/sitting/iOS" not found.<br/>Stethophone recording  for YAL0128 "heart/back/lowerBackLeft/sitting/android" not found.<br/>Stethophone recording  for YAL0128 "heart/front/tricuspid/supine/android" not found.<br/>Stethophone recording  for YAL0128 "abdomen/front/leftAbdomen/supine/android" not found.<br/>Patient form not found. <a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a><br/>EKG form not found. <a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a><br/>Echo form not found.<a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a>
+					</div>
+				</div>
+			</div>
+			
+		
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>		
+			</body>
+		</html>		 
+	

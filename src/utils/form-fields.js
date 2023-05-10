@@ -31,6 +31,7 @@ const condRequired = (form, field, value, list) => {
         if(res[0] == true){
             if(form[field] == value) {
                 list.forEach( l => {
+                    // console.log(l, form[l], required(form,l))
                     res.push( required(form,l))    
                 })
             }    

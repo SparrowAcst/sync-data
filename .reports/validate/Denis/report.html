@@ -1,0 +1,1324 @@
+
+		<html>
+			<head>
+			  <meta charset="utf-8">
+			  <meta http-equiv="x-ua-compatible" content="ie=edge">
+			  <meta name="description" content="">
+			  <meta name="viewport" content="width=device-width, initial-scale=1">
+			  <link rel="stylesheet" href="../../../../vuetify.min.css" />
+			  <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.4.1/echarts.min.js" integrity="sha512-OTbGFYPLe3jhy4bUwbB8nls0TFgz10kn0TLkmyA+l3FyivDs31zsXCjOis7YGDtE2Jsy0+fzW+3/OVoPVujPmQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+			</head>
+
+			<body>
+				<div class="app">
+					<div class="v-application v-application--is-ltr theme--light">
+						<div class="v-application--wrap">
+							
+							<div class="mx-4">
+								<div>
+									<div class="display-1 mx-2">Data Validation Report</div>
+									<div class="mx-3 title-2 ">Organization: "Denis" Date: 2023-05-10 16:19:00</div>
+								</div>
+								<div class="ml-3 mt-3">
+									<div class="headline mb-2">Summary</div>
+									
+
+			<div id="main" style="width: 600px;height:200px;"></div>
+			<script type="text/javascript">
+			      // Initialize the echarts instance based on the prepared dom
+			      let myChart = echarts.init(document.getElementById('main'));
+
+			      // Specify the configuration items and data for the chart
+			      let option = {
+					  grid: {
+					  	top:0,
+   	 					bottom:0,
+					    containLabel: true
+					  },
+					  xAxis: {
+					    type: 'value',
+					    show:false
+					  },
+					  yAxis: {
+					    type: 'category',
+					    axisLabel:{
+					      show: true,
+					      fontSize: "18px",
+					      fontWeight: "bold"
+					    },
+					    axisLine:{
+					      show:false
+					    },
+					    axisTick:{
+					      show: false
+					    },
+					    data: ["total","rejected","accepted","inReview","pending"]
+					  },
+					  series: [
+					    {
+					      type: 'bar',
+					      label:{
+					        show: true,
+					        position:'right',
+						      fontSize: "18px",
+						      fontWeight: "bold"
+					      },
+					      data: [{"name":"total","value":59,"itemStyle":{"color":"#eeeeee"}},{"name":"rejected","value":0,"itemStyle":{"color":"#ef5350"}},{"name":"accepted","value":53,"itemStyle":{"color":"#2e7d32"}},{"name":"inReview","value":2,"itemStyle":{"color":"#1565c0"}},{"name":"pending","value":4,"itemStyle":{"color":"#ffb300"}}]
+					    }
+					  ]
+					}
+
+			      // Display the chart using the configuration items and data just specified.
+			      myChart.setOption(option);
+			   </script>
+		
+								</div>	
+								<div class="ml-3 mt-3">
+									<div class="headline">Details</div>
+									
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>OCH0009</strong> <a href="https://drive.google.com/drive/folders/19XM4FdTNFkucGGkuvaydzfG12376kgSM" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>accepted</strong> 
+					<br/>
+					 Created at <strong>2023-03-10 18:05:51</strong>
+					<br/> 
+					 Synchronized at <strong>2023-03-17 20:32:36</strong>
+				</div>
+				<div style=" border:1px solid #2e7d32;">
+					<div class="subtitle-1" style="background:#2e7d32; color: white; padding:0 20px;">
+						Data accepted. You can remove the data from the "Ready for Review" folder
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>OCH0010</strong> <a href="https://drive.google.com/drive/folders/1Ns6QffDRx4X0AccVwxyquVE2KIgTr3D6" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>accepted</strong> 
+					<br/>
+					 Created at <strong>2023-03-14 11:49:58</strong>
+					<br/> 
+					 Synchronized at <strong>2023-03-17 21:32:30</strong>
+				</div>
+				<div style=" border:1px solid #2e7d32;">
+					<div class="subtitle-1" style="background:#2e7d32; color: white; padding:0 20px;">
+						Data accepted. You can remove the data from the "Ready for Review" folder
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>OCH0011</strong> <a href="https://drive.google.com/drive/folders/1XVRpsVqx9rvixM6IoTyixLOMN79zio0k" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>accepted</strong> 
+					<br/>
+					 Created at <strong>2023-03-14 12:02:52</strong>
+					<br/> 
+					 Synchronized at <strong>2023-03-17 22:08:21</strong>
+				</div>
+				<div style=" border:1px solid #2e7d32;">
+					<div class="subtitle-1" style="background:#2e7d32; color: white; padding:0 20px;">
+						Data accepted. You can remove the data from the "Ready for Review" folder
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>OCH0012</strong> <a href="https://drive.google.com/drive/folders/167J6nE-gXyaS937aOyo_CcmtRhdw12sv" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>accepted</strong> 
+					<br/>
+					 Created at <strong>2023-03-16 11:47:23</strong>
+					<br/> 
+					 Synchronized at <strong>2023-03-17 22:11:54</strong>
+				</div>
+				<div style=" border:1px solid #2e7d32;">
+					<div class="subtitle-1" style="background:#2e7d32; color: white; padding:0 20px;">
+						Data accepted. You can remove the data from the "Ready for Review" folder
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>OCH0013</strong> <a href="https://drive.google.com/drive/folders/1u79qZrc4E1dR51sSahf5TN90etbaHIqu" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>accepted</strong> 
+					<br/>
+					 Created at <strong>2023-03-17 11:19:58</strong>
+					<br/> 
+					 Synchronized at <strong>2023-03-17 22:15:06</strong>
+				</div>
+				<div style=" border:1px solid #2e7d32;">
+					<div class="subtitle-1" style="background:#2e7d32; color: white; padding:0 20px;">
+						Data accepted. You can remove the data from the "Ready for Review" folder
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>OCH0014</strong> <a href="https://drive.google.com/drive/folders/1NCmfOVJymMVw6SSDZ6H8_PvLqh97vDmk" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>accepted</strong> 
+					<br/>
+					 Created at <strong>2023-03-20 11:04:58</strong>
+					<br/> 
+					 Synchronized at <strong>2023-03-21 18:03:28</strong>
+				</div>
+				<div style=" border:1px solid #2e7d32;">
+					<div class="subtitle-1" style="background:#2e7d32; color: white; padding:0 20px;">
+						Data accepted. You can remove the data from the "Ready for Review" folder
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>OCH0015</strong> <a href="https://drive.google.com/drive/folders/1sk5MXn0Yo1Eap4GZu-w1UPCGW2uKNq7O" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>accepted</strong> 
+					<br/>
+					 Created at <strong>2023-03-20 13:40:27</strong>
+					<br/> 
+					 Synchronized at <strong>2023-03-21 18:06:43</strong>
+				</div>
+				<div style=" border:1px solid #2e7d32;">
+					<div class="subtitle-1" style="background:#2e7d32; color: white; padding:0 20px;">
+						Data accepted. You can remove the data from the "Ready for Review" folder
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>OCH0016</strong> <a href="https://drive.google.com/drive/folders/1DI9nH-g4J9l4Ny0UraiApj60Sq-_oLoC" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>accepted</strong> 
+					<br/>
+					 Created at <strong>2023-03-21 13:34:45</strong>
+					<br/> 
+					 Synchronized at <strong>2023-03-21 18:09:05</strong>
+				</div>
+				<div style=" border:1px solid #2e7d32;">
+					<div class="subtitle-1" style="background:#2e7d32; color: white; padding:0 20px;">
+						Data accepted. You can remove the data from the "Ready for Review" folder
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>OCH0017</strong> <a href="https://drive.google.com/drive/folders/1rJ_pBqL0I_pOmOiep86ues6FHe_Su_Ui" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>accepted</strong> 
+					<br/>
+					 Created at <strong>2023-03-22 11:12:17</strong>
+					<br/> 
+					 Synchronized at <strong>2023-03-22 19:52:10</strong>
+				</div>
+				<div style=" border:1px solid #2e7d32;">
+					<div class="subtitle-1" style="background:#2e7d32; color: white; padding:0 20px;">
+						Data accepted. You can remove the data from the "Ready for Review" folder
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>OCH0018</strong> <a href="https://drive.google.com/drive/folders/1gWDiMSEtsNpIIdfRUlCvt7oUnGqS3ZKd" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>accepted</strong> 
+					<br/>
+					 Created at <strong>2023-03-22 14:21:56</strong>
+					<br/> 
+					 Synchronized at <strong>2023-03-22 19:54:08</strong>
+				</div>
+				<div style=" border:1px solid #2e7d32;">
+					<div class="subtitle-1" style="background:#2e7d32; color: white; padding:0 20px;">
+						Data accepted. You can remove the data from the "Ready for Review" folder
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>OCH0019</strong> <a href="https://drive.google.com/drive/folders/1NbHcRs2xhSExLWPsYHyU4Q_decbvFpzr" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>accepted</strong> 
+					<br/>
+					 Created at <strong>2023-03-24 11:11:14</strong>
+					<br/> 
+					 Synchronized at <strong>2023-03-24 21:40:29</strong>
+				</div>
+				<div style=" border:1px solid #2e7d32;">
+					<div class="subtitle-1" style="background:#2e7d32; color: white; padding:0 20px;">
+						Data accepted. You can remove the data from the "Ready for Review" folder
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>OCH0020</strong> <a href="https://drive.google.com/drive/folders/1hzl_jCC9X7TgZvORALNdd2kuVpPUHRpz" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>accepted</strong> 
+					<br/>
+					 Created at <strong>2023-03-24 13:37:03</strong>
+					<br/> 
+					 Synchronized at <strong>2023-03-24 21:42:43</strong>
+				</div>
+				<div style=" border:1px solid #2e7d32;">
+					<div class="subtitle-1" style="background:#2e7d32; color: white; padding:0 20px;">
+						Data accepted. You can remove the data from the "Ready for Review" folder
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>OCH0021</strong> <a href="https://drive.google.com/drive/folders/1gffhbjhu5pZ-6vb5wACnil4pmV9F8Xfm" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>accepted</strong> 
+					<br/>
+					 Created at <strong>2023-03-27 13:18:51</strong>
+					<br/> 
+					 Synchronized at <strong>2023-03-27 23:48:31</strong>
+				</div>
+				<div style=" border:1px solid #2e7d32;">
+					<div class="subtitle-1" style="background:#2e7d32; color: white; padding:0 20px;">
+						Data accepted. You can remove the data from the "Ready for Review" folder
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>OCH0022</strong> <a href="https://drive.google.com/drive/folders/1WUXNnXo2Vqi-z9R6F2uENShbZubTZD3o" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>accepted</strong> 
+					<br/>
+					 Created at <strong>2023-03-28 10:45:24</strong>
+					<br/> 
+					 Synchronized at <strong>2023-03-29 23:46:14</strong>
+				</div>
+				<div style=" border:1px solid #2e7d32;">
+					<div class="subtitle-1" style="background:#2e7d32; color: white; padding:0 20px;">
+						Data accepted. You can remove the data from the "Ready for Review" folder
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>OCH0023</strong> <a href="https://drive.google.com/drive/folders/1Ee11g8ggw8euWU0Wc3JxI_4CTjHFJm8v" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>pending</strong> 
+					<br/>
+					 Created at <strong>2023-03-28 13:17:47</strong>
+					<br/> 
+					 Synchronized at <strong>2023-04-10 00:13:36</strong>
+				</div>
+				<div style=" border:1px solid #ffb300;">
+					<div class="subtitle-1" style="background:#ffb300; color: white; padding:0 20px;">
+						Read the warnings and correct the data
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						<br/>File "Ready for Review/Denis/OCH0023/ECHO")/OCH0023.rar" not found.<br/>The following ECHO form fields  (27 from 51) cannot be null:<br/><strong>"Aortic aneurysm"</strong><br/><strong>"Aortic dissection"</strong><br/><strong>"Diastolic function of the left ventricle"</strong><br/><strong>"Regional abnormalities of left ventricular contractility"</strong><br/><strong>"Right ventricle free wall thickness"</strong><br/><strong>"Mid rv measured four chamber view"</strong><br/><strong>"Tricuspid annular plane systolic excursion"</strong><br/><strong>"Regional abnormalities right ventricular contractility"</strong><br/><strong>"Mitral ring"</strong><br/><strong>"Mitral valve prolapse"</strong><br/><strong>"Mitral stenosis"</strong><br/><strong>"Aortic valve"</strong><br/><strong>"Aortic regurgitation"</strong><br/><strong>"Aortic stenosis"</strong><br/><strong>"Tricuspid regurgitation"</strong><br/><strong>"Tricuspid stenosis"</strong><br/><strong>"Pulmonary regurgitation"</strong><br/><strong>"Pulmonary stenosis"</strong><br/><strong>"Valve prostheses"</strong><br/><strong>"Pericardial effusion"</strong><br/><strong>"Pericardial constriction"</strong><br/><strong>"Fluid pleural cavities"</strong><br/><strong>"Congenital heart disease"</strong><br/><strong>"Vegetations"</strong><br/><strong>"Intracavitary thrombi"</strong><br/><strong>"Heart tumors"</strong><br/><strong>"Conclusion"</strong><br/><a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a>
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>OCH0024</strong> <a href="https://drive.google.com/drive/folders/1hffZymg8yr_GFUibySu2Dije6vIgeoKa" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>accepted</strong> 
+					<br/>
+					 Created at <strong>2023-03-28 15:33:54</strong>
+					<br/> 
+					 Synchronized at <strong>2023-03-29 23:48:20</strong>
+				</div>
+				<div style=" border:1px solid #2e7d32;">
+					<div class="subtitle-1" style="background:#2e7d32; color: white; padding:0 20px;">
+						Data accepted. You can remove the data from the "Ready for Review" folder
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>OCH0025</strong> <a href="https://drive.google.com/drive/folders/1VbxXvMaTU47b4qhRcVHlNL66DqmzAXm6" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>accepted</strong> 
+					<br/>
+					 Created at <strong>2023-03-29 11:10:53</strong>
+					<br/> 
+					 Synchronized at <strong>2023-03-29 23:50:27</strong>
+				</div>
+				<div style=" border:1px solid #2e7d32;">
+					<div class="subtitle-1" style="background:#2e7d32; color: white; padding:0 20px;">
+						Data accepted. You can remove the data from the "Ready for Review" folder
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>OCH0026</strong> <a href="https://drive.google.com/drive/folders/1L0Q-jl219mVm2Bp7xu050N1QAybQOpHn" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>accepted</strong> 
+					<br/>
+					 Created at <strong>2023-03-29 14:14:26</strong>
+					<br/> 
+					 Synchronized at <strong>2023-03-29 23:52:22</strong>
+				</div>
+				<div style=" border:1px solid #2e7d32;">
+					<div class="subtitle-1" style="background:#2e7d32; color: white; padding:0 20px;">
+						Data accepted. You can remove the data from the "Ready for Review" folder
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>OCH0027</strong> <a href="https://drive.google.com/drive/folders/14TIhDCeBGqfsZYCve2FihckPTx7qfLWs" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>accepted</strong> 
+					<br/>
+					 Created at <strong>2023-03-30 11:02:16</strong>
+					<br/> 
+					 Synchronized at <strong>2023-03-30 20:57:07</strong>
+				</div>
+				<div style=" border:1px solid #2e7d32;">
+					<div class="subtitle-1" style="background:#2e7d32; color: white; padding:0 20px;">
+						Data accepted. You can remove the data from the "Ready for Review" folder
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>OCH0028</strong> <a href="https://drive.google.com/drive/folders/1SmIyxLNWOWSdmOES_C6pd2KeI3ePuZKM" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>accepted</strong> 
+					<br/>
+					 Created at <strong>2023-03-30 13:25:15</strong>
+					<br/> 
+					 Synchronized at <strong>2023-03-30 20:58:56</strong>
+				</div>
+				<div style=" border:1px solid #2e7d32;">
+					<div class="subtitle-1" style="background:#2e7d32; color: white; padding:0 20px;">
+						Data accepted. You can remove the data from the "Ready for Review" folder
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>OCH0029</strong> <a href="https://drive.google.com/drive/folders/1_lAMkDB2PIl-mDfoHeUaXH_sdLMED1dg" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>accepted</strong> 
+					<br/>
+					 Created at <strong>2023-04-04 11:11:25</strong>
+					<br/> 
+					 Synchronized at <strong>2023-04-06 19:03:01</strong>
+				</div>
+				<div style=" border:1px solid #2e7d32;">
+					<div class="subtitle-1" style="background:#2e7d32; color: white; padding:0 20px;">
+						Data accepted. You can remove the data from the "Ready for Review" folder
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>OCH0030</strong> <a href="https://drive.google.com/drive/folders/1k_v-4YLndQhhzX2EBN4PIzMSTwRy7j_a" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>accepted</strong> 
+					<br/>
+					 Created at <strong>2023-04-04 14:13:49</strong>
+					<br/> 
+					 Synchronized at <strong>2023-04-06 19:08:42</strong>
+				</div>
+				<div style=" border:1px solid #2e7d32;">
+					<div class="subtitle-1" style="background:#2e7d32; color: white; padding:0 20px;">
+						Data accepted. You can remove the data from the "Ready for Review" folder
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>OCH0031</strong> <a href="https://drive.google.com/drive/folders/1xUcvS35Fb0TshSdRmK62Fy6puzu7Ktlj" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>accepted</strong> 
+					<br/>
+					 Created at <strong>2023-04-05 11:10:02</strong>
+					<br/> 
+					 Synchronized at <strong>2023-04-06 19:56:39</strong>
+				</div>
+				<div style=" border:1px solid #2e7d32;">
+					<div class="subtitle-1" style="background:#2e7d32; color: white; padding:0 20px;">
+						Data accepted. You can remove the data from the "Ready for Review" folder
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>OCH0032</strong> <a href="https://drive.google.com/drive/folders/1kC_TbcX5qkz7NhhayqUvWkHiCbJtyI-S" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>accepted</strong> 
+					<br/>
+					 Created at <strong>2023-04-05 14:11:17</strong>
+					<br/> 
+					 Synchronized at <strong>2023-04-06 20:14:08</strong>
+				</div>
+				<div style=" border:1px solid #2e7d32;">
+					<div class="subtitle-1" style="background:#2e7d32; color: white; padding:0 20px;">
+						Data accepted. You can remove the data from the "Ready for Review" folder
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>OCH0033</strong> <a href="https://drive.google.com/drive/folders/1FMSIPxz7OczxBMd4_6bSkYGDrFO-vVYS" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>accepted</strong> 
+					<br/>
+					 Created at <strong>2023-04-05 14:20:01</strong>
+					<br/> 
+					 Synchronized at <strong>2023-04-08 19:21:40</strong>
+				</div>
+				<div style=" border:1px solid #2e7d32;">
+					<div class="subtitle-1" style="background:#2e7d32; color: white; padding:0 20px;">
+						Data accepted. You can remove the data from the "Ready for Review" folder
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>OCH0034</strong> <a href="https://drive.google.com/drive/folders/1QDd9BAuV1aDksfasEFHX13t67KkkZmvn" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>accepted</strong> 
+					<br/>
+					 Created at <strong>2023-04-07 14:14:34</strong>
+					<br/> 
+					 Synchronized at <strong>2023-04-08 19:52:56</strong>
+				</div>
+				<div style=" border:1px solid #2e7d32;">
+					<div class="subtitle-1" style="background:#2e7d32; color: white; padding:0 20px;">
+						Data accepted. You can remove the data from the "Ready for Review" folder
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>OCH0035</strong> <a href="https://drive.google.com/drive/folders/1gTBb-Kc1Nn4zMlOLgq-ctYHpeAcbshYZ" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>accepted</strong> 
+					<br/>
+					 Created at <strong>2023-04-11 11:12:10</strong>
+					<br/> 
+					 Synchronized at <strong>2023-04-11 21:21:52</strong>
+				</div>
+				<div style=" border:1px solid #2e7d32;">
+					<div class="subtitle-1" style="background:#2e7d32; color: white; padding:0 20px;">
+						Data accepted. You can remove the data from the "Ready for Review" folder
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>OCH0036</strong> <a href="https://drive.google.com/drive/folders/1h0LWjU6xMT1cvgGHy0DVhWxODd2E4DsO" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>accepted</strong> 
+					<br/>
+					 Created at <strong>2023-04-11 14:26:27</strong>
+					<br/> 
+					 Synchronized at <strong>2023-04-11 21:23:59</strong>
+				</div>
+				<div style=" border:1px solid #2e7d32;">
+					<div class="subtitle-1" style="background:#2e7d32; color: white; padding:0 20px;">
+						Data accepted. You can remove the data from the "Ready for Review" folder
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>OCH0037</strong> <a href="https://drive.google.com/drive/folders/18gM0T6TMJaoY0Fa0XE2JAFvAlo4Z9yJn" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>accepted</strong> 
+					<br/>
+					 Created at <strong>2023-04-12 11:21:55</strong>
+					<br/> 
+					 Synchronized at <strong>2023-04-16 00:21:09</strong>
+				</div>
+				<div style=" border:1px solid #2e7d32;">
+					<div class="subtitle-1" style="background:#2e7d32; color: white; padding:0 20px;">
+						Data accepted. You can remove the data from the "Ready for Review" folder
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>OCH0038</strong> <a href="https://drive.google.com/drive/folders/1eRBzDO_mk1fJqgAOZCqqwTSmUxjO-SWC" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>accepted</strong> 
+					<br/>
+					 Created at <strong>2023-04-12 14:48:30</strong>
+					<br/> 
+					 Synchronized at <strong>2023-04-16 00:23:02</strong>
+				</div>
+				<div style=" border:1px solid #2e7d32;">
+					<div class="subtitle-1" style="background:#2e7d32; color: white; padding:0 20px;">
+						Data accepted. You can remove the data from the "Ready for Review" folder
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>OCH0039</strong> <a href="https://drive.google.com/drive/folders/1o1w-zi1omz23cB-V4GNo9KGvjfYDTTzk" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>accepted</strong> 
+					<br/>
+					 Created at <strong>2023-04-18 11:16:39</strong>
+					<br/> 
+					 Synchronized at <strong>2023-04-19 22:33:38</strong>
+				</div>
+				<div style=" border:1px solid #2e7d32;">
+					<div class="subtitle-1" style="background:#2e7d32; color: white; padding:0 20px;">
+						Data accepted. You can remove the data from the "Ready for Review" folder
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>OCH0040</strong> <a href="https://drive.google.com/drive/folders/1eRMEFwkAUDMnc1ISl5rCr3FyvKgN7U7T" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>accepted</strong> 
+					<br/>
+					 Created at <strong>2023-04-18 14:16:58</strong>
+					<br/> 
+					 Synchronized at <strong>2023-04-19 22:35:20</strong>
+				</div>
+				<div style=" border:1px solid #2e7d32;">
+					<div class="subtitle-1" style="background:#2e7d32; color: white; padding:0 20px;">
+						Data accepted. You can remove the data from the "Ready for Review" folder
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>OCH0042</strong> <a href="https://drive.google.com/drive/folders/15nNfuG6y7P1_n4XMXMFHDbYdb6_wqTrl" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>accepted</strong> 
+					<br/>
+					 Created at <strong>2023-04-20 09:14:36</strong>
+					<br/> 
+					 Synchronized at <strong>2023-04-20 19:05:47</strong>
+				</div>
+				<div style=" border:1px solid #2e7d32;">
+					<div class="subtitle-1" style="background:#2e7d32; color: white; padding:0 20px;">
+						Data accepted. You can remove the data from the "Ready for Review" folder
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>OCH0043</strong> <a href="https://drive.google.com/drive/folders/1KLkQ9D133JjdbHpsv5Lw18fpipde8X0p" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>accepted</strong> 
+					<br/>
+					 Created at <strong>2023-04-20 11:24:43</strong>
+					<br/> 
+					 Synchronized at <strong>2023-04-20 19:08:00</strong>
+				</div>
+				<div style=" border:1px solid #2e7d32;">
+					<div class="subtitle-1" style="background:#2e7d32; color: white; padding:0 20px;">
+						Data accepted. You can remove the data from the "Ready for Review" folder
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>OCH0044</strong> <a href="https://drive.google.com/drive/folders/1GQC3xxYZ_TalHSYzN3Mft3erXgQblhuE" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>accepted</strong> 
+					<br/>
+					 Created at <strong>2023-04-20 14:48:04</strong>
+					<br/> 
+					 Synchronized at <strong>2023-04-20 19:09:47</strong>
+				</div>
+				<div style=" border:1px solid #2e7d32;">
+					<div class="subtitle-1" style="background:#2e7d32; color: white; padding:0 20px;">
+						Data accepted. You can remove the data from the "Ready for Review" folder
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>OCH0045</strong> <a href="https://drive.google.com/drive/folders/1jffexT2_nP09pS52bsE4WLAooX1HmTRX" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>accepted</strong> 
+					<br/>
+					 Created at <strong>2023-04-25 11:01:36</strong>
+					<br/> 
+					 Synchronized at <strong>2023-04-26 22:20:57</strong>
+				</div>
+				<div style=" border:1px solid #2e7d32;">
+					<div class="subtitle-1" style="background:#2e7d32; color: white; padding:0 20px;">
+						Data accepted. You can remove the data from the "Ready for Review" folder
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>OCH0046</strong> <a href="https://drive.google.com/drive/folders/13uARPueV5cSwywZJMuUVqkQeYOkWNftP" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>accepted</strong> 
+					<br/>
+					 Created at <strong>2023-04-25 13:53:00</strong>
+					<br/> 
+					 Synchronized at <strong>2023-04-26 22:22:43</strong>
+				</div>
+				<div style=" border:1px solid #2e7d32;">
+					<div class="subtitle-1" style="background:#2e7d32; color: white; padding:0 20px;">
+						Data accepted. You can remove the data from the "Ready for Review" folder
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>OCH0047</strong> <a href="https://drive.google.com/drive/folders/1bIn2npaJC24IjWe3SnBFGDm6rIjN8Xv7" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>accepted</strong> 
+					<br/>
+					 Created at <strong>2023-04-26 11:16:29</strong>
+					<br/> 
+					 Synchronized at <strong>2023-04-26 22:24:20</strong>
+				</div>
+				<div style=" border:1px solid #2e7d32;">
+					<div class="subtitle-1" style="background:#2e7d32; color: white; padding:0 20px;">
+						Data accepted. You can remove the data from the "Ready for Review" folder
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>OCH0048</strong> <a href="https://drive.google.com/drive/folders/1IbKiEkivqwKSBTkdKQVb4mnRcF5ebt4w" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>accepted</strong> 
+					<br/>
+					 Created at <strong>2023-04-26 14:13:37</strong>
+					<br/> 
+					 Synchronized at <strong>2023-04-26 22:25:59</strong>
+				</div>
+				<div style=" border:1px solid #2e7d32;">
+					<div class="subtitle-1" style="background:#2e7d32; color: white; padding:0 20px;">
+						Data accepted. You can remove the data from the "Ready for Review" folder
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>OCH0049</strong> <a href="https://drive.google.com/drive/folders/1qBIX_UQczgO7V8Sne211K-p23KPVSgPz" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>accepted</strong> 
+					<br/>
+					 Created at <strong>2023-04-27 09:02:16</strong>
+					<br/> 
+					 Synchronized at <strong>2023-04-27 23:14:17</strong>
+				</div>
+				<div style=" border:1px solid #2e7d32;">
+					<div class="subtitle-1" style="background:#2e7d32; color: white; padding:0 20px;">
+						Data accepted. You can remove the data from the "Ready for Review" folder
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>OCH0050</strong> <a href="https://drive.google.com/drive/folders/1hYkaoP0HLXFuBtr_hVf1nL0cZD8k0jH6" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>accepted</strong> 
+					<br/>
+					 Created at <strong>2023-04-27 10:56:07</strong>
+					<br/> 
+					 Synchronized at <strong>2023-04-27 23:15:55</strong>
+				</div>
+				<div style=" border:1px solid #2e7d32;">
+					<div class="subtitle-1" style="background:#2e7d32; color: white; padding:0 20px;">
+						Data accepted. You can remove the data from the "Ready for Review" folder
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>OCH0051</strong> <a href="https://drive.google.com/drive/folders/1dl_fWR6hxSB63Iv0H652vv53-6DIwdwO" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>accepted</strong> 
+					<br/>
+					 Created at <strong>2023-04-28 10:57:06</strong>
+					<br/> 
+					 Synchronized at <strong>2023-04-28 23:27:09</strong>
+				</div>
+				<div style=" border:1px solid #2e7d32;">
+					<div class="subtitle-1" style="background:#2e7d32; color: white; padding:0 20px;">
+						Data accepted. You can remove the data from the "Ready for Review" folder
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>OCH0052</strong> <a href="https://drive.google.com/drive/folders/10j97I3Mg4_WRhIgSnfUlpVTiOhvQP2yp" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>accepted</strong> 
+					<br/>
+					 Created at <strong>2023-05-01 11:10:35</strong>
+					<br/> 
+					 Synchronized at <strong>2023-05-02 20:08:16</strong>
+				</div>
+				<div style=" border:1px solid #2e7d32;">
+					<div class="subtitle-1" style="background:#2e7d32; color: white; padding:0 20px;">
+						Data accepted. You can remove the data from the "Ready for Review" folder
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>OCH0053</strong> <a href="https://drive.google.com/drive/folders/1G8XTfpCBAZ5Rv5spX8Pkt088GUP6P6V0" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>accepted</strong> 
+					<br/>
+					 Created at <strong>2023-05-01 13:59:48</strong>
+					<br/> 
+					 Synchronized at <strong>2023-05-02 20:10:30</strong>
+				</div>
+				<div style=" border:1px solid #2e7d32;">
+					<div class="subtitle-1" style="background:#2e7d32; color: white; padding:0 20px;">
+						Data accepted. You can remove the data from the "Ready for Review" folder
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>OCH0054</strong> <a href="https://drive.google.com/drive/folders/1eYNfniZO_AuUMo5eH8kkSAD8LZBTaumm" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>accepted</strong> 
+					<br/>
+					 Created at <strong>2023-05-02 09:09:41</strong>
+					<br/> 
+					 Synchronized at <strong>2023-05-02 20:14:41</strong>
+				</div>
+				<div style=" border:1px solid #2e7d32;">
+					<div class="subtitle-1" style="background:#2e7d32; color: white; padding:0 20px;">
+						Data accepted. You can remove the data from the "Ready for Review" folder
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>OCH0055</strong> <a href="https://drive.google.com/drive/folders/1AojKpJuwFIkKOo2J2OhPySAyGC72o3kO" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>accepted</strong> 
+					<br/>
+					 Created at <strong>2023-05-02 11:21:04</strong>
+					<br/> 
+					 Synchronized at <strong>2023-05-02 20:16:32</strong>
+				</div>
+				<div style=" border:1px solid #2e7d32;">
+					<div class="subtitle-1" style="background:#2e7d32; color: white; padding:0 20px;">
+						Data accepted. You can remove the data from the "Ready for Review" folder
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>OCH0056</strong> <a href="https://drive.google.com/drive/folders/1sKi_-l6HzcqnCjbMOpix_eYB8C3m00Us" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>accepted</strong> 
+					<br/>
+					 Created at <strong>2023-05-02 14:05:20</strong>
+					<br/> 
+					 Synchronized at <strong>2023-05-02 20:18:30</strong>
+				</div>
+				<div style=" border:1px solid #2e7d32;">
+					<div class="subtitle-1" style="background:#2e7d32; color: white; padding:0 20px;">
+						Data accepted. You can remove the data from the "Ready for Review" folder
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>OCH0057</strong> <a href="https://drive.google.com/drive/folders/1Ulyjk36MwsZ-8l5Jc2sx6lfQrbg2V9V3" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>accepted</strong> 
+					<br/>
+					 Created at <strong>2023-05-03 11:16:50</strong>
+					<br/> 
+					 Synchronized at <strong>2023-05-03 16:36:12</strong>
+				</div>
+				<div style=" border:1px solid #2e7d32;">
+					<div class="subtitle-1" style="background:#2e7d32; color: white; padding:0 20px;">
+						Data accepted. You can remove the data from the "Ready for Review" folder
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>OCH0058</strong> <a href="https://drive.google.com/drive/folders/1_rW6nXdp13g8AQt1eAJAiatpy8Tgix9k" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>accepted</strong> 
+					<br/>
+					 Created at <strong>2023-05-03 14:11:59</strong>
+					<br/> 
+					 Synchronized at <strong>2023-05-04 23:46:01</strong>
+				</div>
+				<div style=" border:1px solid #2e7d32;">
+					<div class="subtitle-1" style="background:#2e7d32; color: white; padding:0 20px;">
+						Data accepted. You can remove the data from the "Ready for Review" folder
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>OCH0059</strong> <a href="https://drive.google.com/drive/folders/1G81zAP8UA_nKlh8ms8FZOhSDepAXvf3B" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>accepted</strong> 
+					<br/>
+					 Created at <strong>2023-05-04 09:06:19</strong>
+					<br/> 
+					 Synchronized at <strong>2023-05-04 23:47:46</strong>
+				</div>
+				<div style=" border:1px solid #2e7d32;">
+					<div class="subtitle-1" style="background:#2e7d32; color: white; padding:0 20px;">
+						Data accepted. You can remove the data from the "Ready for Review" folder
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>OCH0060</strong> <a href="https://drive.google.com/drive/folders/17VMx-VJnf3dFbhzp9tVoFrmXhc_G12gU" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>accepted</strong> 
+					<br/>
+					 Created at <strong>2023-05-04 11:04:45</strong>
+					<br/> 
+					 Synchronized at <strong>2023-05-04 23:49:24</strong>
+				</div>
+				<div style=" border:1px solid #2e7d32;">
+					<div class="subtitle-1" style="background:#2e7d32; color: white; padding:0 20px;">
+						Data accepted. You can remove the data from the "Ready for Review" folder
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>OCH0061</strong> <a href="https://drive.google.com/drive/folders/16C1jpB3cqYxvk_GzNIXyQ9g0mg7oUx5D" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>accepted</strong> 
+					<br/>
+					 Created at <strong>2023-05-04 13:49:02</strong>
+					<br/> 
+					 Synchronized at <strong>2023-05-04 23:51:06</strong>
+				</div>
+				<div style=" border:1px solid #2e7d32;">
+					<div class="subtitle-1" style="background:#2e7d32; color: white; padding:0 20px;">
+						Data accepted. You can remove the data from the "Ready for Review" folder
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>OCH0062</strong> <a href="https://drive.google.com/drive/folders/1sVVfHpgud2rWcZWDDfEXu2UC_YIoxTq5" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>accepted</strong> 
+					<br/>
+					 Created at <strong>2023-05-05 11:08:22</strong>
+					<br/> 
+					 Synchronized at <strong>2023-05-05 20:35:49</strong>
+				</div>
+				<div style=" border:1px solid #2e7d32;">
+					<div class="subtitle-1" style="background:#2e7d32; color: white; padding:0 20px;">
+						Data accepted. You can remove the data from the "Ready for Review" folder
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>OCH0063</strong> <a href="https://drive.google.com/drive/folders/1b7Dn1bnNhf73TgHDuA1CvSB67sOZqDKj" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>accepted</strong> 
+					<br/>
+					 Created at <strong>2023-05-05 14:04:04</strong>
+					<br/> 
+					 Synchronized at <strong>2023-05-05 20:37:31</strong>
+				</div>
+				<div style=" border:1px solid #2e7d32;">
+					<div class="subtitle-1" style="background:#2e7d32; color: white; padding:0 20px;">
+						Data accepted. You can remove the data from the "Ready for Review" folder
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>OCH0064</strong> <a href="https://drive.google.com/drive/folders/1bquU7uCMl1t4gqqUuIRV8ZUkcypK95xL" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>inReview</strong> 
+					<br/>
+					 Created at <strong>2023-05-09 11:16:02</strong>
+					<br/> 
+					 Synchronized at <strong>2023-05-10 00:00:20</strong>
+				</div>
+				<div style=" border:1px solid #1565c0;">
+					<div class="subtitle-1" style="background:#1565c0; color: white; padding:0 20px;">
+						Please wait while the data is reviewed
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>OCH0065</strong> <a href="https://drive.google.com/drive/folders/1-uDg7VHW5h6FbizksfUPru_0csMNCGwm" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>inReview</strong> 
+					<br/>
+					 Created at <strong>2023-05-09 14:09:42</strong>
+					<br/> 
+					 Synchronized at <strong>2023-05-10 00:02:07</strong>
+				</div>
+				<div style=" border:1px solid #1565c0;">
+					<div class="subtitle-1" style="background:#1565c0; color: white; padding:0 20px;">
+						Please wait while the data is reviewed
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>OCH0041</strong> <a href="https://drive.google.com/drive/folders/1tQ2n6s5tzyKnqanFJMad_NwEGVtp2UpV" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>pending</strong> 
+					<br/>
+					 Created at <strong>2023-04-19 11:08:32</strong>
+					<br/> 
+					 <strong>Data is out of sync</strong>
+				</div>
+				<div style=" border:1px solid #ffb300;">
+					<div class="subtitle-1" style="background:#ffb300; color: white; padding:0 20px;">
+						Read the warnings and correct the data
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						<br/>Files "Ready for Review/Denis/OCH0041/EKUORE")/[ audio files ]" -  14 audio files expected but 0 found.
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>OCH0066</strong> <a href="https://drive.google.com/drive/folders/1VR2ctLiAN5Z18GkT4_zj6xEU3jgr7OtO" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>pending</strong> 
+					<br/>
+					 Created at <strong>2023-05-09 14:09:58</strong>
+					<br/> 
+					 <strong>Data is out of sync</strong>
+				</div>
+				<div style=" border:1px solid #1565c0;">
+					<div class="subtitle-1" style="background:#1565c0; color: white; padding:0 20px;">
+						The status will be set to "inReview" after the data is synchronized
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						Verification was successful.
+					</div>
+				</div>
+			</div>
+			
+		
+
+			<div style="padding: 5px; margin: 5px;">
+				<div class="subtitle-1 mt-2" style="line-height: 1.2;">Examination <strong>OCH0067</strong> <a href="https://drive.google.com/drive/folders/1L2FSUV996Vtp8ieUYavDq457b-6MerIK" target="_blank">open folder</a>
+					<br/> 
+					State: <strong>pending</strong> 
+					<br/>
+					 Created at <strong>2023-05-10 14:01:55</strong>
+					<br/> 
+					 <strong>Data is out of sync</strong>
+				</div>
+				<div style=" border:1px solid #ffb300;">
+					<div class="subtitle-1" style="background:#ffb300; color: white; padding:0 20px;">
+						Read the warnings and correct the data
+					</div>
+					<div class="subtitle-2" style="padding: 10px 20px;">
+						<br/>The following ECHO form fields  (1 from 51) cannot be null:<br/><strong>"Diastolic function of the left ventricle"</strong><br/><a href="https://stethophonedata.web.app/"  target="_blank">Open Forms</a>
+					</div>
+				</div>
+			</div>
+			
+		
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>		
+			</body>
+		</html>		 
+	

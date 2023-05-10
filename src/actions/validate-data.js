@@ -66,7 +66,9 @@ module.exports = async (org, patientPattern) => {
   const validateRules = loadYaml(path.join(__dirname,`../../.config/data/${org}/validate-rules.yml`))
   
   let examsIds = gdrive.dirList(`Ready for Review/${org}/*`).map( d => d.name)
- 
+  const PIDS = examsIds.map(d => d)
+
+
   let inReviewExams = await fb.execute.getCollectionItems(
      "examinations",
      [["state", "==", "pending"]]
@@ -103,6 +105,7 @@ module.exports = async (org, patientPattern) => {
           'updatedAt': '$updatedAt',
           'webViewLink': '$webViewLink',
           'synchronizedAt': '$synchronizedAt',
+          'dateTime': '$dateTime',
           'state': '$state', 
           'organization': {
             '$arrayElemAt': [
@@ -120,6 +123,7 @@ module.exports = async (org, patientPattern) => {
     "Cardio Institute": "STRAZHESKO"
   }
 
+
   result = result
     .map( d => {
       d.organization = orgMapper[d.organization.name] //d.organization.name.toUpperCase()
@@ -127,14 +131,17 @@ module.exports = async (org, patientPattern) => {
     })
     .filter( d => d.organization == org)
     .filter( d => patientRegExp.test(d.patientId))
-      
+    // .filter( d => d.state != "accepted")
+    .filter (d => PIDS.includes(d.patientId))
+
+  // console.log(result)    
   for( let i = 0; i < syncExams.length; i++){
     
     let examination = syncExams[i]
     examination = await controller.expandExaminations(...[examination])
     examination = controller.validateExamination(examination[0], validateRules, org, gdrive)
 
-    logger.info(`${examination.patientId} >>> ${examination._validation}`)
+    logger.info(`${examination.patientId} ${examination.dateTime}>>> ${examination._validation}`)
 
     let eIndex = findIndex( result, d => d.patientId == examination.patientId )
     let f = result[eIndex]
@@ -145,6 +152,7 @@ module.exports = async (org, patientPattern) => {
 
     f.validation = (examination._validation == true) ? "Verification was successful." : examination._validation  
     f.validatedAt = new Date()
+    f.dateTime = moment(f.dateTime).format("YYYY-MM-DD HH:mm:ss")
     f.reportComment = getReportComment(f, examination)
   }
 
