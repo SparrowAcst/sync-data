@@ -41,6 +41,7 @@ const run = async () => {
             let seg = await storage.fetchFileData(`${labeling.path}.json`)
             if (seg) {
                 labeling.segmentation = JSON.parse(seg.toString())
+                labeling.supd = true
                 ops.push({
                     replaceOne: {
                         "filter": { id: labeling.id },
@@ -65,14 +66,14 @@ const run = async () => {
     do {
 
         const pipeline = [
-        	// {
-         //        '$match': {
-         //            segmentation: {
-         //                $exists: false
-         //            },
-         //            FINALIZED: true
-         //        }
-         //    },
+        	{
+                '$match': {
+                    supd: {
+                        $exists: false
+                    },
+                    // FINALIZED: true
+                }
+            },
             {
                 '$sort': {
                     'Examination ID': 1
