@@ -65,14 +65,14 @@ const run = async () => {
     do {
 
         const pipeline = [
-        	{
-                '$match': {
-                    segmentation: {
-                        $exists: false
-                    },
-                    FINALIZED: true
-                }
-            },
+        	// {
+         //        '$match': {
+         //            segmentation: {
+         //                $exists: false
+         //            },
+         //            FINALIZED: true
+         //        }
+         //    },
             {
                 '$sort': {
                     'Examination ID': 1
