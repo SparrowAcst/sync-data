@@ -318,6 +318,7 @@ const checkNeedAssetRecovery = async (examination, asset) => {
 const resolveAsset = async (examination, asset, drive) => {
 	// console.log("resolve", asset)	
 // START DEBUG COMMENT
+	if( !asset.file ) return null
 
 	let doc 
         if(isUndefined(asset.id) || isNull(asset.id)){
@@ -408,11 +409,30 @@ const buildExternalAssets = ( examination, rules, drive) => {
 }
 
 
-const buildLabelingRecords = (examination, rules) => {
+const checkPath = async (records, fb) => {
+	let res = []
+	for( let i = 0; i < records.length; i++){
+		let record = records[i]
+		console.log("check ", record.path)
+		let r = await fb.execute.getFileMetadata(record.path)
+		res.push(record)
+	}
+	return res.filter(d => d)
+}
+
+
+const buildLabelingRecords = (examination, rules, fb) => {
 
 	let rows = examination.$extention.assets.map( a => {
 	  let record = find( examination.$extention.records, r => r.id == a.parentId)
 	  if(!record) return null
+
+/////////////////////////////////////
+
+
+
+//////////////////////////////////////
+
 	  let recordPoint = find( examination.$extention.recordPoints, r => r.id == record.parentId)
 
 	  let formRecords = examination.$extention.forms.map( f => {
@@ -429,7 +449,7 @@ const buildLabelingRecords = (examination, rules) => {
 
 	  ftypes.forEach( type => {
 	    let f = find(examination.$extention.forms, d => d.type == type)
-	    form[type] = f.data[first(keys(f.data))]
+	    form[type] = (f) ? f.data[first(keys(f.data))]: {}
 	  })
 	  
 	  examination.$extention = extend(examination.$extention,{
@@ -460,7 +480,7 @@ const buildLabelingRecords = (examination, rules) => {
 	})
 
 	return {
-	  labelRecords: flattenDeep(rows.filter(r =>r).map( r => r.labelRecords)),
+	  labelRecords: flattenDeep(rows.filter(r => r).map( r => r.labelRecords)),
 	  formRecords: uniqBy(flattenDeep(rows.filter(r =>r).map( r => r.formRecords)), f => f.id)
 	}
 
@@ -547,6 +567,7 @@ module.exports = async options => {
 		commitBatch,
 		checkNeedAssetRecovery,
 		resolveTemplate,
+		checkPath,
 // DEV MODE  //////////////////////////////////////////////////////////////////////////
 		
 		createTestExaminations, 

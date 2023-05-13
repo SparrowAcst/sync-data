@@ -6,6 +6,8 @@
   "scripts": {
     "validate": "node ./src/scripts/validate-data",
     "sync": "node ./src/scripts/sync-data",
+    "sync1": "node ./src/scripts/sync-data1",
+    
     "backup": "node ./src/scripts/backup",
     "recovery-mongo": "node ./src/scripts/recovery-mongo",
     "recovery": "node ./src/scripts/recovery-gd1",
