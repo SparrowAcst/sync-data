@@ -41,15 +41,15 @@ const run = async () => {
             let seg = await storage.fetchFileData(`${labeling.path}.json`)
             if (seg) {
                 labeling.segmentation = JSON.parse(seg.toString())
-                labeling.supd = true
-                ops.push({
-                    replaceOne: {
-                        "filter": { id: labeling.id },
-                        "replacement": labeling,
-                        "upsert": false
-                    }
-                })
-            }
+            }    
+            labeling.supd = true
+            ops.push({
+                replaceOne: {
+                    "filter": { id: labeling.id },
+                    "replacement": labeling,
+                    "upsert": false
+                }
+            })
         }
         console.log()
         return ops
