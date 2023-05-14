@@ -74,14 +74,14 @@ const run = async () => {
                     // FINALIZED: true
                 }
             },
-            {
-                '$sort': {
-                    'Examination ID': 1
-                }
-            },
-            {
-            	$skip: skip 
-            },
+            // {
+            //     '$sort': {
+            //         'Examination ID': 1
+            //     }
+            // },
+            // {
+            // 	$skip: skip 
+            // },
             {
                 '$limit': PAGE_SIZE
             }
