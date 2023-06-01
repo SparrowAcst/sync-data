@@ -66,14 +66,40 @@ const run = async () => {
     do {
 
         const pipeline = [
-        	{
-                '$match': {
-                    supd: {
-                        $exists: false
-                    },
-                    // FINALIZED: true
+
+          {
+            '$match': {
+              "FINALIZED": true, 
+              "Stage Comment":{
+                $not:{
+                  $eq: "Error"
                 }
-            },
+              },
+              "segmentation.unsegmentable":{
+                    $exists: false
+                },
+               "segmentation.systole":{
+                    $exists: false
+                },
+                
+               "segmentation.diastole":{
+                    $exists: false
+                },
+                "id": {
+                  $regex: examPattern
+                }  
+              
+            }
+          },
+
+        	// {
+         //        '$match': {
+         //            supd: {
+         //                $exists: false
+         //            },
+         //            // FINALIZED: true
+         //        }
+         //    },
             // {
             //     '$sort': {
             //         'Examination ID': 1
