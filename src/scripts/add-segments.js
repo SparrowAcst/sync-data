@@ -45,7 +45,7 @@ const run = async () => {
                 console.log(`UPDATE ${labeling["Examination ID"]} ${labeling["id"]}`)
                 console.log()
             }    
-            labeling.supd = true
+            labeling.supd1 = true
             ops.push({
                 replaceOne: {
                     "filter": { id: labeling.id },
@@ -90,6 +90,10 @@ const run = async () => {
                 },
                 "id": {
                   $regex: examPattern
+                },
+
+                "supd1":{
+                    $exists: false
                 }  
               
             }
