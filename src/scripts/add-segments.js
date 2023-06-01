@@ -41,6 +41,7 @@ const run = async () => {
             let seg = await storage.fetchFileData(`${labeling.path}.json`)
             if (seg) {
                 labeling.segmentation = JSON.parse(seg.toString())
+                console.log(`UPDATE ${labeling["Examination ID"]} ${labeling["id"]}`)
             }    
             labeling.supd = true
             ops.push({
