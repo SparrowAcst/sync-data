@@ -1,6 +1,9 @@
 const uuid = require("uuid").v4
 const path = require("path")
 
+const formsdb = require("../../harvest-controller/src/mongodb")
+
+
 const initMongoService = require("./utils/mongodb")
 const initFirebaseService = require("./utils/fb")
 const initGoogledriveService = require("./utils/drive3")
@@ -9,6 +12,11 @@ const piper = require("./utils/piper")
 
 const { loadYaml } = require("./utils/file-system")
 const spots = loadYaml(path.join(__dirname, "../.config/data/point-order.yml"))
+
+const formsConfig = loadYaml(path.join(__dirname, "../.config/db/mongodb.conf.yml")).forms
+console.log(formsConfig)
+
+
 const formFields = require("./utils/form-fields")
 
 let mongodbService 
@@ -144,6 +152,136 @@ const expandExaminations = async (...examinations) => {
 	return examinations
 
 }
+
+
+
+const prepareForms = async patientId => {
+	console.log("prepareForms", patientId)
+	let data = await formsdb.aggregate({
+		db: formsConfig.db,
+		collection: `${formsConfig.db.name}.${formsConfig.collection.forms}`,
+		pipeline:  [
+          {
+            '$match': {
+              'examination.patientId': patientId
+            }
+          },
+          {
+            '$project': {
+              '_id': 0
+            }
+          }
+        ] 
+	})
+	data = data[0] || {}
+	return data
+	// let res = []
+	// if(data.patient){
+	// 	res.push({
+	// 		data:{
+	// 			a:{
+	// 				en: data.patient,
+	// 				uk: data.patient
+	// 			}
+	// 		},
+	// 		type: "patient",
+	// 		examinationId: data.examination.id,
+	// 		completeness: data.completeness["Patient Form"],
+	// 		status: data.status
+
+	// 	})
+	// }	
+
+	// if(data.ekg){
+	// 	res.push({
+	// 		data:{
+	// 			a:{
+	// 				en: data.ekg,
+	// 				uk: data.ekg
+	// 			}
+	// 		},
+	// 		type: "ekg",
+	// 		examinationId: data.examination.id,
+	// 		completeness: data.completeness["EKG Form"],
+	// 		status: data.status
+	// 	})
+	// }	
+
+	// if(data.echo){
+	// 	res.push({
+	// 		data:{
+	// 			a:{
+	// 				en: data.echo,
+	// 				uk: data.echo
+	// 			}
+	// 		},
+	// 		type: "echo",
+	// 		examinationId: data.examination.id,
+	// 		completeness: data.completeness["Echo Form"],
+	// 		status: data.status
+	// 	})
+	// }	
+
+	// return res
+
+}
+
+
+const expandExaminations1 = async (...examinations) => {
+	
+	const db = firebaseService.db
+	const docMapper = doc => ({
+	    id: doc.id,
+	    ...doc.data()
+	})
+	
+	examinations = examinations || []
+
+	for(let i=0; i < examinations.length; i++){
+		try {
+			
+			let examination = examinations[i]
+			examination.$extention = {}
+			
+			if(examination.userId){
+			
+				let users = db.collection('users');
+				examination.$extention.users = (await users.where("userId","==",examination.userId).get() ).docs.map(docMapper)
+				if(examination.$extention.users[0]){
+					let organizations = db.collection('organizations');
+					examination.$extention.organizations = 
+						[docMapper((await organizations.doc(examination.$extention.users[0].organization).get() ))]
+				}
+			
+			}	
+			
+			let exams = db.collection('examinations');
+	    	const docRef = exams.doc(examination.id)
+
+			examination.$extention.forms = await prepareForms(examination.patientId) 
+
+			// console.log(examination.$extention)
+
+			// ( await docRef.collection('forms').get() ).docs.map(docMapper)
+			
+			examination.$extention.recordPoints = ( await docRef.collection('recordPoints').get() ).docs.map(docMapper)
+			examination.$extention.records = ( await docRef.collection('records').get() ).docs.map(docMapper)
+			examination.$extention.assets = ( await docRef.collection('assets').get() ).docs.map(docMapper)
+			examination.$extention.assets = examination.$extention.assets.filter( a => !!a.links) 
+
+
+			
+
+		} catch (e) {
+			logger.info("ERROR")
+			logger.info(e.toString())
+		}
+	}
+
+	return examinations
+
+}
+
 
 
 const delay = (ms, msg) => new Promise(resolve => {
@@ -487,6 +625,115 @@ const buildLabelingRecords = (examination, rules, fb) => {
 }
 
 
+const buildLabelingRecords1 = (examination, rules, fb) => {
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    let formRecords = []
+	let data = examination.$extention.forms
+
+	if(data.patient){
+		formRecords.push({
+			id: uuid(),
+			data:{
+					en: data.patient,
+					uk: data.patient
+			},
+			type: "patient",
+			examinationId: data.examination.id,
+		})
+	}	
+
+	if(data.ekg){
+		formRecords.push({
+			id: uuid(),
+			data:{
+					en: data.ekg,
+					uk: data.ekg
+			},
+			type: "ekg",
+			examinationId: data.examination.id,
+		})
+	}	
+
+	if(data.echo){
+		formRecords.push({
+			id: uuid(),
+			data:{
+					en: data.echo,
+					uk: data.echo
+			},
+			type: "echo",
+			examinationId: data.examination.id,
+		})
+	}
+
+	let form = {
+		patient:{
+			en: data.patient
+		},
+		ekg:{
+			en: data.ekg
+		},
+		echo:{
+			en: data.echo
+		},
+
+	}	
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+	let rows = examination.$extention.assets.map( a => {
+	  let record = find( examination.$extention.records, r => r.id == a.parentId)
+	  if(!record) return null
+
+/////////////////////////////////////
+
+
+
+//////////////////////////////////////
+
+	  let recordPoint = find( examination.$extention.recordPoints, r => r.id == record.parentId)
+	  
+	  examination.$extention = extend(examination.$extention,{
+	    record,
+	    recordPoint,
+	    form,
+	    asset: a
+	  })
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+	  
+	  let res = {}
+	  
+	  rules = rules.filter(l => l.import)
+	  rules.forEach( (l, li) => {
+	    try {
+	      res[l.name] = eval(l.import)(examination, li)
+	    } catch(e) {
+	      logger.info(l.import)
+	      logger.info(e.toString())
+	    }  
+	  
+	  })        
+
+	  return {
+	    labelRecords: res
+	  }         
+
+	})
+
+	return {
+	  labelRecords: flattenDeep(rows.filter(r => r).map( r => r.labelRecords)),
+	  formRecords
+	}
+
+}
+
+
+
+
 const normalizeOptions = options => {
 	options = options || {
 		mongodbService: true, 
@@ -560,10 +807,13 @@ module.exports = async options => {
 		getExaminationsInState,
 		// expandExaminations: expandExaminationsInMemory,
 		expandExaminations: expandExaminations,
+		expandExaminations1,
 		validateExamination,
 		buildExternalAssets,
 		resolveAsset,
 		buildLabelingRecords,
+		buildLabelingRecords1,
+		
 		commitBatch,
 		checkNeedAssetRecovery,
 		resolveTemplate,

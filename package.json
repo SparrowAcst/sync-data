@@ -5,8 +5,11 @@
   "main": "index.js",
   "scripts": {
     "validate": "node ./src/scripts/validate-data",
+    "validate1": "node ./src/scripts/validate-data1",
+    
     "sync": "node ./src/scripts/sync-data",
     "sync1": "node ./src/scripts/sync-data1",
+    "sync2": "node ./src/scripts/sync-data2",
     
     "backup": "node ./src/scripts/backup",
     "recovery-mongo": "node ./src/scripts/recovery-mongo",
