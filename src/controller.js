@@ -154,6 +154,18 @@ const expandExaminations = async (...examinations) => {
 }
 
 
+const finalizeForms = async patientId => {
+	await formsdb.updateOne({
+		db: formsConfig.db,
+		collection: `${formsConfig.db.name}.${formsConfig.collection.forms}`,
+		filter:{"examination.patientId": patientId},
+		data: {
+			"examination.state": "finalized",
+			"status": "finalized"
+		}
+	})
+}	
+
 
 const prepareForms = async patientId => {
 	console.log("prepareForms", patientId)
@@ -808,6 +820,9 @@ module.exports = async options => {
 		// expandExaminations: expandExaminationsInMemory,
 		expandExaminations: expandExaminations,
 		expandExaminations1,
+		
+		finalizeForms,
+
 		validateExamination,
 		buildExternalAssets,
 		resolveAsset,

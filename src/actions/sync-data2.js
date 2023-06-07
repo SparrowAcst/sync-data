@@ -384,6 +384,10 @@ module.exports = async (syncOrg, syncPatientPattern, mode) => {
         formOps
       )
 
+      logger.info(`Finalize clinic forms`)
+      await controller.finalizeForms(examination.patientId)
+      
+
     }
 
 }
