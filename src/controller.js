@@ -168,7 +168,7 @@ const finalizeForms = async patientId => {
 
 
 const prepareForms = async patientId => {
-	console.log("prepareForms", patientId)
+	// console.log("prepareForms", patientId)
 	let data = await formsdb.aggregate({
 		db: formsConfig.db,
 		collection: `${formsConfig.db.name}.${formsConfig.collection.forms}`,
