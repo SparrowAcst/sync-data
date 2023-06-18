@@ -88,7 +88,7 @@ module.exports = async (org, patientPattern) => {
   let result = []
 
   result = await mongodb.execute.aggregate(
-    mongodb.config.db.examinationCollection,
+    mongodb.config.db[org].examinationCollection,
     [
       {
         '$lookup': {
@@ -120,7 +120,8 @@ module.exports = async (org, patientPattern) => {
   const orgMapper = {
     "Potashev": "POTASHEV",
     "Denis": "Denis",
-    "Cardio Institute": "STRAZHESKO"
+    "Cardio Institute": "STRAZHESKO",
+    "Heart Harvest America": "HHA"
   }
 
 
