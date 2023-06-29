@@ -6,26 +6,24 @@
   "scripts": {
     "validate": "node ./src/scripts/validate-data1",
     "validate1": "node ./src/scripts/validate-data1",
-    
     "sync": "node ./src/scripts/sync-data2",
     "sync1": "node ./src/scripts/sync-data1",
     "sync2": "node ./src/scripts/sync-data2",
-    
+    "sync-test": "node ./src/scripts/sync-data-cli",
+
     "backup": "node ./src/scripts/backup",
     "recovery-mongo": "node ./src/scripts/recovery-mongo",
     "recovery": "node ./src/scripts/recovery-gd1",
     "recovery-fb": "node ./src/scripts/recovery-fb",
     "add-segments": "node ./src/scripts/add-segments",
     "check-sound": "node ./src/scripts/check-sound",
-    
     "export-mongo": "node ./src/scripts/export-mongo",
     "import-mongo": "node ./src/scripts/import-mongo",
-    
     "child-validate": "node ./src/childs/test-validate",
-
     "test-cron": "node test-cron",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -52,6 +50,7 @@
     "pino-pretty": "^9.1.1",
     "stream-json": "^1.7.5",
     "uuid": "^9.0.0",
+    "yargs": "^17.7.2",
     "zip-folder": "^1.0.0"
   }
 }
