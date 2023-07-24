@@ -106,6 +106,74 @@ const expandExaminationsInMemory = async (...examinations) => {
 }	
 
 
+const getFbAssets = async examinationId => {
+
+	const db = firebaseService.db
+	
+	const docMapper = doc => ({
+	    id: doc.id,
+	    ...doc.data()
+	})
+	
+	let exams = db.collection('examinations');
+	const docRef = exams.doc(examinationId)
+	let assets = ( await docRef.collection('assets').get() ).docs.map(docMapper)
+	let recordPoints = ( await docRef.collection('recordPoints').get() ).docs.map(docMapper)
+	let records = ( await docRef.collection('records').get() ).docs.map(docMapper)
+	
+	for( let i=0; i< assets.length; i++ ){
+		if(assets[i].links){
+			assets[i].links.valid = await firebaseService.execute.getFileMetadata(assets[i].links.path)
+			assets[i].links.valid = !!assets[i].links.valid
+		} else {
+			assets[i].links = { valid: false }
+		}	
+	}
+
+	recordings = assets
+				.filter( a => a.type == "recording")
+				.map( a => {
+				
+					let record = find(records, r => r.id == a.parentId)
+					let recordPoint
+
+					if(record)	{
+						recordPoint = find( recordPoints, r => r.id == record.parentId)
+	  				}
+
+	  				return {
+	  					id: a.id,
+				    	valid: a.links.valid,
+				    	device: a.device,
+				    	bodyPosition: (record) ? record.bodyPosition : "",
+				    	spot: (recordPoint) ? recordPoint.spot : "",
+				    	type: (recordPoint) ? recordPoint.type : "",
+					
+	  				}	
+
+
+					
+				
+
+				})	
+
+	files = assets
+				.filter( a => a.type != "recording")
+				.map( (a, index) => ({
+					id: a.id,
+					name: a.publicName || `${a.type}${index}`,
+			        mimeType: a.mimeType || a.type,
+			        url:  a.links.url,
+			        valid: a.links.valid
+				}))		 
+
+	return {
+		recordings,
+		files
+	}
+
+}
+
 const expandExaminations = async (...examinations) => {
 	
 	const db = firebaseService.db
@@ -833,6 +901,9 @@ module.exports = async options => {
 		checkNeedAssetRecovery,
 		resolveTemplate,
 		checkPath,
+
+
+		getFbAssets,
 // DEV MODE  //////////////////////////////////////////////////////////////////////////
 		
 		createTestExaminations, 

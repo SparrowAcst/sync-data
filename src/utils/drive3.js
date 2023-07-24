@@ -389,8 +389,11 @@ const Drive = class {
 	}
 
 
-	async uploadFile(sourcePath, targetPath){
+
+	async uploadFile(sourcePath, targetPath, force){
 		
+		force = force || false 
+
 		let size = 0
 		let oldSize = 0
 		
@@ -421,8 +424,11 @@ const Drive = class {
 		let cloned
 		
 		const existed = this.list(`${destFolder.path}/${path.basename(sourcePath)}`)[0]
-		if(existed){
-			// console.log("UPDATE", `${destFolder.path}/${path.basename(source.path)}`, destFolder)
+		
+		console.log("EXISTS", existed)
+
+		if(existed && !force){
+			console.log("UPDATE", `${destFolder.path}/${path.basename(sourcePath)}`, destFolder)
 			cloned =  await this.$drive.files.update({
 				fileId: existed.id,
 				resource,
@@ -431,7 +437,7 @@ const Drive = class {
 			})
 
 		} else {
-			// console.log("CREATE", `${destFolder.path}/${path.basename(source.path)}`, destFolder)
+			console.log("CREATE", `${destFolder.path}/${path.basename(sourcePath)}`, destFolder)
 			resource.parents = [destFolder.id]
 			cloned =  await this.$drive.files.create({
 				  resource,
@@ -443,7 +449,7 @@ const Drive = class {
 		
 		cloned  = await this.$drive.files.get({ 
 			fileId: cloned.data.id, 
-			fields: 'id, name, mimeType, md5Checksum, createdTime, modifiedTime, parents, size' 
+			fields: 'id, name, webViewLink, mimeType, md5Checksum, createdTime, modifiedTime, parents, size' 
 		})
 
 		cloned = cloned.data
@@ -491,6 +497,9 @@ const Drive = class {
 	async copyFile(source, targetDrive, targetPath){
 		mem(1)
 		let destFolder = await targetDrive.createFolderbyPath(targetPath, path.dirname(source.path))
+		console.log("destFolder",destFolder.path)
+		console.log("from", path.dirname(source.path))
+
 		const existed = targetDrive.list(`${destFolder.path}/${path.basename(source.path)}`)[0]
 		
 		if( existed && source.size == existed.size){
