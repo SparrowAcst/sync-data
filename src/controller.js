@@ -1,5 +1,6 @@
 const uuid = require("uuid").v4
 const path = require("path")
+const fs = require("fs")
 
 const formsdb = require("../../harvest-controller/src/mongodb")
 
@@ -123,14 +124,36 @@ const getFbAssets = async examinationId => {
 	
 	for( let i=0; i< assets.length; i++ ){
 		if(assets[i].links){
-			assets[i].links.valid = await firebaseService.execute.getFileMetadata(assets[i].links.path)
-			assets[i].links.valid = !!assets[i].links.valid
+			assets[i].metadata = await firebaseService.execute.getFileMetadata(assets[i].links.path)
+			// console.log("check", assets[i].links.path)
+			// console.log("METADATA",assets[i].metadata)
+
+			assets[i].links.valid = !!assets[i].metadata
 		} else {
+			assets[i].metadata = {}
 			assets[i].links = { valid: false }
 		}	
 	}
 
-	recordings = assets
+	
+	// let recordings = records.map( record => {
+
+	// 	let asset = find( recordPoints, r => r.id == record.parentId)
+	// 	let recordPoint = find( recordPoints, r => r.id == record.parentId)
+	// 	return {
+	// 		id: (asset) ? asset.id : null,
+	//     	valid: (asset) ? asset.links.valid : false,
+	//     	device: (asset) ? asset.device : null,
+	//     	bodyPosition: record.bodyPosition,
+	//     	spot: (recordPoint) ? recordPoint.spot : "",
+	//     	type: (recordPoint) ? recordPoint.type : "",
+	
+	// 	}	
+
+	// })
+
+
+	let recordings = assets
 				.filter( a => a.type == "recording")
 				.map( a => {
 				
@@ -151,21 +174,34 @@ const getFbAssets = async examinationId => {
 					
 	  				}	
 
-
-					
-				
-
 				})	
 
-	files = assets
+	let files = assets
 				.filter( a => a.type != "recording")
 				.map( (a, index) => ({
 					id: a.id,
-					name: a.publicName || `${a.type}${index}`,
-			        mimeType: a.mimeType || a.type,
+					path: a.path,
+					publicName: a.publicName,
+					name: a.publicName || `${a.type}-${index}.${a.metadata.contentType.split("/")[1]}`,
+			        mimeType: a.mimeType || a.metadata.contentType,
+			        size: a.metadata.size,
+			        updatedAt: a.metadata.updated,
 			        url:  a.links.url,
 			        valid: a.links.valid
-				}))		 
+				}))
+
+	// for(let i=1; i<files.length; i++){
+
+	// 	let record = files[i]
+			
+	// 	try {
+	// 		let r = await fb.execute.getFileMetadata(record.path)
+	// 		console.log("METADATA",r)
+	// 	} catch (e) {
+
+	// 	}	
+	// }	
+							 
 
 	return {
 		recordings,
@@ -235,6 +271,56 @@ const finalizeForms = async patientId => {
 }	
 
 
+const getSubmitedForms = async force => {
+
+	force = force || false
+	
+	let data = []
+	
+	if(force){
+
+		data = await formsdb.aggregate({
+			db: formsConfig.db,
+			collection: `${formsConfig.db.name}.${formsConfig.collection.forms}`,
+			pipeline:  [
+			  {
+			    $match:
+			      /**
+			       * query: The query in MQL.
+			       */
+			      {},
+			  },
+			]
+		})
+
+	} else {
+		data = await formsdb.aggregate({
+			db: formsConfig.db,
+			collection: `${formsConfig.db.name}.${formsConfig.collection.forms}`,
+			pipeline:  [
+			  {
+			    $match:
+			      /**
+			       * query: The query in MQL.
+			       */
+			      {
+			        status: "submited",
+			        "completeness.Patient Form": true,
+			        "completeness.EKG Form": true,
+			        "completeness.Echo Form": true,
+			        "completeness.Recordings": true,
+			        "completeness.Files": true,
+			      },
+			  },
+			]
+		})
+	
+	}
+	// console.log("getSubmitedForms done")
+	return data
+
+}
+
 const prepareForms = async patientId => {
 	// console.log("prepareForms", patientId)
 	let data = await formsdb.aggregate({
@@ -254,62 +340,84 @@ const prepareForms = async patientId => {
         ] 
 	})
 	data = data[0] || {}
+
+	// console.log("prepareForms done")
 	return data
-	// let res = []
-	// if(data.patient){
-	// 	res.push({
-	// 		data:{
-	// 			a:{
-	// 				en: data.patient,
-	// 				uk: data.patient
-	// 			}
-	// 		},
-	// 		type: "patient",
-	// 		examinationId: data.examination.id,
-	// 		completeness: data.completeness["Patient Form"],
-	// 		status: data.status
-
-	// 	})
-	// }	
-
-	// if(data.ekg){
-	// 	res.push({
-	// 		data:{
-	// 			a:{
-	// 				en: data.ekg,
-	// 				uk: data.ekg
-	// 			}
-	// 		},
-	// 		type: "ekg",
-	// 		examinationId: data.examination.id,
-	// 		completeness: data.completeness["EKG Form"],
-	// 		status: data.status
-	// 	})
-	// }	
-
-	// if(data.echo){
-	// 	res.push({
-	// 		data:{
-	// 			a:{
-	// 				en: data.echo,
-	// 				uk: data.echo
-	// 			}
-	// 		},
-	// 		type: "echo",
-	// 		examinationId: data.examination.id,
-	// 		completeness: data.completeness["Echo Form"],
-	// 		status: data.status
-	// 	})
-	// }	
-
-	// return res
 
 }
 
 
+
+
+const expandExaminations2 = async (...examinations) => {
+	
+	const db = firebaseService.db
+	
+	const docMapper = doc => ({
+	    id: doc.id,
+	    ...doc.data()
+	})
+	
+	examinations = examinations || []
+
+	let result = []
+
+	for(let i=0; i < examinations.length; i++){
+		try {
+			
+			let examination = await firebaseService.execute.getCollectionItems(
+		       "examinations",
+		       [["patientId", "==", examinations[i].patientId]]
+		    )
+
+			// console.log(">>", examination)
+
+			examination = examination[0]
+
+			
+			// let examination = examinations[i]
+			examination.$extention = {}
+			
+			if(examination.userId){
+			
+				let users = db.collection('users');
+				examination.$extention.users = (await users.where("userId","==",examination.userId).get() ).docs.map(docMapper)
+				if(examination.$extention.users[0]){
+					let organizations = db.collection('organizations');
+					examination.$extention.organizations = 
+						[docMapper((await organizations.doc(examination.$extention.users[0].organization).get() ))]
+				}
+			
+			}	
+
+
+			let exams = db.collection('examinations');
+	    	const docRef = exams.doc(examination.id)
+
+			examination.$extention.forms = await prepareForms(examination.patientId) 
+			
+			examination.$extention.recordPoints = ( await docRef.collection('recordPoints').get() ).docs.map(docMapper)
+			examination.$extention.records = ( await docRef.collection('records').get() ).docs.map(docMapper)
+			examination.$extention.assets = ( await docRef.collection('assets').get() ).docs.map(docMapper)
+			examination.$extention.assets = examination.$extention.assets.filter( a => !!a.links) 
+
+			result.push(examination)
+			
+
+		} catch (e) {
+			logger.info("ERROR")
+			logger.info(e.toString())
+		}
+	}
+
+	return result
+
+}
+
 const expandExaminations1 = async (...examinations) => {
 	
 	const db = firebaseService.db
+	
 	const docMapper = doc => ({
 	    id: doc.id,
 	    ...doc.data()
@@ -533,6 +641,167 @@ const checkNeedAssetRecovery = async (examination, asset) => {
 
 
 /////////////////////////////////////////////////////////////////////////////////////
+
+
+const getExaminationData = async patientId => {
+
+		const db = firebaseService.db
+	
+		const docMapper = doc => ({
+		    id: doc.id,
+		    ...doc.data()
+		})
+
+		let examination = await firebaseService.execute.getCollectionItems(
+		       "examinations",
+		       [["patientId", "==", patientId]]
+		    )
+
+			examination = examination[0]
+
+			examination.$extention = {}
+			
+			if(examination.userId){
+			
+				let users = db.collection('users');
+				examination.$extention.users = (await users.where("userId","==",examination.userId).get() ).docs.map(docMapper)
+				if(examination.$extention.users[0]){
+					let organizations = db.collection('organizations');
+					examination.$extention.organizations = 
+						[docMapper((await organizations.doc(examination.$extention.users[0].organization).get() ))]
+				}
+			
+			}	
+
+
+			let exams = db.collection('examinations');
+	    	const docRef = exams.doc(examination.id)
+
+			examination.$extention.recordPoints = ( await docRef.collection('recordPoints').get() ).docs.map(docMapper)
+			examination.$extention.records = ( await docRef.collection('records').get() ).docs.map(docMapper)
+			examination.$extention.assets = ( await docRef.collection('assets').get() ).docs.map(docMapper)
+			
+			return examination
+
+} 
+
+
+
+const updateRecording = async (recording, callback) => {
+	
+	try {
+		
+		let examination = await getExaminationData(recording.patientId)
+
+		let recordPoint = find( examination.$extention.recordPoints, d => d.spot == recording.spot )
+		let record = find( examination.$extention.records, d => d.parentId == recordPoint.id )
+		let asset = find( examination.$extention.assets, d => d.parentId == record.id && d.device == recording.device)
+
+		if(!asset){
+			// console.log("CREATE ASSET")
+			let doc = await firebaseService.db.collection(`examinations/${examination.id}/assets`).doc()
+        	
+			asset = {
+				id: doc.id,
+	            type: "recording",
+	            device: recording.device,
+	            parentId: record.id,
+	            timestamp: new Date(new Date().toUTCString()).toJSON(),
+	            links:{
+	               path: `${examination.$extention.users[0].id}/recordings/${recording.device}_${doc.id}`
+	            }	
+			}
+
+			// console.log(asset)
+
+		} else {
+			// console.log("---------------UPDATE EXISTED ASSET-------------------")
+		}
+
+		// console.log("UPLOAD")
+
+		// console.log("FROM",asset.links)
+
+		asset.links = {
+           path: `${examination.$extention.users[0].id}/recordings/${recording.device}_${asset.id}`
+        }
+
+        // console.log("TO",asset.links)
+
+		
+		let stat = fs.statSync(recording.path)
+		let totalSize = stat.size
+
+		let fStream = await fs.createReadStream(recording.path)
+	
+		let size = 0
+		let rawSize = 0
+		
+		fStream.on("data", chunk => {
+			
+			rawSize += chunk.length
+			if (callback) callback({ upload: rawSize, total: totalSize})
+
+			// size += chunk.length / 1024 / 1024 
+			// if( (size - oldSize) > 0.1 ){
+			// 	process.stdout.write(`Received: ${size.toFixed(1)} Mb ${'\x1b[0G'}`)
+			// 	// console.log(`\rReceived ${size} bytes`)
+			// 	oldSize = size	
+			// }
+		})
+
+		fStream.on("error", error => {
+			logger.info(error.toString())
+			asset.error = error.toString()
+		})
+
+		fStream.on("end", () => {
+			let diff = totalSize - rawSize
+			if(diff != 0) {
+				asset.error = `Difference size: ${diff}. Source: ${totalSize}. Target: ${rawSize}`
+			}
+		})
+
+		let file = await firebaseService.execute.saveFileFromStream(
+			asset.links.path,
+			{ mimeType: 'audio/x-wav' },
+			fStream
+		)
+				
+		asset.links.url = file[0]
+		
+		// console.log("UPDATE", asset)
+
+		let assetId = asset.id
+		let batch = firebaseService.db.batch()
+
+		let doc = firebaseService.db.collection(`examinations/${examination.id}/assets`).doc(asset.id)
+          
+        delete asset.id
+        
+        batch.set(doc, asset)
+          
+        await commitBatch(batch, "update asset")
+
+        return {
+        	id: assetId,
+        	valid: true,
+        	device: recording.device,
+        	bodyPosition: record.bodyPosition,
+        	spot: recording.spot,
+        	type: recordPoint.type
+        }
+
+	} catch (e) {
+		console.log("controller.updateRecording", e.toString())
+	}	
+
+}
+
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////
 const resolveAsset = async (examination, asset, drive) => {
 	// console.log("resolve", asset)	
 // START DEBUG COMMENT
@@ -633,6 +902,7 @@ const checkPath = async (records, fb) => {
 		let record = records[i]
 		console.log("check ", record.path)
 		let r = await fb.execute.getFileMetadata(record.path)
+		// console.log("METADATA", r)
 		res.push(record)
 	}
 	return res.filter(d => d)
@@ -711,6 +981,8 @@ const buildLabelingRecords1 = (examination, rules, fb) => {
 
     let formRecords = []
 	let data = examination.$extention.forms
+	
+	// console.log(">>", data)
 
 	if(data.patient){
 		formRecords.push({
@@ -748,6 +1020,15 @@ const buildLabelingRecords1 = (examination, rules, fb) => {
 		})
 	}
 
+	if(data.attachements){
+		formRecords.push({
+			id: uuid(),
+			data: data.attachements,
+			type: "attachements",
+			examinationId: data.examination.id,
+		})
+	}
+
 	let form = {
 		patient:{
 			en: data.patient
@@ -758,6 +1039,7 @@ const buildLabelingRecords1 = (examination, rules, fb) => {
 		echo:{
 			en: data.echo
 		},
+		attachements: data.attachements
 
 	}	
 
@@ -888,6 +1170,7 @@ module.exports = async options => {
 		// expandExaminations: expandExaminationsInMemory,
 		expandExaminations: expandExaminations,
 		expandExaminations1,
+		expandExaminations2,
 		
 		finalizeForms,
 
@@ -904,6 +1187,11 @@ module.exports = async options => {
 
 
 		getFbAssets,
+
+		updateRecording,
+
+
+		getSubmitedForms,
 // DEV MODE  //////////////////////////////////////////////////////////////////////////
 		
 		createTestExaminations, 

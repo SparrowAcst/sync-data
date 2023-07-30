@@ -126,7 +126,9 @@ module.exports = async (org, patientPattern) => {
 
 
   result = result
+    .filter(d => d.patientId)
     .map( d => {
+      // console.log(d.patientId, d.organization)
       d.organization = orgMapper[d.organization.name] //d.organization.name.toUpperCase()
       return d
     })

@@ -62,7 +62,7 @@ module.exports = async (syncOrg, syncPatientPattern) => {
     const filePath = path.join(TEMP_DIR_PATH,`./${collectionName}.json`)
     logger.info(`Collection "${collectionName}":`)
     
-    const source = mongodb.execute.getAggregateCursor(collectionName, [])
+    const source = await mongodb.execute.getAggregateCursor(collectionName, [])
     const target = createWriteStream(filePath)
 
     let counter = 0

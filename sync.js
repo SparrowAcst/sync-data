@@ -32,7 +32,7 @@ const settings = yargs
  
 console.log(settings)
 
-const action = require("./src/actions/sync-data-cli")
+const action = require("./src/actions/sync-data-cli-1")
 const run = async () => {
   await action(settings)
 }

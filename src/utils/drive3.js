@@ -390,7 +390,7 @@ const Drive = class {
 
 
 
-	async uploadFile(sourcePath, targetPath, force){
+	async uploadFile(sourcePath, targetPath, callback, force){
 		
 		force = force || false 
 
@@ -405,14 +405,25 @@ const Drive = class {
 		    // parents: [destFolder.id]
 		}
 
+
+		let stat = fs.statSync(sourcePath)
+		let totalSize = stat.size
+
 		const body = fs.createReadStream(sourcePath)
 		
+		// console.log("UPLOAD", callback)
+		
 		body.on("data", chunk => {
+
+			if (callback) callback({ upload: chunk.length, total: totalSize})
+
+				
 			size += chunk.length / 1024 / 1024 
 			if( (size - oldSize) > 0.2 ){
 				process.stdout.write(`Received: ${size.toFixed(1)} Mb ${'\x1b[0G'}`)
 				// console.log(`\rReceived ${size} bytes`)
-				oldSize = size	
+				oldSize = size
+				// if (callback) callback({ upload: chunk.length, total: totalSize})	
 			}
 		})		
 
@@ -425,10 +436,10 @@ const Drive = class {
 		
 		const existed = this.list(`${destFolder.path}/${path.basename(sourcePath)}`)[0]
 		
-		console.log("EXISTS", existed)
+		// console.log("EXISTS", existed)
 
 		if(existed && !force){
-			console.log("UPDATE", `${destFolder.path}/${path.basename(sourcePath)}`, destFolder)
+			// console.log("UPDATE", `${destFolder.path}/${path.basename(sourcePath)}`, destFolder)
 			cloned =  await this.$drive.files.update({
 				fileId: existed.id,
 				resource,
@@ -437,7 +448,7 @@ const Drive = class {
 			})
 
 		} else {
-			console.log("CREATE", `${destFolder.path}/${path.basename(sourcePath)}`, destFolder)
+			// console.log("CREATE", `${destFolder.path}/${path.basename(sourcePath)}`, destFolder)
 			resource.parents = [destFolder.id]
 			cloned =  await this.$drive.files.create({
 				  resource,
