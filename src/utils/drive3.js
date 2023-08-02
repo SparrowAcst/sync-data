@@ -396,7 +396,7 @@ const Drive = class {
 
 		let size = 0
 		let oldSize = 0
-		
+		let byteSize = 0
 
 		let destFolder = await this.createFolderbyPath(targetPath, '')
 		
@@ -415,7 +415,8 @@ const Drive = class {
 		
 		body.on("data", chunk => {
 
-			if (callback) callback({ upload: chunk.length, total: totalSize})
+			byteSize += chunk.length
+			if (callback) callback({ upload: byteSize, total: totalSize})
 
 				
 			size += chunk.length / 1024 / 1024 
