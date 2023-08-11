@@ -16,19 +16,19 @@ const init = async () => {
 	db = client.db(config.db.name)
 }
 
-const getClient = async () => {
+// const getClient = async () => {
 	
-	if(!client){
+// 	if(!client){
 
-		client = await mongo.connect(config.db.url, {
-		    useNewUrlParser: true,
-		    useUnifiedTopology: true
-		})
+// 		client = await mongo.connect(config.db.url, {
+// 		    useNewUrlParser: true,
+// 		    useUnifiedTopology: true
+// 		})
 	
-	}
+// 	}
 
-	return client
-}
+// 	return client
+// }
 
 
 const normalize = str => {
@@ -41,11 +41,11 @@ const normalize = str => {
 
 const aggregate = async (collectionName, pipeline) => {
 	
-	let client
+	// let client
 	
 	try {
 		
-		client = await getClient()
+		// client = await getClient()
 
 		let conf = normalize(collectionName)
 		let db = client.db(conf.dbName)
@@ -67,11 +67,11 @@ const aggregate = async (collectionName, pipeline) => {
 
 const getAggregateCursor =  async (collectionName, pipeline) => {
 
-	let client
+	// let client
 	
 	try {
 		
-		client = await getClient()
+		// client = await getClient()
 
 		let conf = normalize(collectionName)
 		let db = client.db(conf.dbName)
@@ -93,11 +93,11 @@ const getAggregateCursor =  async (collectionName, pipeline) => {
 
 const removeAll = async (collectionName) => {
 	
-	let client
+	// let client
 	
 	try {
 		
-		client = await getClient()
+		// client = await getClient()
 
 		let conf = normalize(collectionName)
 		let db = client.db(conf.dbName)
@@ -117,11 +117,11 @@ const removeAll = async (collectionName) => {
 
 const insertAll = async (collectionName, data) => {
 	
-	let client
+	// let client
 	
 	try {
 		
-		client = await getClient()
+		// client = await getClient()
 
 		let conf = normalize(collectionName)
 		let db = client.db(conf.dbName)
@@ -142,11 +142,11 @@ const insertAll = async (collectionName, data) => {
 
 const bulkWrite = async (collectionName, commands) => {
 	
-	let client
+	// let client
 	
 	try {
 		
-		client = await getClient()
+		// client = await getClient()
 
 		let conf = normalize(collectionName)
 		let db = client.db(conf.dbName)
@@ -167,11 +167,11 @@ const bulkWrite = async (collectionName, commands) => {
 const replaceOne = async (collectionName, filter, data) => {
 	
 	
-	let client
+	// let client
 	
 	try {
 		
-		client = await getClient()
+		// client = await getClient()
 
 		let conf = normalize(collectionName)
 		let db = client.db(conf.dbName)
@@ -190,11 +190,11 @@ const replaceOne = async (collectionName, filter, data) => {
 
 const updateOne = async (collectionName, filter, data) => {
 
-	let client
+	// let client
 	
 	try {
 		
-		client = await getClient()
+		// client = await getClient()
 
 		let conf = normalize(collectionName)
 		let db = client.db(conf.dbName)
@@ -214,11 +214,11 @@ const updateOne = async (collectionName, filter, data) => {
 
 const listCollections = async dbSchema => {
 
-	let client
+	// let client
 	
 	try {
 	
-		let client = await getClient()
+		// let client = await getClient()
 
 			
 		let conf = normalize(dbSchema)
@@ -244,7 +244,8 @@ const listCollections = async dbSchema => {
 
 
 module.exports =  async () => {
-	// await init()
+	await init()
+	
 	return {
 		client,
 		db,
