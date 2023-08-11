@@ -17,10 +17,15 @@ const init = async () => {
 }
 
 const getClient = async () => {
-	let client = await mongo.connect(config.db.url, {
-	    useNewUrlParser: true,
-	    useUnifiedTopology: true
-	})	
+	
+	if(!client){
+
+		client = await mongo.connect(config.db.url, {
+		    useNewUrlParser: true,
+		    useUnifiedTopology: true
+		})
+	
+	}
 
 	return client
 }
@@ -55,7 +60,7 @@ const aggregate = async (collectionName, pipeline) => {
 	
 	} finally {
 	
-		if (client)  client.close()
+		// if (client)  client.close()
 	
 	}    
 }
@@ -81,7 +86,7 @@ const getAggregateCursor =  async (collectionName, pipeline) => {
 	
 	} finally {
 	
-		if (client)  client.close()
+		// if (client)  client.close()
 	
 	}     
 }
@@ -105,7 +110,7 @@ const removeAll = async (collectionName) => {
 	
 	} finally {
 	
-		if (client)  client.close()
+		// if (client)  client.close()
 	
 	}	    
 } 
@@ -130,7 +135,7 @@ const insertAll = async (collectionName, data) => {
 	
 	} finally {
 	
-		if (client)  client.close()
+		// if (client)  client.close()
 	
 	}	
 }
@@ -154,7 +159,7 @@ const bulkWrite = async (collectionName, commands) => {
 	
 	} finally {
 	
-		if (client)  client.close()
+		// if (client)  client.close()
 	
 	}	
 }
@@ -178,7 +183,7 @@ const replaceOne = async (collectionName, filter, data) => {
 	
 	} finally {
 	
-		if (client)  client.close()
+		// if (client)  client.close()
 	
 	}    
 }
@@ -202,7 +207,7 @@ const updateOne = async (collectionName, filter, data) => {
 	
 	} finally {
 	
-		if (client)  client.close()
+		// if (client)  client.close()
 	
 	}        
 }
@@ -230,7 +235,7 @@ const listCollections = async dbSchema => {
 	
 	} finally {
 	
-		if (client)  client.close()
+		// if (client)  client.close()
 	
 	}		
 	

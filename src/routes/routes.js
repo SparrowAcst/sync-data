@@ -64,8 +64,9 @@ router.post("/examination/accept", async (req, res) => {
 	const fb = await require("../utils/fb")()
 	
 	let params = req.body
-	
-	let f = await mongodb.execute.aggregate(mongodb.config.db.examinationCollection, [{
+	let collection = `sparrow.${params.db.examinationCollection}`
+
+	let f = await mongodb.execute.aggregate(collection, [{
 		$match: {
 			patientId: params["Examination ID"]
 		}	 
@@ -79,7 +80,7 @@ router.post("/examination/accept", async (req, res) => {
 		examination.updatedAt = new Date()
 		
 		await mongodb.execute.updateOne(
-			mongodb.config.db.examinationCollection,
+			collection,
 			{id: examination.id},
 			examination
 		)
@@ -102,8 +103,9 @@ router.post("/examination/reject", async (req, res) => {
 	const fb = await require("../utils/fb")()
 	
 	let params = req.body
-	
-	let f = await mongodb.execute.aggregate(mongodb.config.db.examinationCollection, [{
+	let collection = `sparrow.${params.db.examinationCollection}`
+
+	let f = await mongodb.execute.aggregate(collection, [{
 		$match: {
 			patientId: params["Examination ID"]
 		}	 
@@ -117,7 +119,7 @@ router.post("/examination/reject", async (req, res) => {
 		examination.updatedAt = new Date()
 
 		await mongodb.execute.updateOne(
-			mongodb.config.db.examinationCollection,
+			collection,
 			{id: examination.id},
 			examination
 		)
