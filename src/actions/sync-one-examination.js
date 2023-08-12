@@ -14,7 +14,8 @@ module.exports = async settings => {
         console,
         firebaseService: {
             noprefetch: true
-        }
+        },
+        mongodbService: {}
     })
 
     const mongodb = controller.mongodbService
