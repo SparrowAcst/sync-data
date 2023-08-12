@@ -15,7 +15,7 @@ const { loadYaml } = require("./utils/file-system")
 const spots = loadYaml(path.join(__dirname, "../.config/data/point-order.yml"))
 
 const formsConfig = loadYaml(path.join(__dirname, "../.config/db/mongodb.conf.yml")).forms
-console.log(formsConfig)
+// console.log(formsConfig)
 
 
 const formFields = require("./utils/form-fields")
@@ -1120,9 +1120,15 @@ module.exports = async options => {
 	options = normalizeOptions(options)	
 	logger = options.logger || console
 
-	if(options.mongodbService && !mongodbService) mongodbService = await initMongoService(
-		extend({}, options.mongodbService, {logger})
-	)
+	if(options.mongodbService && !mongodbService) {
+		
+		mongodbService = await initMongoService(
+			extend({}, options.mongodbService, {logger})
+		)
+
+		console.log("Initiate mongodb", mongodbService.client)
+	
+	}
 	
 	if(options.firebaseService && !firebaseService) firebaseService = await initFirebaseService(
 		extend({}, options.firebaseService, {logger})

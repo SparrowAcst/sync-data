@@ -154,7 +154,7 @@ module.exports = async settings => {
 
     }
 
-    controller.close()
+    // controller.close()
 
     return
 }
