@@ -13,22 +13,30 @@ const init = async () => {
 	    useUnifiedTopology: true
 	})
 
+	client.on('close', () => {
+      client = null; // clear client
+    });
+
 	db = client.db(config.db.name)
 }
 
-// const getClient = async () => {
+const getClient = async () => {
 	
-// 	if(!client){
+	if(!client){
 
-// 		client = await mongo.connect(config.db.url, {
-// 		    useNewUrlParser: true,
-// 		    useUnifiedTopology: true
-// 		})
+		client = await mongo.connect(config.db.url, {
+		    useNewUrlParser: true,
+		    useUnifiedTopology: true
+		})
+		
+		client.on('close', () => {
+	      client = null; // clear client
+	    });
 	
-// 	}
+	}
 
-// 	return client
-// }
+	return client
+}
 
 
 const normalize = str => {
@@ -45,7 +53,7 @@ const aggregate = async (collectionName, pipeline) => {
 	
 	try {
 		
-		// client = await getClient()
+		let client = await getClient()
 
 		let conf = normalize(collectionName)
 		let db = client.db(conf.dbName)
@@ -71,7 +79,7 @@ const getAggregateCursor =  async (collectionName, pipeline) => {
 	
 	try {
 		
-		// client = await getClient()
+		let client = await getClient()
 
 		let conf = normalize(collectionName)
 		let db = client.db(conf.dbName)
@@ -97,7 +105,7 @@ const removeAll = async (collectionName) => {
 	
 	try {
 		
-		// client = await getClient()
+		let client = await getClient()
 
 		let conf = normalize(collectionName)
 		let db = client.db(conf.dbName)
@@ -117,11 +125,11 @@ const removeAll = async (collectionName) => {
 
 const insertAll = async (collectionName, data) => {
 	
-	// let client
+	let client = await getClient()
 	
 	try {
 		
-		// client = await getClient()
+		let client = await getClient()
 
 		let conf = normalize(collectionName)
 		let db = client.db(conf.dbName)
@@ -146,7 +154,7 @@ const bulkWrite = async (collectionName, commands) => {
 	
 	try {
 		
-		// client = await getClient()
+		let client = await getClient()
 
 		let conf = normalize(collectionName)
 		let db = client.db(conf.dbName)
@@ -171,7 +179,7 @@ const replaceOne = async (collectionName, filter, data) => {
 	
 	try {
 		
-		// client = await getClient()
+		let client = await getClient()
 
 		let conf = normalize(collectionName)
 		let db = client.db(conf.dbName)
@@ -194,7 +202,7 @@ const updateOne = async (collectionName, filter, data) => {
 	
 	try {
 		
-		// client = await getClient()
+		let client = await getClient()
 
 		let conf = normalize(collectionName)
 		let db = client.db(conf.dbName)
@@ -218,7 +226,7 @@ const listCollections = async dbSchema => {
 	
 	try {
 	
-		// let client = await getClient()
+		let client = await getClient()
 
 			
 		let conf = normalize(dbSchema)
