@@ -260,9 +260,9 @@ module.exports =  async () => {
 		config,
 
 		close: () => {
-			if(client){
-				client.close()
-			}
+			// if(client){
+			// 	client.close()
+			// }
 		},
 		
 		execute:{
