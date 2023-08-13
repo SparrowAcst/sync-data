@@ -92,7 +92,7 @@ router.post("/examination/accept", async (req, res) => {
 		res.status(404).send({message: `Examination ${params["Examination ID"]} not found.`})
 	}
 
-	mongodb.close() 
+	// mongodb.close() 
 	
 	
 })
@@ -131,7 +131,7 @@ router.post("/examination/reject", async (req, res) => {
 		res.status(404).send({message: `Examination ${params["Examination ID"]} not found.`})
 	}
 
-	mongodb.close() 
+	// mongodb.close() 
 	
 	
 })
