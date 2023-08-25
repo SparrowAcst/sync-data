@@ -178,11 +178,12 @@ const getFbAssets = async examinationId => {
 
 	let files = assets
 				.filter( a => a.type != "recording")
+				.filter( a => a.links)
 				.map( (a, index) => ({
 					id: a.id,
 					path: a.path,
 					publicName: a.publicName,
-					name: a.publicName || `${a.type}-${index}.${a.metadata.contentType.split("/")[1]}`,
+					name: a.publicName || `${a.type}-${index}.${(a.metadata.contentType || "").split("/")[1]}`,
 			        mimeType: a.mimeType || a.metadata.contentType,
 			        size: a.metadata.size,
 			        updatedAt: a.metadata.updated,
