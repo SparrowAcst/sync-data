@@ -179,6 +179,8 @@ const getFbAssets = async examinationId => {
 	let files = assets
 				.filter( a => a.type != "recording")
 				.filter( a => a.links)
+				.filter( a => a.metadata)
+				
 				.map( (a, index) => ({
 					id: a.id,
 					path: a.path,
