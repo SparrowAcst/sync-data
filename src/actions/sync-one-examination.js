@@ -87,6 +87,7 @@ module.exports = async settings => {
 
         let examination = submitedForms[i].examination
         examination.state = settings.state || "inReview"
+        examination.protocol = settings.protocol
         examination.org = org
         examination.synchronizedAt = new Date()
         examination.actorId = examination.userId
@@ -104,6 +105,8 @@ module.exports = async settings => {
             updatedBy: submitedForms[i].updatedBy,
             completeness: submitedForms[i].completeness
         }
+
+        console.log("SUBMIT", inserted)
 
         if (!settings.test) {
 

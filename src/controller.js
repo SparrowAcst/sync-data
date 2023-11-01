@@ -1129,7 +1129,7 @@ module.exports = async options => {
 			extend({}, options.mongodbService, {logger})
 		)
 
-		console.log("Initiate mongodb", mongodbService.client)
+		// console.log("Initiate mongodb", mongodbService.client)
 	
 	}
 	
