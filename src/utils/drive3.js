@@ -416,7 +416,7 @@ const Drive = class {
 		body.on("data", chunk => {
 
 			byteSize += chunk.length
-			if (callback) callback({ upload: byteSize, total: totalSize})
+			if (callback) callback({ upload: byteSize, total: totalSize, status: "data"})
 
 				
 			size += chunk.length / 1024 / 1024 
@@ -427,6 +427,14 @@ const Drive = class {
 				// if (callback) callback({ upload: chunk.length, total: totalSize})	
 			}
 		})		
+
+		body.on("end", () => {
+			if (callback) callback({status: "end"})
+		})
+
+		body.on("error", e => {
+			if (callback) callback({status: "error", error: e.toString()})
+		})
 
 		const media = {
 		  	mimeType: getMIMEType(path.basename(sourcePath)),
