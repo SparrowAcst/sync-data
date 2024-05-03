@@ -56,7 +56,7 @@ module.exports = async (syncOrg, syncPatientPattern) => {
   // ]
 
   logger.info(`Database: "sparrow" \nCollections:\n\t${collections.join("\n\t")}`)
-
+  mongodb.config.backup.excludeCollection = mongodb.config.backup.excludeCollection || []
   for( let index = 0; index < collections.length; index++){
 
     if(mongodb.config.backup.excludeCollection.includes(collections[index])){
