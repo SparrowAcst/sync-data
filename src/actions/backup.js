@@ -58,6 +58,12 @@ module.exports = async (syncOrg, syncPatientPattern) => {
   logger.info(`Database: "sparrow" \nCollections:\n\t${collections.join("\n\t")}`)
 
   for( let index = 0; index < collections.length; index++){
+
+    if(mongodb.config.backup.excludeCollection.includes(collections[index])){
+      console.log(`Ignore ${collections[index]}`)
+      continue
+    }
+
     const collectionName = `sparrow.${collections[index]}`
     const filePath = path.join(TEMP_DIR_PATH,`./${collectionName}.json`)
     logger.info(`Collection "${collectionName}":`)
