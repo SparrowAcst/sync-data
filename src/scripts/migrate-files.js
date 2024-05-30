@@ -72,7 +72,13 @@ const run = async () => {
 	let n = data.length
 	for( const d of data ){
 		console.log(`-------------- ${i} from ${n} ----------------`)
-		await copyFile(d)
+		
+		if( gdrive.list(`${HOMEDIR}/${d.gdPath}/${d.filename}`)[0] ){
+			console.log(`SKIP ${d.filename}` )
+		} else {
+			await copyFile(d)
+		}
+			
 		i++	
 	}
 	
