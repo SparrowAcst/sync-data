@@ -272,8 +272,12 @@ const Drive = class {
 	}
 
 	list(path){
+		// console.log("list", path)
+		// console.log("filelist", this.$filelist)
 		path = path || "**/*.*"
 		const names = nanomatch(this.$filelist.map(f => f.path), path)
+		// console.log(names)
+		// console.log(this.$filelist.filter(f => names.includes(f.path)))
 		return this.$filelist.filter(f => names.includes(f.path))
 	}
 
@@ -358,12 +362,15 @@ const Drive = class {
 		for(let i=0; i < partitions.length; i++){
 
 			let part = partitions[i]
-			
+			// console.log("CHECK", part)
 			current = this.list(part.join("/"))[0]
 
 			if(!current){
+				// console.log("!!!create", part.slice(0,-1).join("/"), this.list(part.slice(0,-1).join("/")))
 				
 				let parent = (part.slice(0,-1).join("/")) ? this.list(part.slice(0,-1).join("/"))[0] : null
+				
+				// console.log("parent", parent)
 
 				current = await this.$drive.files.create({
 				  resource: {
@@ -380,9 +387,12 @@ const Drive = class {
 				    parents: (parent) ? [ parent.id ] : undefined,
 				})
 
-				current.path = getPath(this.$filelist, current)
+				current.path = part.join("/")
+				// getPath(this.$filelist, current)
+				// console.log("current", current)
+	
 				this.$filelist.push(current)
-
+				// console.log("filelist",this.$filelist)
 			}
 		}
 		return current

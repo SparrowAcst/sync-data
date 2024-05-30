@@ -135,11 +135,18 @@ const saveFile = async (filename, data) => {
 
 
 const downloadFile = async (srcFilename, destFilename) => {
+  // console.log("download file", srcFilename, destFilename)
   const options = {
     destination: destFilename,
   };
 
-  return bucket.file(srcFilename).download(options);
+  try {
+    await bucket.file(srcFilename).download(options);
+    // console.log("Done", path.resolve(destFilename))
+  } catch(e) {
+    console.log(e.toString())
+  }  
+
 }
 
 const fetchFileData = async srcFileName => {
