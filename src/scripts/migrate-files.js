@@ -67,7 +67,7 @@ const run = async () => {
 	}	
 
 	let data = require("./migrate.json")
-	data = data.slice(0,3)
+	// data = data.slice(0,3)
 	let i = 1
 	let n = data.length
 	for( const d of data ){
