@@ -5,6 +5,9 @@
   "main": "index.js",
   "scripts": {
     
+    "form-id": "node ./src/scripts/form-id",
+    
+    "gd-file-list": "node ./src/scripts/gd-file-list",
     "migrate": "node ./src/scripts/migrate-files",
     "validate": "node ./src/scripts/validate-data1",
     "validate1": "node ./src/scripts/validate-data1",
