@@ -5,9 +5,7 @@
   "main": "index.js",
   "scripts": {
     "ai-segmentation": "node ./src/scripts/ai-segmentation",
-    
     "form-id": "node ./src/scripts/form-id",
-    
     "gd-file-list": "node ./src/scripts/gd-file-list",
     "migrate": "node ./src/scripts/migrate-files",
     "validate": "node ./src/scripts/validate-data1",
@@ -16,7 +14,6 @@
     "sync1": "node ./src/scripts/sync-data1",
     "sync2": "node ./src/scripts/sync-data2",
     "sync-test": "node ./src/scripts/sync-data-cli",
-
     "backup": "node ./src/scripts/backup",
     "recovery-mongo": "node ./src/scripts/recovery-mongo",
     "recovery": "node ./src/scripts/recovery-gd1",
@@ -29,12 +26,12 @@
     "test-cron": "node test-cron",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@geek/spinner": "^1.0.2",
+    "axios": "^1.7.4",
     "big-json": "^3.2.0",
     "express": "^4.18.2",
     "fast-glob": "^3.2.12",
