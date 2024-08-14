@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "ai-segmentation": "node ./src/scripts/ai-segmentation",
     
     "form-id": "node ./src/scripts/form-id",
     

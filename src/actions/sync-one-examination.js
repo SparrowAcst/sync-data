@@ -21,6 +21,8 @@ module.exports = async settings => {
     const mongodb = controller.mongodbService
     const fb = controller.firebaseService
 
+    let importedRecords
+
     if (!settings.organization) throw new Error("Sync examination error: organization not defined")
     if (!settings.patientId) throw new Error("Sync examination error: patientId not defined")
 
@@ -106,7 +108,7 @@ module.exports = async settings => {
             completeness: submitedForms[i].completeness
         }
 
-        console.log("SUBMIT", inserted)
+        // console.log("SUBMIT", inserted)
 
         if (!settings.test) {
 
@@ -129,6 +131,18 @@ module.exports = async settings => {
                 "upsert": true
             }
         }))
+
+        importedRecords = {
+            db: extend({url: mongodb.config.db.url, name: mongodb.config.db.name}, mongodb.config.db[org]),
+            records: labelingRecords.labelRecords.map(l => ({
+                id: l.id,
+                "Examination ID": l["Examination ID"],
+                Source: l.Source
+            }))
+        }    
+
+        // console.log("importedRecords", importedRecords)
+
 
         await mongodb.execute.bulkWrite(
             mongodb.config.db[org].labelingCollection,
@@ -159,5 +173,5 @@ module.exports = async settings => {
 
     // controller.close()
 
-    return
+    return importedRecords
 }
