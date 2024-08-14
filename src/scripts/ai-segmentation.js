@@ -5,8 +5,8 @@ const getAISegmentation = require("../utils/ai-segmentation")
 const run = async () => {
 
     console.log("Update AI segmentation in Dataset")
-    const datasetName = process.argv[2]
-    const segmentCollection = process.argv[3]
+    const datasetName = "H3" //process.argv[2]
+    const segmentCollection = "H3-SEGMENTATION" //process.argv[3]
 
     if (!datasetName) {
         console.log("Dataset name not specified.")
@@ -46,7 +46,7 @@ const run = async () => {
 
     const PAGE_SIZE = 10
     let bufferCount = 1
-    let cache = []
+    // let cache = []
 
     do {
 
@@ -55,9 +55,9 @@ const run = async () => {
                     aiSegmentation: {
                         $exists: false
                     },
-                    id: {
-                        $nin: cache
-                    }
+                    // id: {
+                    //     $nin: cache
+                    // }
                 }
             },
             {
@@ -75,7 +75,7 @@ const run = async () => {
     
             console.log(`Buffer: ${bufferCount} (${buffer.length} items)`) // \n${buffer.map(d => d["Examination ID"]+":"+d.id+":"+d.path).join("\n")}`)
     
-            cache = cache.concat(buffer.map(d => d.id))
+            // cache = cache.concat(buffer.map(d => d.id))
             console.log(buffer.map(d => `${d["Examination ID"]}: ${d.id} : ${d["Body Spot"]} : ${d.model}`).join("\n"))
 
             let segmentations = await getAISegmentation({ records: buffer })
