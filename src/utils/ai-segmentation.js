@@ -90,6 +90,8 @@ const getAISegmentation = async settings => {
             }    
 
             console.log(iteration, "query", query)
+            console.log(`${r["Examination ID"]}: ${r.id} : ${r["Body Spot"]} : ${r.model}`)
+
             iteration++
 
             let response = await axios({
@@ -101,7 +103,11 @@ const getAISegmentation = async settings => {
             let data = response.data
 
             console.log("response:", (!!data) ? "success" : "error" )
-
+            
+            if(data){
+                console.log(`quality: ${data.quality}\n`)
+            }
+            
             let id = uuid()
             
             data = transformAI2v2(data)
