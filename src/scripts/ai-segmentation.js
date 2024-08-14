@@ -133,7 +133,7 @@ const run = async () => {
 
         bufferCount++
 
-    } while (buffer.length > 0 && bufferCount < 5)
+    } while (buffer.length > 0)
 
 
     mongodb.close()
