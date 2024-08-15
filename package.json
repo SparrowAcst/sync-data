@@ -5,6 +5,8 @@
   "main": "index.js",
   "scripts": {
     "ai-segmentation": "node ./src/scripts/ai-segmentation",
+    "update-public-url": "node ./src/scripts/update-public-url",
+    
     "form-id": "node ./src/scripts/form-id",
     "gd-file-list": "node ./src/scripts/gd-file-list",
     "migrate": "node ./src/scripts/migrate-files",

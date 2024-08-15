@@ -1,5 +1,5 @@
 const { initializeApp, cert } = require('firebase-admin/app');
-const { getStorage } = require('firebase-admin/storage');
+const { getStorage, getDownloadURL } = require('firebase-admin/storage');
 
 const Storage = class {
 
@@ -123,6 +123,34 @@ const Storage = class {
             console.log(e.toString())
         } finally {
             return res[0]
+        }
+
+    }
+
+        async setFileMetadata(filename, metadata) {
+        let res = []
+        try {
+            res = await this.bucket.file(filename).setMetadata(metadata)
+        } catch (e) {
+            console.log(e.toString())
+        } finally {
+            return res[0]
+        }
+
+    }
+
+
+    async getFile(filename) {
+        let file
+        try {
+            file = await this.bucket.file(filename)
+            console.log(getDownloadURL)
+
+            // res = await getDownloadURL(file)
+        } catch (e) {
+            console.log(e.toString())
+        } finally {
+            return file
         }
 
     }
