@@ -19,7 +19,7 @@ const run = async () => {
 
     const mongodb = await require("../utils/mongodb")()
     const Storage = require("../utils/fb-storage")
-    const storage = new Storage(path.join(__dirname, `../../.config/key/fb/H3.fb.key.json`))
+    const storage = new Storage(path.join(__dirname, `../../.config/key/fb/harvest1.fb.key.json`))
 
 
     const mem = (msg) => {
