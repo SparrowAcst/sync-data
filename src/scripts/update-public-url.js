@@ -59,7 +59,7 @@ const run = async () => {
             console.log(`${n}.${i}: ${r["Examination ID"]}: ${r.id} : ${r["Body Spot"]} : ${r.model} :`)
             r.Source = await resolvePublicURL(r)
             console.log(r.Source)
-            if(f.Source){
+            if(r.Source){
                 r.PUBLIC_URL_UPDATED = true
                 commands.push({
                     replaceOne: {
