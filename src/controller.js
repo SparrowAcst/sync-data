@@ -648,6 +648,7 @@ const checkNeedAssetRecovery = async (examination, asset) => {
 
 const getExaminationData = async patientId => {
 
+		console.log(`getExaminationData for ${patientId}`)
 		const db = firebaseService.db
 	
 		const docMapper = doc => ({
@@ -661,7 +662,7 @@ const getExaminationData = async patientId => {
 		    )
 
 			examination = examination[0]
-
+			console.log("examination", examination)
 			examination.$extention = {}
 			
 			if(examination.userId){
@@ -1174,6 +1175,7 @@ module.exports = async options => {
 		firebaseService, 
 		googledriveService,
 
+		getExaminationData,
 		getNewExaminations,
 		getExaminationsInState,
 		// expandExaminations: expandExaminationsInMemory,
