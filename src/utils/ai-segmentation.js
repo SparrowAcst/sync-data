@@ -94,11 +94,27 @@ const getAISegmentation = async settings => {
 
             iteration++
 
-            let response = await axios({
-                method: "POST",
-                url: AI_SEGMENTATION_API,
-                data: query
-            })
+            let response
+
+            try {
+                response = await axios({
+                    method: "POST",
+                    url: AI_SEGMENTATION_API,
+                    data: query
+                })
+            } catch (e) {
+
+                console.log("AI SEGMENTATION: ", e.toString(), e.stack.toString(), JSON.stringify(e.response.data, null, " "))
+
+                segmentation = extend({}, segmentation, {
+                    record: extend({ id: r.id }, query),
+                    error: `${e.toString()}: ${JSON.stringify(e.response.data, null, " ")}` 
+                })
+
+                result.push(segmentation)
+
+                continue
+            }    
             
             let data = response.data
 

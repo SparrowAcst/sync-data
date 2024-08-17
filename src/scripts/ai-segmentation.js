@@ -2,11 +2,11 @@ const path = require("path")
 const { isUndefined, find } = require("lodash")
 const getAISegmentation = require("../utils/ai-segmentation")
 
-const run = async () => {
+const run = async (datasetName, segmentCollection) => {
 
     console.log("Update AI segmentation in Dataset")
-    const datasetName = "H3" //process.argv[2]
-    const segmentCollection = "H3-SEGMENTATION" //process.argv[3]
+    // const datasetName = "H3" //process.argv[2]
+    // const segmentCollection = "H3-SEGMENTATION" //process.argv[3]
 
     if (!datasetName) {
         console.log("Dataset name not specified.")
@@ -36,13 +36,13 @@ const run = async () => {
 
     const mem = (msg) => {
         const used = process.memoryUsage();
-        console.log(`${msg} :Memory usage: ${Math.round(used.rss / 1024 / 1024 * 100) / 100} MB`);
+        console.log(`${msg}: Memory usage: ${Math.round(used.rss / 1024 / 1024 * 100) / 100} MB`);
         return used.rss
     }
 
 
     
-    console.log("Process records:")
+    console.log(datasetName, ": Process records:")
 
     const PAGE_SIZE = 10
     let bufferCount = 1
@@ -73,17 +73,18 @@ const run = async () => {
         buffer = await mongodb.execute.aggregate(`sparrow.${datasetName}`, pipeline)
         if (buffer.length > 0) {
     
-            console.log(`Buffer: ${bufferCount} (${buffer.length} items)`) // \n${buffer.map(d => d["Examination ID"]+":"+d.id+":"+d.path).join("\n")}`)
+            console.log(`${datasetName}: Buffer: ${bufferCount} (${buffer.length} items)`) // \n${buffer.map(d => d["Examination ID"]+":"+d.id+":"+d.path).join("\n")}`)
     
             // cache = cache.concat(buffer.map(d => d.id))
             console.log(buffer.map(d => `${d["Examination ID"]}: ${d.id} : ${d["Body Spot"]} : ${d.model}`).join("\n"))
 
             let segmentations = await getAISegmentation({ records: buffer })
-            availableSegmentations = segmentations.filter(s => s.data)
+            console.log("segmentations",segmentations)
+            availableSegmentations = segmentations //.filter(s => s.data)
 
             if (segmentations.length < availableSegmentations.length) {
                 console.log(`IGNORE ${segmentations.length - availableSegmentations.length} items:`)
-                console.log(segmentations.filter(s => s.error).join("\n"))
+                // console.log(segmentations.filter(s => s.error).join("\n"))
             }
 
             let commands = availableSegmentations.map(d => ({
@@ -94,7 +95,7 @@ const run = async () => {
                 }
             }))
 
-            console.log(`Insert into sparrow.${segmentCollection} ${commands.length} items`)
+            console.log(`${datasetName}: Insert into sparrow.${segmentCollection} ${commands.length} items`)
             if (commands.length > 0) {
                 await mongodb.execute.bulkWrite(`sparrow.${segmentCollection}`, commands)
             }
@@ -118,22 +119,22 @@ const run = async () => {
                     
             })
 
-            console.log(`Update in sparrow.${datasetName} ${commands.length} items`)
+            console.log(`${datasetName}: Update in sparrow.${datasetName} ${commands.length} items`)
             if (commands.length > 0) {
 
                 await mongodb.execute.bulkWrite(`sparrow.${datasetName}`, commands)
 
             }
 
-            console.log("Done")
+            console.log(datasetName,": Done")
 
-            mem("Update AI segmentation")
+            mem(`${datasetName}: Update AI segmentation`)
 
         }
 
         bufferCount++
 
-    } while (buffer.length > 0)
+    } while (buffer.length > 0 && false)
 
 
     mongodb.close()
