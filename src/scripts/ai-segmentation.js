@@ -79,7 +79,7 @@ const run = async (datasetName, segmentCollection) => {
             console.log(buffer.map(d => `${d["Examination ID"]}: ${d.id} : ${d["Body Spot"]} : ${d.model}`).join("\n"))
 
             let segmentations = await getAISegmentation({ records: buffer })
-            console.log("segmentations",segmentations)
+            // console.log("segmentations",segmentations)
             availableSegmentations = segmentations //.filter(s => s.data)
 
             if (segmentations.length < availableSegmentations.length) {
