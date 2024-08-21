@@ -104,15 +104,15 @@ const getAISegmentation = async settings => {
                 })
             } catch (e) {
 
-                console.log("AI SEGMENTATION: ", e.toString(), e.stack.toString(), JSON.stringify(e.response.data, null, " "))
+                console.log(`${r["Examination ID"]}: ${r.id} : ${r["Body Spot"]} : ${r.model} AI SEGMENTATION: `, e.toString(), e.stack.toString())
 
                 segmentation = extend({}, segmentation, {
                     record: extend({ id: r.id }, query),
                     error: `${e.toString()}: ${JSON.stringify(e.response.data, null, " ")}` 
                 })
-                console.log(">>>>>>>>>>>>>>>>>>> Handle Error")
+                console.log(`${r["Examination ID"]}: ${r.id} : ${r["Body Spot"]} : ${r.model} >>>>>>>>>>>>>>>>>>> Handle Error`)
                 result.push(segmentation)
-                console.log(">>>>>>>>>>>>>>>>>>> Continue")
+                console.log(`${r["Examination ID"]}: ${r.id} : ${r["Body Spot"]} : ${r.model} >>>>>>>>>>>>>>>>>>> Continue`)
 
                 continue
             }    
