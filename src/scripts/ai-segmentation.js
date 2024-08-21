@@ -134,7 +134,7 @@ const run = async (datasetName, segmentCollection) => {
 
         bufferCount++
 
-    } while (buffer.length > 0 && false)
+    } while (buffer.length > 0)
 
 
     mongodb.close()

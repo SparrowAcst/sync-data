@@ -110,8 +110,9 @@ const getAISegmentation = async settings => {
                     record: extend({ id: r.id }, query),
                     error: `${e.toString()}: ${JSON.stringify(e.response.data, null, " ")}` 
                 })
-
+                console.log(">>>>>>>>>>>>>>>>>>> Handle Error")
                 result.push(segmentation)
+                console.log(">>>>>>>>>>>>>>>>>>> Continue")
 
                 continue
             }    
