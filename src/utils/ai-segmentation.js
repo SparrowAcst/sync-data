@@ -38,7 +38,7 @@ const transformAI2v2 = data => {
     res.murmur_present = data.murmur_present
     res.quality = data.quality
     res.afib_present = data.afib_present
-
+    res.api_version =  data.api_version
     return res
 }
 
