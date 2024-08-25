@@ -58,6 +58,7 @@ const run = async () => {
             i++
             console.log(`${n}.${i}: ${r["Examination ID"]}: ${r.id} : ${r["Body Spot"]} : ${r.model} :`)
             r.Source = await resolvePublicURL(r)
+            delete r.aiSegmentation
             console.log(r.Source)
             if(r.Source){
                 r.PUBLIC_URL_UPDATED = true
@@ -83,12 +84,18 @@ const run = async () => {
 
         bufferCount++
 
-        const pipeline = [{
+        const pipeline = [
+
+            {
                 '$match': {
-                    PUBLIC_URL_UPDATED: {
-                        $exists: false
+                    "Source.url": {
+                        $regex:"GoogleAccessId=firebase-adminsdk-1"
                     }
                 }
+                //     PUBLIC_URL_UPDATED: {
+                //         $exists: false
+                //     }
+                // }
             },
             {
                 '$sort': {
