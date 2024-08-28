@@ -4,11 +4,11 @@ const uuid = require("uuid").v4
 var md5 = require('js-md5')
 
 
-const run = async () => {
+const run = async (datasetName) => {
 
     console.log("Update LAST SEGMENTATION")
 
-    const datasetName = process.argv[2]
+    // const datasetName = process.argv[2]
 
     // const examPattern = process.argv[3] || ""
 
@@ -147,4 +147,6 @@ const run = async () => {
 
 }
 
-run()
+module.exports = run
+
+// run()
