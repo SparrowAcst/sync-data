@@ -141,7 +141,7 @@ const run = async () => {
 
         }
 
-    } while (buffer.length > 0 && false)
+    } while (buffer.length > 0)
 
     mongodb.close()
 
