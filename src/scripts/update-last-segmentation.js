@@ -62,6 +62,12 @@ const run = async (datasetName) => {
             return
         }
         let fbSeg = await storage.fetchFileData(`${data.path}.json`)
+        
+        if(!fbSeg){
+            console.log("NOT EXISTS")
+            return
+        }
+
         fbSeg = JSON.parse(fbSeg.toString())
 
         if (md5(JSON.stringify(fbSeg)) === md5(JSON.stringify(data.segmentation))) {
