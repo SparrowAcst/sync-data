@@ -6,7 +6,6 @@
   "scripts": {
     "ai-segmentation": "node ./src/scripts/ai-segmentation",
     "update-public-url": "node ./src/scripts/update-public-url",
-    
     "form-id": "node ./src/scripts/form-id",
     "gd-file-list": "node ./src/scripts/gd-file-list",
     "migrate": "node ./src/scripts/migrate-files",
@@ -43,6 +42,7 @@
     "google-drive-getfilelist": "^1.0.5",
     "googleapis": "^110.0.0",
     "inly": "^4.0.8",
+    "js-md5": "^0.8.3",
     "js-yaml": "^4.1.0",
     "lignator": "^1.0.2",
     "lodash": "^4.17.21",
