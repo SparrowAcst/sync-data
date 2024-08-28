@@ -1,7 +1,7 @@
 
 const run = require("./src/scripts/update-last-segmentation")
 
-run("vintage")
+run("vinil")
 
 
 
