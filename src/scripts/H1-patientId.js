@@ -23,7 +23,7 @@ const run = async () => {
     
     console.log("Process records:")
 
-    const PAGE_SIZE = 10
+    const PAGE_SIZE = 50
     let bufferCount = 1
 
     do {
@@ -105,7 +105,7 @@ const run = async () => {
 
         bufferCount++
 
-    } while (buffer.length > 0 && false)
+    } while (buffer.length > 0)
 
 
     mongodb.close()

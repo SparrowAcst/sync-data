@@ -38,11 +38,10 @@ const run = async () => {
         for (let i = 0; i < buffer.length; i++) {
             let labeling = buffer[i]
             process.stdout.write(`Check: (${i} ${labeling["Examination ID"]}) ${labeling.path}           ${'\x1b[0G'}`)
-            
-            let seg = await storage.getFileMetadata(`${labeling.path}`)
+            let metadata = await storage.getFileMetadata(`${labeling.path}`)
             
             // if (!seg) {
-                labeling.SOUND_FILE_EXISTS = !isUndefined(seg)
+                labeling.fileMetadata = metadata
                 ops.push({
                     replaceOne: {
                         "filter": { id: labeling.id },
@@ -52,33 +51,9 @@ const run = async () => {
                 })
             // }
         }
-        console.log()
+        // console.log()
         return ops
     }    
-
-
-    // const resolveSegmentation = async buffer => {
-
-    //     let ops = []
-
-    //     for (let i = 0; i < buffer.length; i++) {
-    //         let labeling = buffer[i]
-    //         process.stdout.write(`Load: (${i} ${labeling["Examination ID"]}) ${labeling.path}.json           ${'\x1b[0G'}`)
-    //         let seg = await storage.fetchFileData(`${labeling.path}.json`)
-    //         if (seg) {
-    //             labeling.segmentation = JSON.parse(seg.toString())
-    //             ops.push({
-    //                 replaceOne: {
-    //                     "filter": { id: labeling.id },
-    //                     "replacement": labeling,
-    //                     "upsert": false
-    //                 }
-    //             })
-    //         }
-    //     }
-    //     console.log()
-    //     return ops
-    // }
 
 
     console.log("Check sound files:")
@@ -93,7 +68,7 @@ const run = async () => {
         const pipeline = [
             {
                 '$match': {
-                    SOUND_FILE_EXISTS: {
+                    fileMetadata: {
                         $exists: false
                     }
                 }
