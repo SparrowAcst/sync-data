@@ -8,6 +8,11 @@ const dir = async settings => {
   return (await s3bucket.dir(p))
 }
 
+// const deleteFiles = async settings => {
+//   let { p } = settings
+//   return (await s3bucket.deleteFiles(p))
+// }
+
  
 const list = async settings => {
 	let { p } = settings
@@ -43,6 +48,12 @@ const run = async () => {
     console.log((await dir(settings)))
     return
   }
+
+  // if(settings.delete){
+  //   console.log("S3 bucket delete: ", settings.p)
+  //   console.log((await deleteFiles(settings)))
+  //   return
+  // }
 
 }
 

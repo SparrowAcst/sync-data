@@ -70,8 +70,8 @@ const run = async () => {
         i++
         console.log(`\n\n${i} form ${operations.length}\ngd:${operation.source.path} > s3:${operation.dest.file}\n`)
         await drive.downloadFile(operation.source, TEMP_DIR)
-        // console.log(operation.source)
         let chunks = await splitFile(path.resolve(`${TEMP_DIR}/${operation.source.name}`), CHUNK_SIZE, path.resolve(TEMP_DIR))
+        console.log("\n chunks:", chunks.length)
         
         await s3bucket.uploadChunks({
             chunks,
