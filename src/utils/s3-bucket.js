@@ -56,6 +56,22 @@ const list = async path => {
 }
 
 
+const dir = async path => {
+    try {
+        let  { CommonPrefixes }  = await client.send(new ListObjectsCommand({
+            Bucket: bucket,
+            Delimiter: "/",
+            Prefix: path
+        }))
+        if(!CommonPrefixes) return
+        return CommonPrefixes.map( item => item.Prefix.replace(path, "").replace("/", ""))
+    } catch (e) {
+        console.error("s3-bucket.dir:", e.toString(), e.stack)
+        throw e
+    }
+}
+
+
 const metadata = async target => {
     try {
         let {
@@ -252,8 +268,10 @@ const uploadChunks = async ({ chunks, target, size, callback = (() => {}) }) => 
 
 
 module.exports = {
+    dir,
     list,
     metadata,
+    info: metadata,
     getStream,
     download,
     getPresignedUrl,
