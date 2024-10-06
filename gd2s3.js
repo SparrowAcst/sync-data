@@ -69,6 +69,12 @@ const run = async () => {
     for (const operation of operations) {
         i++
         console.log(`\n\n${i} form ${operations.length}\ngd:${operation.source.path} > s3:${operation.dest.file}\n`)
+        
+        let exists = await s3bucket.list(operation.dest.file)
+        if(exists.length > 0){
+          console.log(`SKIP OPERATION. DESTINATION ${operation.dest.file} EXISTS`)
+          continue
+        }
         await drive.downloadFile(operation.source, TEMP_DIR)
         let chunks = await splitFile(path.resolve(`${TEMP_DIR}/${operation.source.name}`), CHUNK_SIZE, path.resolve(TEMP_DIR))
         console.log("\n chunks:", chunks.length)
