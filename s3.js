@@ -8,10 +8,10 @@ const dir = async settings => {
   return (await s3bucket.dir(p))
 }
 
-// const deleteFiles = async settings => {
-//   let { p } = settings
-//   return (await s3bucket.deleteFiles(p))
-// }
+const deleteFiles = async settings => {
+  let { p } = settings
+  return (await s3bucket.deleteFiles(p))
+}
 
  
 const list = async settings => {
@@ -23,6 +23,23 @@ const metadata = async settings => {
 	let { p } = settings
 	return (await s3bucket.metadata(p))
 }
+
+const download = async settings => {
+  let { s, t } = settings
+  return (await s3bucket.download({
+    source: p,
+    target: t
+  }))
+}
+
+const url = async settings => {
+  let { p } = settings
+  return (await s3bucket.getPresignedUrl(p))
+}
+
+
+
+
 const run = async () => {
   
   if(settings.list){
@@ -49,11 +66,24 @@ const run = async () => {
     return
   }
 
-  // if(settings.delete){
-  //   console.log("S3 bucket delete: ", settings.p)
-  //   console.log((await deleteFiles(settings)))
-  //   return
-  // }
+  if(settings.delete){
+    console.log("S3 bucket delete: ", settings.p)
+    console.log((await deleteFiles(settings)))
+    return
+  }
+
+  if(settings.download){
+    console.log("S3 bucket download: ", settings.s, settings.t)
+    console.log((await download(settings)))
+    return
+  }
+
+  if(settings.url){
+    console.log("S3 bucket url: ", settings.p)
+    console.log((await url(settings)))
+    return
+  }
+
 
 }
 

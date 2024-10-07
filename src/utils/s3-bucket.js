@@ -1,9 +1,26 @@
-
 const { readFileSync } = require("fs")
 const { extend, findIndex } = require("lodash")
 const path = require("path")
 const { lookup } = require("mime-types")
 const nanomatch = require('nanomatch')
+const fsp = require("fs").promises
+
+///////////////////////////////////////////////////////////////////////////////
+
+const Queue = require("queue-promise")
+queue = new Queue({
+    concurrent: 1,
+    interval: 2
+})
+
+queue.on("start", () => { console.log("start") })
+queue.on("stop", () => {})
+queue.on("resolve", data => {})
+queue.on("reject", error => { console.log(error) })
+queue.start()
+
+////////////////////////////////////////////////////////////////////////////////
+
 
 const {
 
@@ -40,15 +57,15 @@ const list = async path => {
         path = path || "**/*"
         let Prefix = path.split("/")
         Prefix = Prefix.slice(0, findIndex(Prefix, d => /\*/.test(d))).join("/")
-        Prefix = (!Prefix) ? undefined : Prefix +"/"
-        let { Contents} = await client.send(new ListObjectsCommand({
+        Prefix = (!Prefix) ? undefined : Prefix + "/"
+        let { Contents } = await client.send(new ListObjectsCommand({
             Bucket: bucket,
             Prefix
         }))
         let items = Contents || []
         let names = items.map(d => d.Key)
         names = nanomatch(names, path)
-        return items.filter( d => names.includes(d.Key))
+        return items.filter(d => names.includes(d.Key))
     } catch (e) {
         console.error("s3-bucket.list:", e.toString(), e.stack)
         throw e
@@ -58,13 +75,13 @@ const list = async path => {
 
 const dir = async path => {
     try {
-        let  { CommonPrefixes }  = await client.send(new ListObjectsCommand({
+        let { CommonPrefixes } = await client.send(new ListObjectsCommand({
             Bucket: bucket,
             Delimiter: "/",
             Prefix: path
         }))
-        if(!CommonPrefixes) return
-        return CommonPrefixes.map( item => item.Prefix.replace(path, "").replace("/", ""))
+        if (!CommonPrefixes) return
+        return CommonPrefixes.map(item => item.Prefix.replace(path, "").replace("/", ""))
     } catch (e) {
         console.error("s3-bucket.dir:", e.toString(), e.stack)
         throw e
@@ -109,22 +126,19 @@ const metadata = async target => {
 const deleteFiles = async path => {
 
     let deletedItems = await list(path)
-    let Keys = deletedItems.map( d => d.Key)
-    
-    if(Keys.length == 0) return 
-    
+    let Keys = deletedItems.map(d => d.Key)
+
+    if (Keys.length == 0) return
+
     await client.send(
-      new DeleteObjectsCommand({
-        Bucket: bucket,
-        Delete: {
-          Objects: Keys.map(Key => ({Key})),
-        }
-      })
+        new DeleteObjectsCommand({
+            Bucket: bucket,
+            Delete: {
+                Objects: Keys.map(Key => ({ Key })),
+            }
+        })
     )
-    await Promise.all( Keys.map( Key => waitUntilObjectNotExists(
-        { client },
-        { Bucket: bucket, Key },
-      )))
+    await Promise.all(Keys.map(Key => waitUntilObjectNotExists({ client }, { Bucket: bucket, Key }, )))
 
 }
 
@@ -210,7 +224,7 @@ const uploadChunks = async ({ chunks, target, size, callback = (() => {}) }) => 
 
         uploadId = (await client.send(new CreateMultipartUploadCommand(extend({}, options, { ContentType })))).UploadId
         let uploadedBytes = 0
-        
+
         const uploadResults = await Promise.all(chunks.map((chunk, i) => {
             let buffer = readFileSync(chunk)
             return client
@@ -224,10 +238,10 @@ const uploadChunks = async ({ chunks, target, size, callback = (() => {}) }) => 
                 )
                 .then((d) => {
                     uploadedBytes += buffer.length
-                    callback({ 
-                        target, 
-                        uploadedBytes, 
-                        percents: (size) ? Number.parseFloat((uploadedBytes / size).toFixed(3)) : 0, 
+                    callback({
+                        target,
+                        uploadedBytes,
+                        percents: (size) ? Number.parseFloat((uploadedBytes / size).toFixed(3)) : 0,
                         status: "processed"
                     })
                     return d;
@@ -245,13 +259,97 @@ const uploadChunks = async ({ chunks, target, size, callback = (() => {}) }) => 
                 }
             })))
 
-        callback({ 
-            target, 
-            uploadedBytes: size, 
-            percents: 1, 
+        callback({
+            target,
+            uploadedBytes: size,
+            percents: 1,
             status: "done"
         })
 
+
+    } catch (e) {
+
+        console.error("s3-bucket.uploadChunks:", e.toString(), e.stack)
+
+        if (uploadId) {
+            const abortCommand = new AbortMultipartUploadCommand(
+                extend({}, options, { UploadId: uploadId })
+            )
+            await client.send(abortCommand);
+        }
+    }
+}
+
+
+const uploadFromSplitter = async ({ splitter, source, dest, chunkSize, target, size, callback = (() => {}) }) => {
+
+    let uploadId
+
+    try {
+
+        const ContentType = lookup(path.extname(`./${target}`))
+
+        let options = {
+            Bucket: bucket,
+            Key: target
+        }
+
+        let uploadedBytes = 0
+        let uploadResults = []
+
+        splitter.on("start", async () => {
+            // console.log("start", source, chunkSize, dest)
+            uploadId = (await client.send(new CreateMultipartUploadCommand(extend({}, options, { ContentType })))).UploadId
+        })
+
+        splitter.on("chunk", async (chunk) => {
+            // console.log("chunk", source, chunkSize, dest, chunk)
+            let buffer = readFileSync(chunk.file)
+            let d = await client
+                .send(
+                    new UploadPartCommand(
+                        extend({}, options, {
+                            UploadId: uploadId,
+                            Body: buffer,
+                            PartNumber: chunk.partNumber
+                        }))
+                )
+            uploadedBytes += buffer.length
+            callback({
+                target,
+                uploadedBytes,
+                percents: (size) ? Number.parseFloat((uploadedBytes / size).toFixed(3)) : 0,
+                status: "processed"
+            })
+            uploadResults.push(d)
+            await fsp.unlink(chunk.file)
+        })
+
+        splitter.on("finish", async () => {
+            // console.log("finish", source, chunkSize, dest)
+            await client.send(new CompleteMultipartUploadCommand(
+                extend({}, options, {
+                    UploadId: uploadId,
+                    MultipartUpload: {
+                        Parts: uploadResults.map(({ ETag }, i) => ({
+                            ETag,
+                            PartNumber: i + 1,
+                        }))
+                    }
+                })))
+
+            callback({
+                target,
+                uploadedBytes: size,
+                percents: 1,
+                status: "done"
+            })
+
+            await fsp.unlink(source)
+
+        })
+
+        await splitter.run(source, chunkSize, dest)
 
     } catch (e) {
 
@@ -277,6 +375,6 @@ module.exports = {
     getPresignedUrl,
     uploadLt20M,
     uploadChunks,
-    deleteFiles
+    deleteFiles,
+    uploadFromSplitter
 }
-
