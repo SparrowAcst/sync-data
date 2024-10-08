@@ -1,5 +1,5 @@
 const { readFileSync } = require("fs")
-const { extend, findIndex } = require("lodash")
+const { extend, findIndex, last } = require("lodash")
 const path = require("path")
 const { lookup } = require("mime-types")
 const nanomatch = require('nanomatch')
@@ -47,8 +47,8 @@ const { getSignedUrl } = require("@aws-sdk/s3-request-presigner")
 // TODO transfer into settings
 
 const settings = require("../../.config/key/s3/s3.settings.json")
-const bucket = settings.bucket.TEST
-
+const bucket = settings.bucket.default
+console.log("S3 bucket:", bucket)
 
 const client = new S3Client(settings.access)
 
@@ -75,13 +75,26 @@ const list = async path => {
 
 const dir = async path => {
     try {
+        path = path || "**/*"
+        let Prefix = path.split("/").filter( d => d)
+        if((!/\*/.test(last(Prefix)))){
+            Prefix.push("*")
+        }
+        path = Prefix.join("/")
+        Prefix = Prefix.slice(0, findIndex(Prefix, d => /\*/.test(d))).join("/")
+        Prefix = (!Prefix) ? undefined : Prefix + "/"
         let { CommonPrefixes } = await client.send(new ListObjectsCommand({
             Bucket: bucket,
             Delimiter: "/",
-            Prefix: path
+            Prefix
         }))
-        if (!CommonPrefixes) return
-        return CommonPrefixes.map(item => item.Prefix.replace(path, "").replace("/", ""))
+        
+        let items = CommonPrefixes || []
+        let names = items.map(d => d.Prefix)
+        names = nanomatch(names, path)
+        return items
+                .filter(d => names.includes(d.Prefix))
+                .map(item => item.Prefix.replace(Prefix, "").replace("/", ""))
     } catch (e) {
         console.error("s3-bucket.dir:", e.toString(), e.stack)
         throw e

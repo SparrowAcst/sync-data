@@ -68,6 +68,10 @@ const run = async () => {
 
   if(settings.delete){
     console.log("S3 bucket delete: ", settings.p)
+    if(!settings.p) {
+      console.log("Path required")
+      return
+    }
     console.log((await deleteFiles(settings)))
     return
   }
