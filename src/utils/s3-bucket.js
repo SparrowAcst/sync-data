@@ -1,5 +1,5 @@
 const { readFileSync } = require("fs")
-const { extend, findIndex, last } = require("lodash")
+const { extend, findIndex, last, flatten, sortBy, first, find, keys, isFunction } = require("lodash")
 const path = require("path")
 const { lookup } = require("mime-types")
 const nanomatch = require('nanomatch')
@@ -38,6 +38,10 @@ const {
     DeleteObjectsCommand,
     waitUntilObjectNotExists,
 
+    CopyObjectCommand,
+    ObjectNotInActiveTierError,
+    waitUntilObjectExists,
+
     S3Client
 
 } = require("@aws-sdk/client-s3");
@@ -47,10 +51,16 @@ const { getSignedUrl } = require("@aws-sdk/s3-request-presigner")
 // TODO transfer into settings
 
 const settings = require("../../.config/key/s3/s3.settings.json")
-const bucket = settings.bucket.default
+let bucket = settings.bucket.default
 console.log("S3 bucket:", bucket)
 
 const client = new S3Client(settings.access)
+
+
+const setBucket = bucketAlias => {
+    bucket = settings.bucket[bucketAlias] || settings.bucket.default
+}
+
 
 const list = async path => {
     try {
@@ -72,12 +82,11 @@ const list = async path => {
     }
 }
 
-
 const dir = async path => {
     try {
         path = path || "**/*"
-        let Prefix = path.split("/").filter( d => d)
-        if((!/\*/.test(last(Prefix)))){
+        let Prefix = path.split("/").filter(d => d)
+        if ((!/\*/.test(last(Prefix)))) {
             Prefix.push("*")
         }
         path = Prefix.join("/")
@@ -88,15 +97,55 @@ const dir = async path => {
             Delimiter: "/",
             Prefix
         }))
-        
+
         let items = CommonPrefixes || []
         let names = items.map(d => d.Prefix)
         names = nanomatch(names, path)
         return items
-                .filter(d => names.includes(d.Prefix))
-                .map(item => item.Prefix.replace(Prefix, "").replace("/", ""))
+            .filter(d => names.includes(d.Prefix))
+            .map(item => item.Prefix.replace(Prefix, "").replace("/", ""))
     } catch (e) {
         console.error("s3-bucket.dir:", e.toString(), e.stack)
+        throw e
+    }
+}
+
+const tree = async path => {
+    try {
+        path = path || "**/*"
+        path = (/\*/.test(path)) ? path : (path.endsWith("/")) ? `${path}*` : `${path}/*`
+        let Prefix = path.split("/").filter(d => d)
+        if ((!/\*/.test(last(Prefix)))) {
+            Prefix.push("*")
+        }
+        Prefix = Prefix.slice(0, findIndex(Prefix, d => /\*/.test(d))).join("/")
+        Prefix = (!Prefix) ? undefined : Prefix + "/"
+        let { CommonPrefixes } = await client.send(new ListObjectsCommand({
+            Bucket: bucket,
+            Delimiter: "/",
+            Prefix
+        }))
+
+        let items = CommonPrefixes || []
+        if (items.length == 0) {
+            let files = await list(`${Prefix}*.*`)
+            items = items.concat(files.map(d => ({ Prefix: d.Key })))
+        }
+        let names = items.map(d => d.Prefix)
+        names = nanomatch(names, path)
+        items = items.filter(d => names.includes(d.Prefix))
+
+        for (let n of names) {
+            let p = (Prefix) ? Prefix.split("/") : []
+            p.push(last(n.split("/").filter(d => d)))
+            p = p.filter(d => d).join("/")
+            let childs = await tree(p)
+            items = flatten(items.concat(childs))
+        }
+
+        return sortBy(items, d => d.prefix)
+    } catch (e) {
+        console.error("s3-bucket.tree:", e.toString(), e.stack)
         throw e
     }
 }
@@ -378,8 +427,81 @@ const uploadFromSplitter = async ({ splitter, source, dest, chunkSize, target, s
 }
 
 
+const copyObject = async ({
+    sourceBucket,
+    sourceKey,
+    destinationBucket,
+    destinationKey,
+}) => {
+
+    try {
+        await client.send(
+            new CopyObjectCommand({
+                CopySource: `${sourceBucket}/${sourceKey}`,
+                Bucket: destinationBucket,
+                Key: destinationKey,
+            }),
+        );
+        await waitUntilObjectExists({ client }, { Bucket: destinationBucket, Key: destinationKey }, );
+        // console.log(
+        //     `Successfully copied ${sourceBucket}/${sourceKey} to ${destinationBucket}/${destinationKey}`,
+        // );
+    } catch (caught) {
+        if (caught instanceof ObjectNotInActiveTierError) {
+            console.error(
+                `Could not copy ${sourceKey} from ${sourceBucket}. Object is not in the active tier.`,
+            );
+        } else {
+            throw caught;
+        }
+    }
+}
+
+const copy = async ({ source, target, callback }) => {
+    
+    callback = (callback && isFunction(callback)) ? callback : (() => {})
+
+    let defaultAlias = find(keys(settings.bucket), key => settings.bucket[key] == bucket) || "default"
+    
+    let sourceBucketAlias = (/\:/.test(source)) ? first(source.split(":")).trim() || defaultAlias : defaultAlias
+    let targetBucketAlias = (/\:/.test(target)) ? first(target.split(":")).trim() || defaultAlias : defaultAlias
+
+    let sourceBucket = settings.bucket[sourceBucketAlias]
+    let sourcePath = (/\:/.test(source)) ? last(source.split(":")).trim() : source
+
+    let targetBucket = settings.bucket[targetBucketAlias]
+    let targetPath = (/\:/.test(target)) ? last(target.split(":")).trim() : target
+    targetPath = (targetPath.endsWith("/")) ? targetPath : `${targetPath}/`
+
+    let homedir = sourcePath.split("/")
+    homedir = homedir.slice(0, findIndex(homedir, d => /\*/.test(d))).join("/")
+    homedir = (!homedir) ? undefined : homedir
+
+    let fileList = await list(sourcePath)
+
+    let operations = fileList.map( f => ({
+        sourceBucketAlias,
+        sourceBucket,
+        sourceKey: f.Key,
+        destinationBucketAlias: targetBucketAlias,
+        destinationBucket: targetBucket,
+        destinationKey: `${targetPath}${f.Key.replace(homedir, "").substring(1)}`
+    }))
+
+    for(let operation of operations){
+        await copyObject(operation)
+        callback(operation)
+    }
+
+}
+
+
 module.exports = {
+    setBucket,
     dir,
+    copy,
+    copyObject,
+    tree,
     list,
     metadata,
     info: metadata,
